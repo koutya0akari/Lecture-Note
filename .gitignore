@@ -1,6 +1,9 @@
 *
 !*/
+/Arcive/
 !.gitignore
-!README.md
 !*.pdf
 !*.tex
+main.tex
+main.pdf
+*.sty
