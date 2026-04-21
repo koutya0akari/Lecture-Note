@@ -1,0 +1,311 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=25mm,
+    bottom=25mm,
+    left=25mm,
+    right=25mm
+}
+% TikZライブラリ
+\usetikzlibrary{
+    patterns,
+    calc,
+    arrows,
+    decorations,
+    angles,
+    shapes.geometric,
+    fit,
+    knots
+}
+% TikZ用のスタイル
+\tikzset{
+  every path/.style={
+    black,
+    line width=1pt
+  },
+  every node/.style={
+    transform shape,
+    knot crossing,
+    inner sep=1.5pt
+  }
+}
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle=,
+    pdfauthor=
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{def}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+
+% 文書情報
+\title{現象数理1}
+\author{akari0koutya}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\begin{abstract}
+    曲線と曲面の微分幾何は現代微分幾何の根幹をなす重要な研究分野であり、数学研究としてだけでなく関連諸分野とも関わりを持ちながら研究が進められている。本授業では、平面曲線に焦点を当てて、平面曲線の曲がり具合を記述する「\textbf{曲率}」を数学的に定式化し、曲率が満たす性質をいくつか紹介する．また，懸垂線と弾性曲線と呼ばれる古典的な対象を通して、ある種のエネルギーの最小解・極小解を求める\textbf{変分問題}と、その解から定まる幾何的形状について学ぶことを目的とする。
+\end{abstract}
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+\section*{ガイダンス (2026/04/15)}
+\subsection{成績}
+\begin{itemize}
+    \item 平常点 : 50点（4点 $\times$ レポート12問 + アンケート 2点）
+    \item 期末試験 : 50点（+10点のボーナス問題有）
+    \item  $\min\{\text{平常点}+\text{期末試験},100\}$
+\end{itemize}
+
+\section{1回(2026/04/15)}
+
+原点中心を中心とした半径 $r$ の円を考える。このとき、円の法事の仕方はいくつかの方法がある。
+\begin{itemize}
+    \item 円の方程式 : $x^2+y^2=r^2$
+    \item パラメーター表示 : $\gamma(t)=(r\cos t, r\sin t)$
+    \item グラフ表示 : $y=\sqrt{r^2-x^2}$ と $y=-\sqrt{r^2-x^2}$
+    \item 微分方程式 : $\frac{d^2y}{dx^2}=-\frac{1}{r^2}y$
+\end{itemize}
+
+\begin{prob}
+    双曲線 $x^2-y^2=1$ のパラメーター表示を求めよ。
+\end{prob}
+
+\begin{proof}
+    $$\gamma(t)=(\cosh t, \sinh t)$$
+    とすればよい。ここで、
+    \[
+    \cosh t = \frac{e^t + e^{-t}}{2}, \quad \sinh t = \frac{e^t - e^{-t}}{2}
+    \]
+    である。
+\end{proof}
+
+この授業では、特に、\textbf{パラメータ表示}について学ぶ。つまり、$C^{\infty}$ 級関数
+\[\gamma : \R \supseteq I=[a,b] \to \R^2, \quad t \mapsto (x(t), y(t))\]
+を考える。
+
+方程式としての表示が便利でなのは、代数的な性質を調べる場合であり、これに関連した分野は代数幾何である。
+
+速度ベクトルと加速度ベクトルは列ベクトル表記する。すなわち、
+\[
+\frac{d\gamma}{dt} = \begin{pmatrix} \frac{dx}{dt} \\ \frac{dy}{dt} \end{pmatrix}, \quad \frac{d^2\gamma}{dt^2} = \begin{pmatrix} \frac{d^2x}{dt^2} \\ \frac{d^2y}{dt^2} \end{pmatrix}
+\]
+として表す。
+
+\begin{dfn}
+    \quad $\gamma : I = [a,b] \to \R^2$ が\textbf{正則}であるとは、すべての $t \in I$ に対して $\frac{d\gamma}{dt}(t) \neq 0$ であることをいう。
+\end{dfn}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.8,>=stealth]
+
+    % 座標軸
+    \draw[->] (-0.5,0) -- (6.2,0) node[right] {$x$};
+    \draw[->] (0,-2.3) -- (0,2.8) node[above] {$y$};
+
+    % 曲線 gamma(t)
+    \draw[thick]
+        plot[smooth] coordinates {
+            (0.4,-1.6)
+            (1.0,-0.2)
+            (1.6,1.5)
+            (2.3,2.0)
+            (3.0,1.0)
+            (3.6,-0.7)
+            (4.2,-1.8)
+            (4.8,-1.1)
+            (5.4,0.8)
+            (5.9,1.8)
+        };
+
+    % 曲線のラベル
+    \node at (5.2,2.2) {$\gamma(t)$};
+
+    % 点 gamma(t_0)
+    \fill (3.6,-0.7) circle (1.5pt);
+    \node[below right] at (3.6,-0.7){};
+
+    % 速度ベクトル
+    \draw[->,thick] (3.6,-0.7) -- (4.35,-1.55)
+        node[above] {$\dot{\gamma}(t_0)$};
+
+\end{tikzpicture}
+\caption{正則な曲線の例}
+\end{figure}
+
+\begin{ex}
+    \quad $\gamma(t) = (r\cos t, r\sin t)$ は $t \in [0, 2\pi]$ で正則である。
+    これは、
+    \[
+    \frac{d\gamma}{dt}(t) = \begin{pmatrix}
+-r\sin t \\ r\cos t
+    \end{pmatrix}
+    \]
+    であり、$t \in [0, 2\pi]$ で常にゼロベクトルではないため。
+\end{ex}
+
+\begin{ex}
+    \quad $\gamma(t) = (t^2, t^3)$ は $t \in \R$ で正則でない。なぜなら、
+    \[
+    \frac{d\gamma}{dt}(t) = \begin{pmatrix}
+2t \\ 3t^2
+    \end{pmatrix}
+    \]
+    であり、$t=0$ のときゼロベクトルになるため。
+\end{ex}
+
+\begin{dfn}
+    \quad $\gamma(t)$ : $C^{\infty}$ 級関数\\
+    速度ベクトル $\frac{d\gamma}{dt}(t)$ の値がゼロベクトルになる点 $t$ を $\gamma$ の\textbf{特異点}という。
+\end{dfn}
+
+\begin{ex}
+    \quad 上で確認したように、$\gamma(t) = (t^2, t^3)$ は $t=0$ で特異点を持つ。
+\end{ex}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1,>=stealth]
+    % 座標軸
+    \draw[->] (-0.2,0) -- (2.4,0) node[right] {$x$};
+    \draw[->] (0,-1.6) -- (0,1.6) node[above] {$y$};
+
+    % 曲線 gamma(t) = (t^2, t^3)
+    \draw[thick,domain=-1.1:1.1,samples=200,smooth,variable=\t]
+        plot ({\t*\t},{\t*\t*\t});
+
+    % 原点
+    \fill (0,0) circle (1pt);
+    \node[below left] at (0,0) {$O$};
+
+    % ラベル
+    \node[right] at (1.6,1.2) {$\gamma(t)=(t^2,t^3)$};
+\end{tikzpicture}
+\caption{曲線 $\gamma(t)=(t^2,t^3)$}
+\label{fig:gamma-t2-t3}
+\end{figure}
+
+\begin{dfn}
+    \quad $\gamma(t) \in \R^2 : C^{\infty}$ , $\|\cdot\|$ : Euclid ノルム \\
+    このとき、
+    \[L \coloneq \int_a^b \left\|\frac{d\gamma}{dt}(t)\right\| \,dt\]     
+    を\textbf{曲線} $\gamma$ \textbf{の長さ}という。
+\end{dfn}
+
+\begin{prob}
+    \quad サイクロイド $\gamma(t) = (t - \sin t, 1 - \cos t)$ を考える。
+    \begin{itemize}
+        \item $\gamma$ は $\R$ 上正則か？
+        \item $\gamma \quad (t \in [0, 2\pi])$ の長さを求めよ。
+    \end{itemize}
+\end{prob}
+
+\begin{proof}
+    一つ目に関して、
+    \begin{align*}
+        \frac{d\gamma}{dt}(t) &= \begin{pmatrix}
+1 - \cos t \\ \sin t
+        \end{pmatrix}
+    \end{align*}
+
+    である。したがって、$\frac{d\gamma}{dt}(t) = 0$ となるのは $t=0$ と $t=2\pi$ のときである。したがって、$\gamma$ は $\R$ 上正則でない。
+
+    二つ目に関して、
+    \begin{align*}
+        L &= \int_0^{2\pi} \left\|\frac{d\gamma}{dt}(t)\right\| \,dt \\
+        &= \int_0^{2\pi} \sqrt{(1 - \cos t)^2 + (\sin t)^2} \,dt \\
+        &= \int_0^{2\pi} \sqrt{2 - 2\cos t} \,dt \\
+        &= \int_0^{2\pi} 2\sin\left(\frac{t}{2}\right) \,dt \\
+        &= 4 \int_0^{\pi} \sin u \,du \quad (u = t/2) \\
+        &= 4 \left[-\cos u\right]_0^{\pi} \\
+        &= 4 (1 + 1) \\
+        &= 8
+    \end{align*}
+\end{proof}
+
+\begin{prob}
+    \quad $a > 0$ : 定数\\
+    曲線
+    \[\gamma(t) = \begin{pmatrix}
+        \left(1+a\right)\cos t-a\cos\left(\frac{1+a}{a}t\right)\\(1+a)\sin t-a\sin\left(\frac{1+a}{a}t\right)\end{pmatrix},\quad t \in [0, 2\pi a]\]
+    の長さを求めよ。
+\end{prob}        
+
+\begin{proof}
+    \begin{align*}
+        \frac{d\gamma}{dt}(t) &= \begin{pmatrix}
+        -(1+a)\sin t + (1+a)\sin\left(\frac{1+a}{a}t\right) \\
+        (1+a)\cos t - (1+a)\cos\left(\frac{1+a}{a}t\right)
+        \end{pmatrix}\\
+        &= (1+a) \begin{pmatrix}
+        -\sin t + \sin\left(\frac{1+a}{a}t\right) \\
+        \cos t - \cos\left(\frac{1+a}{a}t\right)
+        \end{pmatrix}
+    \end{align*}
+
+    である。したがって、
+
+    \begin{align*}
+        L &= \int_0^{2\pi a} \left\|\frac{d\gamma}{dt}(t)\right\| \,dt \\
+        &= (1+a) \int_0^{2\pi a} \sqrt{(-\sin t + \sin\left(\frac{1+a}{a}t\right))^2 + (\cos t - \cos\left(\frac{1+a}{a}t\right))^2} \,dt \\
+        &= (1+a) \int_0^{2\pi a} \sqrt{2 - 2\cos\left(\frac{1+a}{a}t - t\right)} \,dt \\
+        &= (1+a) \int_0^{2\pi a} 2\sin\left(\frac{1}{2}\left(\frac{1+a}{a}t - t\right)\right) \,dt \\
+        &= 2(1+a) \int_0^{2\pi a} \sin\left(\frac{t}{2a})\right) \,dt \\
+        &= 4a(1+a) \int_0^{\pi} \sin u \,du \quad (u = t/(2a)) \\
+        &= 4a(1+a) \left[-\cos u\right]_0^{\pi} \\
+        &= 4a(1+a) (1 + 1) \\
+        &= 8a(1+a)
+    \end{align*}
+\end{proof}
+
+\begin{dfn}
+    \quad $\gamma(t)$ : $C^{\infty}$ 級関数, 正則\\
+    \[S(t) \coloneq \int_a^t \left\|\frac{d\gamma}{du}(u)\right\| \,d u \]
+    を曲線 $\gamma$ の \textbf{弧長関数}という。
+\end{dfn}
+
+\begin{lem}
+    \quad $\gamma(t)$ : $C^{\infty}$ 級関数, 正則\\
+    このとき、$S(t)$ は $C^{\infty}$ 級関数であり、$S'(t) = \left\|\frac{d\gamma}{dt}(t)\right\|$ が成り立つ。つまり、$S(t)$ は単調増加関数である。
+\end{lem}
+
+\begin{proof}
+    微分積分学の基本定理より、
+    \[S'(t) = \left\|\frac{d\gamma}{dt}(t)\right\| \geq 0\]
+    である。ここで、$\gamma$ の正則性より、$\frac{d\gamma}{dt}(t) \neq 0$ であるため、$S'(t) > 0$ が成り立つ。したがって、$S(t)$ は単調増加関数である。
+\end{proof}
+\end{document}

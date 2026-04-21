@@ -1,0 +1,464 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=20mm,
+    bottom=20mm,
+    left=20mm,
+    right=20mm
+}
+% TikZライブラリ
+\usetikzlibrary{
+    patterns,
+    calc,
+    arrows,
+    decorations,
+    angles,
+    shapes.geometric,
+    fit,
+    knots
+}
+% TikZ用のスタイル
+\tikzset{
+  every path/.style={
+    black,
+    line width=2pt
+  },
+  every node/.style={
+    transform shape,
+    knot crossing,
+    inner sep=1.5pt
+  }
+}
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle=,
+    pdfauthor=
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{dfn}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+
+% 文書情報
+\title{幾何学1}
+\author{akari0koutya}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+
+\section{第1回 : ガイダンス (2026/04/14)}
+\subsection{注意点}
+
+\begin{itemize}
+    \item 第8回に中間試験、第15回に期末試験
+    \item 成績評価は、中間試験 $35\%$、期末試験 $35\%$、レポート $30\%$
+    \item 再試験なし
+    \item 前半に距離空間を扱い、後半に位相空間を扱う
+\end{itemize}
+
+\subsection{アブストラクト}
+
+ある集合を幾何学的な対象として扱うには、どういった情報があるとうれしいか。\par
+$\longrightarrow$ 位相空間
+
+距離が与えられている集合（\textbf{距離空間}）は、性質として強すぎる。たとえば、以下のような結び目も幾何学的対象として扱いたい:
+\begin{figure}[htbp]
+\begin{minipage}{0.45 \textwidth}
+\centering
+\begin{tikzpicture}
+\foreach \brk in {0,1,2} {
+\begin{scope}[rotate=\brk * 120]
+\node (k\brk) at (0,-1) {};
+\end{scope}
+}
+\draw (0,0) \foreach \brk in {0,1,2} {
+    let \n0=\brk,
+        \n1={int(Mod(\brk+1,3))},
+        \n2={int(Mod(\brk+2,3))}
+       in (k\n0) .. controls (k\n0.16 south east) and (k\n1.16 south west) .. 
+          (k\n1.center) .. controls (k\n1.4 north east) and (k\n2.4 north west) .. 
+          (k\n2)} (k2);
+\end{tikzpicture}    
+\end{minipage}
+\begin{minipage}{0.45 \textwidth}
+\centering
+\begin{tikzpicture}
+\foreach \brk in {0,...,4} {
+\begin{scope}[rotate=\brk * 72]
+\node (k\brk) at (0,-1) {};
+\end{scope}
+}
+\draw (0,0) \foreach \brk in {0,...,4} {
+    let \n0=\brk,
+        \n1={int(Mod(\brk+1,5))},
+        \n2={int(Mod(\brk+2,5))}
+    in (k\n0) .. controls (k\n0.16 south east) and (k\n1.16 south west) .. 
+       (k\n1.center) .. controls (k\n1.4 north east) and (k\n2.4 north west) .. 
+       (k\n2)} (k2);
+\end{tikzpicture}  
+\end{minipage}   
+\caption{結び目の例}  
+\end{figure}
+
+さて、2点 $x = (x_1, x_2, \ldots, x_n), y = (y_1, y_2, \ldots, y_n) \in \R^2$ に対し、
+\begin{equation}
+    d(x,y) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_n - y_n)^2}
+\end{equation}
+とすれば、これは距離を定義することになる（\textbf{ユークリッド距離}）。これは、 $x$ と $y$ の線分の長さを表す。その他、京都の街やマンハッタンに見られる碁盤の目のような道にも距離も定義できる（\textbf{マンハッタン距離}）。このように、距離にも種類があり、多様な距離の定め方に通用する概念として距離を抽象化して考える。
+
+\vspace{\baselineskip}
+
+集合 $X$ に対し、距離が満たすべき性質として、以下の条件を考えられる:
+\begin{itemize}
+    \item $d(x,y) \geq 0$ かつ $d(x,y) = 0$ ならば $x=y$
+    \item $d(x,y) = d(y,x)$
+    \item $d(x,z) \leq d(x,y) + d(y,z)$ \quad （三角不等式）
+\end{itemize}
+\subsection{教科書}
+
+\begin{itemize}
+    \item 小山晃著, 位相空間論 : 現代数学への基礎, 森北出版, 2021.
+\end{itemize}
+
+\section{第2回 : (2026/04/21)}
+
+\subsection{距離関数と距離空間}
+
+\begin{dfn}
+$X$ を集合、$d\colon X \times X \to \R$ を写像とし、以下の条件を満たすとする :
+\begin{itemize}
+    \item $d(x,y) = 0 \Leftrightarrow x=y$
+    \item $d(x,y) = d(y,x)$
+    \item $d(x,z) \leq d(x,y) + d(y,z)$ \quad （三角不等式）
+\end{itemize}
+このとき、$d$ を $X$ 上の\textbf{距離}と呼び、$(X,d)$ を\textbf{距離空間}と呼ぶ。
+\end{dfn}
+
+\begin{rem}
+距離空間 $(X,d)$ の定義から直ちに導ける性質として次のものがある : 
+\begin{itemize}
+    \item 任意の $x,y \in X$ に対して、$d(x,y) \geq 0$ を満たす。
+\end{itemize}
+\end{rem}
+
+\begin{rem}
+距離空間 $(X,d)$ という表記を $X$ と省略して表記することもある。
+\end{rem}
+
+\begin{ex}
+距離空間の例として、以下のものがある :
+\begin{itemize}
+    \item \textbf{ユークリッド距離} : $\R^n$ 上の距離を 
+    \[d(x,y) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_n - y_n)^2}\]
+    と定めると、これは距離空間となる。\\
+    \quad 実際、
+    \begin{align*}
+        d(x,y) = 0 &\Leftrightarrow (x_1 - y_1)^2 + (x_2 - y_2)^2 + \cdots + (x_n - y_n)^2 = 0 \\
+        &\Leftrightarrow x_1 = y_1, x_2 = y_2, \ldots, x_n = y_n \\
+        &\Leftrightarrow x = y
+    \end{align*}
+    であり、コーシー・シュワルツの不等式より、
+    \begin{align*}
+        d(x,z)^2 &= (x_1 - z_1)^2 + (x_2 - z_2)^2 + \cdots + (x_n - z_n)^2 \\
+        &= ((x_1 - y_1) + (y_1 - z_1))^2 + \cdots + ((x_n - y_n) + (y_n - z_n))^2 \\
+        &\leq 2((x_1 - y_1)^2 + \cdots + (x_n - y_n)^2) + 2((y_1 - z_1)^2 + \cdots + (y_n - z_n)^2) \\
+        &= 2d(x,y)^2 + 2d(y,z)^2 \\
+        &\leq 4(d(x,y) + d(y,z))^2
+    \end{align*}
+    \item $I = [0,1]$、
+    \[C(I) := \{f \mid f\colon I \to \R \text{ は連続関数}\}\]
+    とする。$C(I)$ 上の距離を、
+    \[d(f,g) = \sup_{x \in I} \left\lvert f(x) - g(x)\right\rvert\]
+    と定めると、これは距離空間となる。\\
+    \quad ここで、$f,g \in C(I)$ に対し、$\left\lvert f(x) - g(x) \right\rvert$ は $I$ における連続関数のため、最大値・最小値の定理より、必ず最大値を取る点 $x_0 \in I$ が存在する。したがって、
+    \[\sup_{x \in I} \left\lvert f(x) - g(x) \right\rvert = \left\lvert f(x_0) - g(x_0) \right\rvert\]
+    となるので、$d(f,g)$ は距離空間の定義を満たす。
+\end{itemize}
+\end{ex}
+
+\begin{dfn}
+    距離空間 $(X,d), (X^\prime,d^\prime)$ が\textbf{等しい}とは、$X = X^\prime$ かつ $d = d^\prime$ であることをいう。つまり、$X = X^\prime$ かつ任意の $x,y \in X$ に対して、$d(x,y) = d^\prime(x,y)$ を満たすことをいう。
+\end{dfn}
+
+\begin{ex}
+以下、さらに距離空間の例を挙げる :
+\begin{itemize}
+    \item \textbf{マンハッタン距離} : $\R^n$ 上の距離を
+    \[d(x,y) = \left\lvert x_1 - y_1\right\rvert + \left\lvert x_2 - y_2\right\rvert + \cdots + \left\lvert x_n - y_n\right\rvert\]
+    と定めると、これは距離空間となる。\\
+    \quad これは、ユークリッド距離とは異なる距離空間である。例えば、$x = (0,0), y = (1,1)$ に対して、ユークリッド距離は $\sqrt{2}$ であるのに対し、マンハッタン距離は $2$ である。
+    \item \textbf{チェビシェフ距離} : $\R^n$ 上の距離を、
+    \[d(x,y) = \max\{\left\lvert x_1 - y_1\right\rvert, \left\lvert x_2 - y_2\right\rvert, \ldots, \left\lvert x_n - y_n\right\rvert\}\]
+    と定めると、これは距離空間となる。\\
+    \quad これは、ユークリッド距離ともマンハッタン距離とも異なる距離空間である。例えば、$x = (0,0), y = (1,1)$ に対して、ユークリッド距離は $\sqrt{2}$、マンハッタン距離は $2$ であるのに対し、これは $1$ である。
+    \item \textbf{パリ距離} : $\R^n$ 上の距離を
+    \begin{align*}
+        d(x,y) := \begin{cases}
+            \sqrt{(x_1 - y_1)^2 + \cdots + (x_n - y_n)^2} \quad & (\exists\lambda\in \R,  x = \lambda y) \\
+            \sqrt{(x_1 - 0)^2+ \cdots + (x_n - 0)^2}  + \sqrt{(y_1 - 0)^2 + \cdots + (y_n - 0)^2} \quad & (\text{その他})
+        \end{cases}
+    \end{align*}
+\end{itemize}
+\end{ex}
+
+\vspace{1\baselineskip}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=0.9cm,y=0.9cm,>=stealth]
+
+    % 色
+    \definecolor{myred}{RGB}{220,20,20}
+
+    % パラメータ
+    \def\xmax{9.5}
+    \def\ymax{6.5}
+    \def\xa{2.5}  % x_1
+    \def\xb{1.6}  % x_2
+    \def\ya{6.2}  % y_1
+    \def\yb{5.0}  % y_2
+
+    % グリッド
+    \foreach \x in {0,1,...,8} {
+        \draw[black,thin] (\x,0) -- (\x,6);
+    }
+    \foreach \y in {0,1,...,6} {
+        \draw[black,thin] (0,\y) -- (8.4,\y);
+    }
+
+    % 座標軸
+    \draw[black,line width=1.2pt,->] (0,0) -- (\xmax,0) node[right] {};
+    \draw[black,line width=1.2pt,->] (0,0) -- (0,\ymax) node[above] {};
+
+    % 点線の補助線をドットで表現
+    \foreach \x in {0.15,0.45,...,\xa} {
+        \fill (\x,\xb) circle (0.04);
+    }
+    \foreach \x in {0.15,0.45,...,\ya} {
+        \fill (\x,\yb) circle (0.04);
+    }
+    \foreach \y in {0.15,0.45,...,\xb} {
+        \fill (\xa,\y) circle (0.04);
+    }
+    \foreach \y in {0.15,0.45,...,\yb} {
+        \fill (\ya,\y) circle (0.04);
+    }
+
+    % 点 x=(x_1,x_2), y=(y_1,y_2)
+    \fill (\xa,\xb) circle (0.08);
+    \fill (\ya,\yb) circle (0.08);
+
+    % 赤い折れ線
+    \draw[myred,line width=1.2pt] (\xa,\xb) -- (\ya,\xb) -- (\ya,\yb);
+
+    % ラベル x, y
+    \node[below left] at (\xa,\xb) {$x$};
+    \node[above right] at (\ya,\yb) {$y$};
+
+    % 軸上のラベル
+    \node[left]  at (0,\xb) {$x_2$};
+    \node[left]  at (0,\yb) {$y_2$};
+    \node[below] at (\xa,0) {$x_1$};
+    \node[below] at (\ya,0) {$y_1$};
+
+    % 赤い注釈
+    \draw[myred,line width=1.0pt,->]
+        (9.0,3.2) to[out=180,in=0] (6.1,2.8);
+    \node[myred,right] at (9.1,3.2) {$|x_2-y_2|$};
+
+    \draw[myred,line width=1.0pt,->]
+        (9.4,1.1) to[out=180,in=0] (4.8,1.6);
+    \node[myred,right] at (9.5,1.1) {$|x_1-y_1|$};
+
+\end{tikzpicture}
+\vspace{1\baselineskip}
+\caption{2次元の場合のマンハッタン距離の図}
+\label{fig:n2-distance}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+
+\begin{minipage}[t]{0.47\textwidth}
+\centering
+
+{\large 原点を通る同一直線上にあるとき}
+
+\vspace{1em}
+
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth]
+    % 軸
+    \draw[black,line width=1pt,->] (0.8,0.8) -- (5.8,0.8);
+    \draw[black,line width=1pt,->] (0.8,0.8) -- (0.8,4.8);
+
+    % 原点
+    \fill (0.8,0.8) circle (0.07);
+    \node[below left] at (0.8,0.8) {$0$};
+
+    % 直線
+    \draw[black,line width=1pt] (0.8,0.8) -- (4.7,3.8);
+
+    % 点 x, y
+    \fill (2.2,1.9) circle (0.07);
+    \fill (3.9,3.2) circle (0.07);
+    \node[below left] at (2.2,1.9) {$x$};
+    \node[right] at (3.9,3.2) {$y$};
+
+    % 距離
+    \draw[red,line width=1pt] (2.2,1.9) -- (3.9,3.2);
+
+    % 注釈
+    \draw[red,line width=1pt,->]
+        (5.6,2.0) to[out=180,in=-15] (3.0,2.55);
+    \node[red,anchor=west] at (5.7,2.0) {$d_2^p(x,y)=d_2(x,y)$};
+
+    \node[anchor=west] at (4.8,0.3) {通常のユークリッド距離};
+\end{tikzpicture}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+\centering
+
+{\large そうでないとき}
+
+\vspace{1em}
+
+\begin{tikzpicture}[x=1cm,y=1cm,>=stealth]
+    % 軸
+    \draw[black,line width=1pt,->] (0.8,0.8) -- (6.2,0.8);
+    \draw[black,line width=1pt,->] (0.8,0.8) -- (0.8,4.8);
+
+    % 原点
+    \fill (0.8,0.8) circle (0.07);
+    \node[below left] at (0.8,0.8) {$0$};
+
+    % 半直線
+    \draw[black,line width=1pt] (0.8,0.8) -- (2.4,3.4);
+    \draw[black,line width=1pt] (0.8,0.8) -- (4.6,2.0);
+
+    % 点 x, y
+    \fill (1.8,2.5) circle (0.07);
+    \fill (3.7,1.7) circle (0.07);
+    \node[left] at (1.8,2.7) {$x$};
+    \node[right] at (3.7,1.45) {$y$};
+
+    % 原点経由の折れ線
+    \draw[red,line width=1pt] (1.8,2.5) -- (0.8,0.8) -- (3.7,1.7);
+
+    % 注釈
+    \draw[red,line width=1pt,->]
+        (4.8,3.4) to[out=180,in=15] (2.6,1.55);
+    \node[black,anchor=west] at (4.9,3.4)
+        {$d_2^p(x,y)=d_2(0,x)+d_2(0,y)$};
+
+    \node[anchor=west] at (4.9,0.3) {原点を経由した距離};
+\end{tikzpicture}
+\end{minipage}
+
+\vspace{1\baselineskip}
+\caption{$\mathbb{R}^2$ におけるパリ距離の例}
+\label{fig:d2p-minipage}
+\end{figure}
+
+\begin{ex}
+    引き続き、さらに距離空間の例を挙げる :\\
+    $f, g \in C([a,b])$ に対して、
+    \begin{align*}
+        d_{1}(f,g) &= \int_a^b \left\lvert f(x) - g(x) \right\rvert \,dx \\
+        d_{2}(f,g) &= \sqrt{\int_a^b \left\lvert f(x) - g(x) \right\rvert^2 \,dx}
+    \end{align*}
+    と定めると、$d_{1}, d_{2}$ は $C([a,b])$ に距離を定める。
+\end{ex}
+
+\subsection{点列の収束と極限}
+
+$\N$ を正の整数全体の集合とする。
+
+\begin{dfn}
+    $(X,d)$ を距離空間とする。
+    \begin{itemize}
+        \item 点列 $\{x_n\}_{n \in \N}$ が $x \in X$ に\textbf{収束}するとは、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たすことをいう。つまり、
+        \[\forall \varepsilon > 0, \exists N \in \N, \forall n \geq N, d(x_n,x) < \varepsilon\]
+        を満たすことをいう。$x$ を点列 $\{x_n\}_{n \in \N}$ の\textbf{極限}と呼び、$\lim_{n \to \infty} x_n = x$ や $x_n \to x \, (n \to \infty)$ と表記する。
+        \item $X$ 上の点列 $\{x_n\}_{n\in \N}$ と $\N$ の無限部分集合 $I$ に対して、点列 $\{x_n\}_{n \in I}$ を\textbf{部分列}と呼ぶ。
+    \end{itemize}
+\end{dfn}
+
+\begin{prop}
+以下が成り立つ :
+\begin{enumerate}[label=(\arabic*)\,]
+    \item 点列 $\{x_n\}_{n \in \N}$ が $x$ に収束するならば、$x$ は $\{x_n\}_{n \in \N}$ の唯一の極限である。つまり、点列の極限は一意である。
+    \item 任意の $n \in \N$ に対して $x_n = x$ であるとき、点列 $\{x_n\}_{n \in \N}$ は $x$ に収束する。
+    \item 点列 $\{x_n\}_{n \in \N}$ が $x$ に収束するならば、任意の部分列 $\{x_{i(n)}\}_{n \in I}$ も $x$ に収束する。
+    \item 点列 $\{x_n\}_{n \in \N}$ の任意の部分列 $\{x_{i(n)}\}_{n \in I}$ が $x$ に収束するならば、点列 $\{x_n\}_{n \in \N}$ も $x$ に収束する。
+    \item 点列 $\{x_n\}_{n \in \N}$ に対し、ある $\delta > 0$ が存在して、任意の $n \in \N$ に対して $d(x_n, x) \geq \delta$ が成り立つならば、点列 $\{x_n\}_{n \in \N}$ の任意の部分列 $\{x_{i(n)}\}_{n \in I}$ は収束しない。
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+(1) : 点列 $\{x_n\}_{n \in \N}$ が $x$ に収束するならば、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。
+
+もし、点列 $\{x_n\}_{n \in \N}$ が $y$ にも収束すると仮定すると、同様に、任意の $\varepsilon > 0$ に対して、ある $M \in \N$ が存在して、任意の $n \geq M$ に対して $d(x_n,y) < \varepsilon$ を満たす。ここで、$\varepsilon > 0$ を任意に取るとき、ある $K = \max\{N,M\} \in \N$ が存在して、任意の $n \geq K$ に対して、
+\begin{align*}
+d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
+&< \varepsilon + \varepsilon \\
+&= 2\varepsilon
+\end{align*}
+を満たす。$\varepsilon$ は任意であるため、$d(x,y) = 0$ を満たす。距離空間の定義より、$y = x$ である。したがって、点列 $\{x_n\}_{n \in \N}$ の極限は一意である。
+
+\vspace{1\baselineskip}
+
+(2) : 任意の $n \in \N$ に対して $x_n = x$ であるとき、任意の $\varepsilon > 0$ に対して、任意の $n \in \N$ に対して $d(x_n,x) = d(x,x) = 0 < \varepsilon$ を満たす。したがって、点列 $\{x_n\}_{n \in \N}$ は $x$ に収束する。
+
+\vspace{1\baselineskip}
+
+(3) : 点列 $\{x_n\}_{n \in \N}$ が $x$ に収束するならば、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。$\{x_{i(n)}\}_{n \in I}$ を $\{x_n\}_{n \in \N}$ の部分列とすると、$i(n) \geq n$ であるから、任意の $n \geq N$ に対して $d(x_{i(n)},x) < \varepsilon$ を満たす。したがって、部分列 $\{x_{i(n)}\}_{n \in I}$ も $x$ に収束する。
+
+\vspace{1\baselineskip}
+
+(4) : 背理法で示す。
+
+もし点列 $\{x_n\}_{n \in \N}$ が $x$ に収束しないと仮定すると、ある $\varepsilon > 0$ が存在して、任意の $N \in \N$ が存在して、ある $n \geq N$ が存在して、$d(x_n,x) \geq \varepsilon$ を満たす。ここで、$\{n_k\}_{k\in\N}$ をこの条件を満たすように選んだ点列とすると、部分列 $\{x_{n_k}\}_{k\in\N}$ は $x$ に収束しない。これは背理法の仮定に反する。したがって、点列 $\{x_n\}_{n \in \N}$ も $x$ に収束する。
+
+\vspace{1\baselineskip}
+
+(5) : 背理法で示す。
+
+もし点列 $\{x_n\}_{n \in \N}$ のある部分列 $\{x_{i(n)}\}_{n \in I}$ が $x$ に収束すると仮定する。
+すると、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。$\{x_{i(n)}\}_{n \in I}$ は $\{x_n\}_{n \in \N}$ の部分列なので $i(n) \geq n$ であるから、任意の $n \geq N$ に対して $d(x_{i(n)},x) < \varepsilon$ を満たす。しかし、$\varepsilon$ は任意であるため、ある $\delta > 0$ が存在して、任意の $n \in \N$ に対して $d(x_n,x) \geq \delta$ を満たすという仮定に矛盾する。したがって、点列 $\{x_n\}_{n \in \N}$ の任意の部分列 $\{x_{i(n)}\}_{n \in I}$ は収束しない。
+\end{proof}
+\end{document}

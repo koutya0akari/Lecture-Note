@@ -1,0 +1,254 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=25mm,
+    bottom=25mm,
+    left=25mm,
+    right=25mm
+}
+% TikZライブラリ
+\usetikzlibrary{
+    patterns,
+    calc,
+    arrows,
+    decorations,
+    angles,
+    shapes.geometric,
+    fit,
+    knots
+}
+% TikZ用のスタイル
+\tikzset{
+  every path/.style={
+    black,
+    line width=1pt
+  },
+  every node/.style={
+    transform shape,
+    knot crossing,
+    inner sep=1.5pt
+  }
+}
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle=,
+    pdfauthor=
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{def}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+
+% 文書情報
+\title{代数学 1}
+\author{akari0koutya}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+\section{1回 : 2026/4/13}
+\subsection{ガイダンス}
+\section{2回 : 2026/4/20}
+\subsection{復習}
+\begin{dfn}
+\textbf{アーベル群}(\textbf{可換群}) とは、
+\begin{align*}
+  \begin{cases}
+    \text{集合} \quad G \\
+    \text{写像} \quad + \colon G \times G \to G, \quad (a, b) \mapsto a + b 
+  \end{cases}
+\end{align*}
+の組 $(G, +)$ であって、以下の条件を満たすものをいう :
+\begin{enumerate}
+  \item 結合法則 : $\forall a, b, c \in G, (a + b) + c = a + (b + c)$
+  \item 単位元の存在 : $\exists 0 \in G, \forall a \in G, 0 + a = a + 0 = a$
+  \item 逆元の存在 : $\forall a \in G, \exists -a \in G, a + (-a) = (-a) + a = 0$
+  \item 可換性 : $\forall a, b \in G, a + b = b + a$
+\end{enumerate}
+\end{dfn}
+
+\begin{rem}
+\begin{enumerate}
+  \item 組 $(G, +)$ という表記を省略して、単に $G$ と書くこともある。
+  \item 単位元 $0$ は一意である。すなわち、もし $0'$ も単位元であれば、$0' = 0$ となる。実際、$0' = 0' + 0 = 0 + 0' = 0$ である。
+  \item 逆元 $a^{-1}$ も一意である。実際、 $b$ も $a$ の逆元であれば、
+\begin{align*}
+  b &= b + 0 \quad (\because 0 \text{ は単位元})\\
+    &= b + ((-a) + a) \quad (\because -a \text{ は } a \text{ の逆元})\\
+    &= (b + (-a)) + a \quad (\because \text{結合法則})\\
+    &= 0 + a \quad (\because b \text{ は } a \text{ の逆元})\\
+    &= a
+\end{align*}
+となり、$b = a^{-1}$ である。
+\end{enumerate}
+\end{rem}
+
+\begin{dfn}
+  \textbf{環} とは、
+  \begin{align*}
+    \begin{cases}
+      \text{集合} \quad R \\
+      \text{写像} \quad + \colon R \times R \to R, \quad (a, b) \mapsto a + b \\
+      \text{写像} \quad \cdot \colon R \times R \to R, \quad (a, b) \mapsto a \cdot b
+    \end{cases}
+  \end{align*}
+  の組 $(R, +, \cdot)$ であって、以下の条件を満たすものをいう : 
+  \begin{enumerate}
+    \item $(R, +)$ はアーベル群である。
+    \item 結合法則 : $\forall a, b, c \in R, (a \cdot b) \cdot c = a \cdot (b \cdot c)$
+    \item 分配法則 : $\forall a, b, c \in R, a \cdot (b + c) = a \cdot b + a \cdot c$ および $(a + b) \cdot c = a \cdot c + b \cdot c$
+    \item $\exists 1 \in R, \forall a \in R, 1 \cdot a = a \cdot 1 = a$ 
+  \end{enumerate}
+  さらに、以下の条件を満たすとき、$R$ は \textbf{可換環} であるという :
+\begin{enumerate}[resume]
+  \item 可換性 : $\forall a, b \in R, a \cdot b = b \cdot a$
+\end{enumerate}
+\end{dfn}
+
+\begin{rem}
+  特に断らない限り、この資料では、「環」は「可換環」であるとする。
+\end{rem}
+
+\begin{rem}
+  \begin{enumerate}
+    \item 組 $(R, +, \cdot)$ という表記を省略して、単に $R$ と書くこともある。
+    \item 環 $R$ の単位元 $1$ は一意である。実際、もし $1'$ も単位元であれば、
+    \[1' = 1' \cdot 1 = 1 \cdot 1' = 1\]
+    となり、$1' = 1$ である。
+  \end{enumerate}
+\end{rem}
+
+\begin{dfn}
+  \textbf{体} とは、可換環 $(F, +, \cdot)$ であって、以下の条件を満たすものをいう :
+  \begin{enumerate}
+    \item $F \neq \{0\}$
+    \item $\forall a \in F \setminus \{0\}, \exists a^{-1} \in F, a \cdot a^{-1} = a^{-1} \cdot a = 1$
+  \end{enumerate}
+\end{dfn}
+
+\begin{ex}
+  \begin{enumerate}
+    \item 次は体である :
+      \begin{align*}
+        \begin{cases}
+          \Q : \text{有理数全体} \\
+          \R : \text{実数全体} \\
+          \C : \text{複素数全体}
+        \end{cases}
+      \end{align*}
+    \item 次は環であるが体ではない :
+      \begin{align*}
+        \begin{cases}
+          \Z : \text{整数全体} \\
+          \C[x] : \C \text{係数の多項式全体}\\
+          K[x] : K \text{係数の多項式全体} \quad (K \text{ は体})
+        \end{cases}
+      \end{align*}
+    \item $\Z[\sqrt{-1}] = \{a + b\sqrt{-1} \mid a, b \in \Z\}$ は環である。実際、$a+ b\sqrt{-1}, c + d\sqrt{-1} \in \Z[\sqrt{-1}]$ に対し、
+      \begin{align*}
+        (a + b\sqrt{-1}) + (c +  d\sqrt{-1}) = (a + c) + (b + d)\sqrt{-1} &\in \Z[\sqrt{-1}] \\
+        (a + b\sqrt{-1})(c + d\sqrt{-1}) = (ac - bd) + (ad + bc)\sqrt{-1} &\in \Z[\sqrt{-1}]
+      \end{align*}
+      なので、$\Z[\sqrt{-1}]$ は環である。しかし、$2 \in \Z[\sqrt{-1}]$ に対して、$2^{-1} = \frac{1}{2} \not\in \Z[\sqrt{-1}]$ なので、$\Z[\sqrt{-1}]$ は体ではない。同様にして、$\Q(\sqrt{-1})$ も環であるが、これは体である。実際、$a+b\sqrt{-1} \in \Q(\sqrt{-1})$ に対して、
+      \[(a+b\sqrt{-1})^{-1} = \frac{a-b\sqrt{-1}}{a^2+b^2} = \frac{a}{a^2+b^2} - \frac{b}{a^2+b^2}\sqrt{-1} \in \Q(\sqrt{-1})\] 
+      なので、$\Q(\sqrt{-1})$ は体である。
+    \item $n \geq 2$ としたとき、$\Z/n\Z$ は環である。実際、$a + n\Z, b + n\Z \in \Z/n\Z$ に対し、
+      \begin{align*}
+        (a + n\Z) + (b + n\Z) = (a + b) + n\Z &\in \Z/n\Z \\
+        (a + n\Z)(b + n\Z) = ab + n\Z &\in \Z/n\Z
+      \end{align*}
+      なので、$\Z/n\Z$ は環である。\\
+      \quad $n$ が合成数のとき、$\Z/n\Z$ は体ではない。実際、$n = ab$ としたとき、
+      \[(a + n\Z)(b + n\Z) = 0 + n\Z \in \Z/n\Z\] 
+      となるので、$\Z/n\Z$ は体ではない。\\
+      \quad 一方、$\Z/n\Z$ が体であるのは、$n$ が素数のときである。実際、$\Z/n\Z$ が体であれば、$\exists k \in \Z$ に対して、
+      \[(k + n\Z)(a + n\Z) = ka + n\Z =  1 + n\Z.\]
+      $ka + n\Z$ という集合には、$a$ の倍数しか属さないので、$ka + n\Z = 1 + n\Z$ となるためには、$a$ と $n$ が互いに素でなければならない。したがって、$\Z/n\Z$ が体であるためには、$n$ が素数でなければならない。\\
+      \quad 例えば、$\Z/5\Z = \{\overline{0} + 5\Z, \overline{1} + 5\Z, \overline{2} + 5\Z, \overline{3} + 5\Z, \overline{4} + 5\Z\}$ は体である。実際、
+      \begin{align*}
+        \begin{cases}
+          (\overline{1} + 5\Z)(\overline{1} + 5\Z) = 1 + 5\Z \quad &\therefore (\overline{1} + 5\Z)^{-1} = \overline{1} + 5\Z \\
+          (\overline{2} + 5\Z)(\overline{3} + 5\Z) = 6 + 5\Z = 1 + 5\Z \quad &\therefore (\overline{2} + 5\Z)^{-1} = \overline{3} + 5\Z \\
+          (\overline{3} + 5\Z)(\overline{2} + 5\Z) = 6 + 5\Z = 1 + 5\Z \quad &\therefore (\overline{3} + 5\Z)^{-1} = \overline{2} + 5\Z \\
+          (\overline{4} + 5\Z)(\overline{4} + 5\Z) = 16 + 5\Z = 1 + 5\Z \quad &\therefore (\overline{4} + 5\Z)^{-1} = \overline{4} + 5\Z \\
+        \end{cases}
+      \end{align*}
+      なので、$\Z/5\Z$ は体である。\\
+      \quad $n$ が一般の素数であるとし、$m + n\Z \in \Z/n\Z (m \in n\Z)$ とする。このとき、 $m$ と $n$ は互いに素であるので、$\exists k, l \in \Z$ に対して、$km + ln = 1$ となる。したがって、
+      \[(k + n\Z)(m + n\Z) = km + n\Z = 1 + n\Z\]
+      となるので、$(m + n\Z)^{-1} = k + n\Z$ である。したがって、$\Z/n\Z$ は体である。
+  \end{enumerate}
+\end{ex}
+
+\subsection{環上の加群}
+
+\begin{dfn}
+  環 $R$ に対し、R\textbf{-加群} とは、
+  \begin{align*}
+    \begin{cases}
+      \text{集合} \quad M \\
+      \text{写像} \quad + \colon M \times M \to M, \quad (x, y) \mapsto x + y \\
+      \text{写像} \quad R \times M \to M, \quad (r, x) \mapsto rx
+    \end{cases}
+  \end{align*}
+  という組 $(M, +, R \times M \to M)$ であって、以下の条件を満たすものをいう :
+\begin{enumerate}
+  \item $(M, +)$ はアーベル群
+  \item $\forall r, s \in R$, $\forall x \in M$, $(rs)x = r(sx)$
+  \item $\forall r, s \in R$, $\forall x \in M$, $(r + s)x = rx + sx$
+  \item $\forall r \in R$, $\forall x, y \in M$, $r(x + y) = rx + ry$
+  \item $\forall x \in M$, $1x = x$
+\end{enumerate}
+\end{dfn}
+
+\begin{rem}
+  $R$ が体 $K$ であるとき、$K$-加群とは\textbf{ベクトル空間}のことである。
+\end{rem}
+
+\clearpage
+
+\begin{ex}
+  $n \geq 1$ のとき、
+  \[\R^n = \left\{ \begin{pmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{pmatrix} \mid a_i \in \R \right\}\]
+  は $\R$-加群である。実際、$x = \begin{pmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{pmatrix}, y = \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_n \end{pmatrix} \in \R^n$ と $r \in \R$ に対し、
+\begin{align*}
+  x + y &= \begin{pmatrix} a_1 + b_1 \\ a_2 + b_2 \\ \vdots \\ a_n + b_n \end{pmatrix} \in \R^n \\
+  rx &= \begin{pmatrix} ra_1 \\ ra_2 \\ \vdots \\ ra_n \end{pmatrix} \in \R^n
+\end{align*}
+なので、$\R^n$ は $\R$-加群である。\\
+\indent $\R^0 = \{0\}$ とする。
+\end{ex}
+\end{document}

@@ -1,0 +1,110 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=25mm,
+    bottom=25mm,
+    left=25mm,
+    right=25mm
+}
+
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle=,
+    pdfauthor=
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{dfn}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+% 文書情報
+\title{解析学1}
+\author{akari0koutya}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+
+\section{ガイダンス (2026/04/14)}
+\subsection{注意点}
+\begin{itemize}
+    \item 5回以内の欠席であれば,期末試験を受けれる。期末試験は出席回数にカウントしない。
+    \item 2回の遅刻で1回の欠席とみなす。
+    \item 紙面での欠席確認を行うことがある。
+    \item レポートの提出場所は数理のレポートボックス。
+    \item 未完成のレポートは未提出扱い。
+    \item 成績評価は $\text{期末試験}:\text{レポート} = 3:1$
+\end{itemize}
+
+\subsection{アブストラクト}
+
+\begin{tcolorbox}[colback=white,colframe=yukari,title=公理的確率の存在]
+$\Omega : \text{non empty set}$ \par
+集合関数 $P$ が次を満たすとき、 $P$ を $\Omega$ 上の（\textbf{公理的}）\textbf{確率}と呼ぶ :
+\begin{itemize}
+    \item $P(\Omega) = 1$
+    \item 任意の $A \subseteq \Omega$ に対して、$P(A) \geq 0$ 
+    \item 非交な集合列 $A_1, A_2, \ldots$ に対して、 $P\left( \bigcup_{i=1}^{\infty} A_i \right) = \sum_{i=1}^{\infty} P(A_i)$
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=white,colframe=yukari,title=リーマン積分]
+$f \colon [a,b] \to \mathbb{R}$ を区間 $[a,b]$ 上の関数とする。 $f$ が \textbf{リーマン積分可能} であるとは、次の条件を満たすことをいう :
+\begin{itemize}
+    \item 任意の $\epsilon > 0$ に対して、区間 $[a,b]$ を分割する分割 $P$ が存在し、任意の $P$ に対して、上和 $U(f,P)$ と下和 $L(f,P)$ の差が $\epsilon$ より小さいこと。
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=white,colframe=yukari,title=リーマン積分の欠点1]
+    リーマン積分可能な関数を特徴づけることができない。
+    \begin{prop}
+        $f$ が区間 $[a,b]$ でリーマン積分可能ならば、 $f$ は区間 $[a,b]$ 上で有界。
+    \end{prop}
+    これは逆が成り立たない。例えば、 $f(x) = \begin{cases} 1 & x \in \mathbb{Q} \\ 0 & x \in \mathbb{R} \setminus \mathbb{Q} \end{cases}$ は区間 $[0,1]$ 上で有界だが、リーマン積分可能ではない。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=white,colframe=yukari,title=リーマン積分の欠点2]
+    リーマン積分は、項別積分に関して問題がある。\par
+    例えば、 $f_n(x) = \begin{cases} 1 & x \in [0,1/n] \\ 0 & x \in (1/n,1] \end{cases}$ とすると、各 $f_n$ は区間 $[0,1]$ 上でリーマン積分可能であり、 $\int_0^1 f_n(x) dx = 1/n$ となる。しかし、 $\lim_{n \to \infty} f_n(x) = 0$ であるため、 $\int_0^1 \lim_{n \to \infty} f_n(x) dx = 0$ となる。つまり、 $\lim_{n \to \infty} \int_0^1 f_n(x) dx \neq \int_0^1 \lim_{n \to \infty} f_n(x) dx$。
+\end{tcolorbox}
+
+これらの問題を解決するために、ルベーグ積分が導入される。
+
+\subsection{教科書}
+\begin{itemize}
+    \item 吉田洋一, ルベグ積分入門, ちくま学芸文庫.
+\end{itemize}
+上のアブストラクトは、「ルベグ積分入門」の1章の内容を簡単にまとめたものである。
+\end{document}
