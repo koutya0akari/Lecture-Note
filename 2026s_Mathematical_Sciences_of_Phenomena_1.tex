@@ -56,6 +56,8 @@
 
 
 % cleveref用の日本語設定
+\crefname{equation}{式}{式}
+\Crefname{equation}{式}{式}
 \crefname{thm}{定理}{定理}
 \crefname{lem}{補題}{補題}
 \crefname{cor}{系}{系}
@@ -371,8 +373,33 @@
     \[2\gamma^{\prime} \cdot \gamma^{\prime\prime} = 0\]
     なので、$\gamma^{\prime} \cdot \gamma^{\prime\prime} = 0$ が成り立つ。
     よって、速度ベクトル $\gamma^{\prime}(s)$ と加速度ベクトル $\gamma^{\prime\prime}(s)$ は直交する。すなわち、$\gamma^{\prime\prime}(s)$ は単位法線ベクトル $n(s)$ と平行である。したがって、ある関数 $\kappa(s)$ が存在して、
-\[\gamma^{\prime\prime}(s) = \kappa(s) n(s)\]
-が成り立つ。
+\begin{equation}
+        \gamma^{\prime\prime}(s) = \kappa(s) n(s)
+        \label{eq:gamma-pp}
+    \end{equation}
+    が成り立つ。
+
+\begin{prob}
+    \cref{eq:gamma-pp} が成り立つことを示せ。
+\end{prob}
+
+\begin{proof}
+    $(\gamma^{\prime}(s), n(s))$ は $\R^2$ の正規直交基底であるから、任意のベクトルは
+    \[
+        \bigl(v \cdot \gamma^{\prime}(s)\bigr)\gamma^{\prime}(s) + \bigl(v \cdot n(s)\bigr)n(s)
+    \]
+    と一意的に表される。これを $v = \gamma^{\prime\prime}(s)$ に適用すると、
+    \[
+        \gamma^{\prime\prime}(s)
+        = \bigl(\gamma^{\prime\prime}(s) \cdot \gamma^{\prime}(s)\bigr)\gamma^{\prime}(s)
+        + \bigl(\gamma^{\prime\prime}(s) \cdot n(s)\bigr)n(s)
+    \]
+    を得る。ところが、すでに $\gamma^{\prime}(s) \cdot \gamma^{\prime\prime}(s) = 0$ を示したので、
+    \[
+        \gamma^{\prime\prime}(s) = \bigl(\gamma^{\prime\prime}(s) \cdot n(s)\bigr)n(s)
+    \]
+    となる。したがって、$\kappa(s) := \gamma^{\prime\prime}(s) \cdot n(s)$ とおけば \cref{eq:gamma-pp} が成り立つ。
+\end{proof}
 
 \begin{dfn}
     上で定義した関数 $\kappa(s)$ を曲線 $\gamma$ の\textbf{曲率}という。
@@ -384,9 +411,70 @@
     また、$\gamma^{\prime\prime} = 0$ のとき、$\kappa(s) = 0$ である。
 \end{prop}
 
-\begin{prob}
-    上の命題の証明を完成させよ。
-\end{prob}
+\begin{proof}
+    すでに
+    \[
+        \gamma^{\prime\prime}(s) = \kappa(s)n(s)
+    \]
+    が成り立ち、$n(s)$ は単位ベクトルであるから、
+    \[
+        \gamma^{\prime\prime}(s) \cdot n(s) = \kappa(s) n(s) \cdot n(s) = \kappa(s)
+    \]
+    を得る。
+    また、
+    \[
+        n(s) =
+        \begin{pmatrix}
+            0 & -1\\
+            1 & 0
+        \end{pmatrix}\gamma^{\prime}(s)
+    \]
+    である。ここで、$\gamma^{\prime}(s) = \begin{pmatrix}x^{\prime}(s)\\ y^{\prime}(s)\end{pmatrix}$,
+    $\gamma^{\prime\prime}(s) = \begin{pmatrix}x^{\prime\prime}(s)\\ y^{\prime\prime}(s)\end{pmatrix}$ と書くと、
+    \begin{align*}
+        \gamma^{\prime\prime}(s) \cdot n(s)
+        &= \begin{pmatrix}
+        x^{\prime\prime}(s)\\
+        y^{\prime\prime}(s)
+        \end{pmatrix}
+        \cdot
+        \left(
+        \begin{pmatrix}
+        0 & -1\\
+        1 & 0
+        \end{pmatrix}
+        \begin{pmatrix}
+        x^{\prime}(s)\\
+        y^{\prime}(s)
+        \end{pmatrix}
+        \right) \\
+        &= \begin{pmatrix}
+        x^{\prime\prime}(s)\\
+        y^{\prime\prime}(s)
+        \end{pmatrix}
+        \cdot
+        \begin{pmatrix}
+        -y^{\prime}(s)\\
+        x^{\prime}(s)
+        \end{pmatrix} \\
+        &= x^{\prime\prime}(s)(-y^{\prime}(s)) + y^{\prime\prime}(s)x^{\prime}(s) \\
+        &= x^{\prime}(s)y^{\prime\prime}(s) - y^{\prime}(s)x^{\prime\prime}(s) \\
+        &= \det\begin{pmatrix}
+        x^{\prime}(s) & x^{\prime\prime}(s)\\
+        y^{\prime}(s) & y^{\prime\prime}(s)
+        \end{pmatrix} \\
+        &= \det(\gamma^{\prime}(s), \gamma^{\prime\prime}(s)).
+    \end{align*}
+    したがって、
+    \[
+        \kappa(s) = \gamma^{\prime\prime}(s) \cdot n(s) = \det(\gamma^{\prime}(s), \gamma^{\prime\prime}(s))
+    \]
+    である。さらに、$\gamma^{\prime\prime}(s) = 0$ ならば
+    \[
+        \kappa(s) = \gamma^{\prime\prime}(s) \cdot n(s) = 0
+    \]
+    となる。
+\end{proof}
 
 \begin{ex}
     \quad $\gamma(s) = (R\cos s, R\sin s) \, (s \in [0, 2\pi]\, R > 0)$\\
