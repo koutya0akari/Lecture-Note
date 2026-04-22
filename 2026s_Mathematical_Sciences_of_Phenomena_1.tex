@@ -215,7 +215,7 @@
     % ラベル
     \node[right] at (1.6,1.2) {$\gamma(t)=(t^2,t^3)$};
 \end{tikzpicture}
-\caption{曲線 $\gamma(t)=(t^2,t^3)$}
+\caption{曲線 gamma(t)（x座標が t の二乗、y座標が t の三乗）}
 \label{fig:gamma-t2-t3}
 \end{figure}
 
@@ -262,7 +262,7 @@
     曲線
     \[\gamma(t) = \begin{pmatrix}
         \left(1+a\right)\cos t-a\cos\left(\frac{1+a}{a}t\right)\\(1+a)\sin t-a\sin\left(\frac{1+a}{a}t\right)\end{pmatrix},\quad t \in [0, 2\pi a]\]
-    の長さを求めよ。
+    の長さを求めよ。この曲線を\textbf{エピサイクロイド}と呼ぶ。
 \end{prob}        
 
 \begin{proof}
@@ -307,5 +307,149 @@
     微分積分学の基本定理より、
     \[S'(t) = \left\|\frac{d\gamma}{dt}(t)\right\| \geq 0\]
     である。ここで、$\gamma$ の正則性より、$\frac{d\gamma}{dt}(t) \neq 0$ であるため、$S'(t) > 0$ が成り立つ。したがって、$S(t)$ は単調増加関数である。
+\end{proof}
+
+\section{第2回 : (2026/04/22)}
+
+\begin{thm}[逆関数定理]
+    \quad $f : U \to V$ : $C^{1}$ 級関数, $U,V$ : 開集合\\
+    このとき、$f$ の微分が全ての点で可逆であるならば、$f$ は局所的に逆関数を持ち、その逆関数も $C^{1}$ 級関数である。
+\end{thm}
+
+今、$S(t)$ は単調増加関数であるため、逆関数定理より、$S(t)$ は逆関数 $t(s) = S^{-1}(s)$ を持ち、これは $C^{1}$ 級関数である。よって、
+\[\therefore \gamma = \gamma(t) = \gamma(t(s)).\]
+
+以降、$\gamma$ を $s$ の関数とみなして、
+\[\gamma(s) = \gamma(t(s)) = \left(x(s),y(s)\right)\]
+ と表すことにする。これを\textbf{弧長パラメータ表示}という。ここでは、
+ \[\gamma^{\prime} := \frac{d\gamma}{ds} = \begin{pmatrix}
+    x^{\prime}(s) \\ y^{\prime}(s)
+ \end{pmatrix}\]
+ と表すことにする。
+
+\begin{rem}
+    $\gamma = \gamma(s)$ とあららされるとき、$\gamma$ は\textbf{弧長パラメータ表示されている}という。
+\end{rem}
+
+\begin{prop}
+    \quad $\gamma(s)$ : 弧長パラメータ表示\\
+    このとき、$\|\gamma^{\prime}(s)\| = 1$ が成り立つ。
+\end{prop}
+
+\begin{proof}
+    弧長パラメータ表示の定義より、
+    \[\|\gamma^{\prime}(s)\| = \left\|\frac{d\gamma}{ds}\right\| = \left\|\frac{d\gamma}{dt}\cdot \frac{dt}{ds}\right\| = \left\|\frac{d\gamma}{dt} \cdot \frac{1}{\frac{dS}{dt}}\right\| = \left\|\frac{d\gamma}{dt} \cdot \frac{1}{\left\|\frac{d\gamma}{dt}\right\|} \right\| = 1\]
+    が成り立つ。
+\end{proof}
+
+以降、$\gamma$ を弧長パラメータ表示されているとみなして、$\gamma(s)$ と表すことにする。
+
+\begin{dfn}
+    \quad $\gamma(s)$ : 弧長パラメータ表示\\
+    このとき、
+    \[n(s) := \begin{pmatrix}
+        0 & -1\\
+        1 & 0
+    \end{pmatrix}\gamma^{\prime}(s)\]
+    を曲線 $\gamma$ の\textbf{単位法線ベクトル}(unit normal vector)という。また、組 $(\gamma^{\prime}(s), n(s))$ を曲線 $\gamma$ の\textbf{動標高}という。
+\end{dfn}
+
+\begin{rem}
+    単位法線ベクトル $n(s)$ は、$\gamma^{\prime}(s)$ を $90$ 度回転させたベクトルである。すなわち、回転行列 $\begin{pmatrix}
+        \sin\theta & -\cos\theta\\
+        \cos\theta & \sin\theta
+    \end{pmatrix}$ に $\theta = \FRAC{\pi}{2}$ を代入した行列を $\gamma^{\prime}(s)$ に作用させることで得られる。
+\end{rem}
+
+\begin{rem}
+    動標高 $(\gamma^{\prime}(s), n(s))$ は $\R^2$ の正規直交基底をなす。すなわち、$\gamma^{\prime}(s)$ と $n(s)$ は互いに直交し、両方とも単位ベクトルである。
+\end{rem}
+
+    さて、$\left\|\gamma^{\prime}(s)\right\| = 1$ であるから、
+    \[\left\|\gamma^{\prime}\right\|^2 = \gamma^{\prime} \cdot \gamma^{\prime} = 1\]
+    である。これを、$\gamma^{\prime} \cdot \gamma^{\prime} = 1$ の両辺を $s$ で微分すると、
+    \[2\gamma^{\prime} \cdot \gamma^{\prime\prime} = 0\]
+    なので、$\gamma^{\prime} \cdot \gamma^{\prime\prime} = 0$ が成り立つ。
+    よって、速度ベクトル $\gamma^{\prime}(s)$ と加速度ベクトル $\gamma^{\prime\prime}(s)$ は直交する。すなわち、$\gamma^{\prime\prime}(s)$ は単位法線ベクトル $n(s)$ と平行である。したがって、ある関数 $\kappa(s)$ が存在して、
+\[\gamma^{\prime\prime}(s) = \kappa(s) n(s)\]
+が成り立つ。
+
+\begin{dfn}
+    上で定義した関数 $\kappa(s)$ を曲線 $\gamma$ の\textbf{曲率}という。
+\end{dfn}
+
+\begin{prop}
+    先の議論より、
+    \[\kappa(s) = \gamma^{\prime\prime} \cdot n(s) = \det(\gamma^{\prime}, \gamma^{\prime\prime}) .\]
+    また、$\gamma^{\prime\prime} = 0$ のとき、$\kappa(s) = 0$ である。
+\end{prop}
+
+\begin{prob}
+    上の命題の証明を完成させよ。
+\end{prob}
+
+\begin{ex}
+    \quad $\gamma(s) = (R\cos s, R\sin s) \, (s \in [0, 2\pi]\, R > 0)$\\
+    このときの曲率 $\kappa(s)$ を求める。
+    $\gamma^{\prime} = \begin{pmatrix}
+        -R\sin s \\ 
+        R\cos s
+    \end{pmatrix}$ なので、
+    \[S = \int_{0}^{s}\left\|\begin{pmatrix}
+        -R\sin t\\
+        R\cos t
+    \end{pmatrix}\right\|\,dt = \int_{0}^{s} R \, dt = Rs.\]
+    したがって、
+    \begin{align*}
+        \gamma(s) &= \left(R\cos\frac{S}{R}, R\sin\frac{S}{R}\right)\\
+        \gamma^{\prime}(s) &= \begin{pmatrix}
+        -\sin\frac{S}{R} \\
+        \cos\frac{S}{R}
+        \end{pmatrix}\\
+        \gamma^{\prime\prime}(s) &= \begin{pmatrix}
+        -\frac{1}{R}\cos\frac{S}{R} \\
+        -\frac{1}{R}\sin\frac{S}{R}
+        \end{pmatrix}\\
+        \kappa(s) &= \det(\gamma^{\prime}, \gamma^{\prime\prime}) \\
+        &= \det\left(\begin{pmatrix}
+        -\sin\frac{S}{R} &  -\frac{1}{R}\cos\frac{S}{R}\\
+        \cos\frac{S}{R} & -\frac{1}{R}\sin\frac{S}{R}
+        \end{pmatrix}\right) \\
+        &= \frac{1}{R}
+    \end{align*}
+\end{ex}
+
+\begin{prob}
+    \[\gamma(s) = (R\cos s, -R\sin s) \, (s \in [0, 2\pi]\, R > 0)\]
+    この曲率 $\kappa(s)$ を求めよ。
+\end{prob}
+
+\begin{proof}
+    $\gamma^{\prime} = \begin{pmatrix}
+        -R\sin s \\ 
+        -R\cos s
+    \end{pmatrix}$ なので、
+    \[S = \int_{0}^{s}\left\|\begin{pmatrix}
+        -R\sin t\\
+        -R\cos t
+    \end{pmatrix}\right\|\,dt = \int_{0}^{s} R \, dt = Rs.\]
+    したがって、
+    \begin{align*}
+        \gamma(s) &= \left(R\cos\frac{S}{R}, -R\sin\frac{S}{R}\right)\\
+        \gamma^{\prime}(s) &= \begin{pmatrix}
+        -\sin\frac{S}{R} \\
+        -\cos\frac{S}{R}
+        \end{pmatrix}\\
+        \gamma^{\prime\prime}(s) &= \begin{pmatrix}
+        -\frac{1}{R}\cos\frac{S}{R} \\
+        \frac{1}{R}\sin\frac{S}{R}
+        \end{pmatrix}\\
+        \kappa(s) &= \det(\gamma^{\prime}, \gamma^{\prime\prime}) \\
+        &= \det\left(\begin{pmatrix}
+        -\sin\frac{S}{R} &  -\frac{1}{R}\cos\frac{S}{R}\\
+        -\cos\frac{S}{R} & \frac{1}{R}\sin\frac{S}{R}
+        \end{pmatrix}\right) \\
+        &= -\frac{1}{R}
+    \end{align*}
 \end{proof}
 \end{document}

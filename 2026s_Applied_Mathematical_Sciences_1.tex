@@ -135,8 +135,11 @@
 \end{figure}
 
 \begin{dfn}
-  $G$ : 無向グラフ\\
-  $G$ の頂点 $v$ に接続されている辺の数を $G$ の $v$ における\textbf{次数}と呼び、$\deg_G(v)$ で表す。
+  \quad $G$ : 無向グラフ
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item $G$ の頂点 $v$ に接続されている辺の数を $G$ の $v$ における\textbf{次数}と呼び、$\deg_G(v)$ で表す。
+    \item $G$ の次数が $1$ である頂点を $G$ の \textbf{葉} という。
+  \end{enumerate}
 \end{dfn}
 
 \begin{prop}
@@ -321,8 +324,184 @@ F\mapsto r
 誘導部分グラフ
 \end{minipage}
 
-\caption{グラフ $G$ と、その全域部分グラフおよび誘導部分グラフの例}
+\caption{グラフ G と、その全域部分グラフおよび誘導部分グラフの例}
 \label{fig:graph-subgraphs}
 \end{figure}
 
+\section{第2回 : （2026/04/22）}
+
+\begin{dfn}
+  \quad $G$ : 無向グラフ, \quad $v_1, v_2, \ldots, v_n \in V(G)$
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item 任意の $1 \leq i \leq n$ に対して、$v_iv_{i+1} \in E(G)$ であるとき、頂点の列 $\left(v_1, v_2, \ldots, v_n\right)$ を $G$ の長さ $n-1$ の \textbf{walk} という。
+  \end{enumerate}
+  $W = \left(v_1, v_2, \ldots, v_n\right)$ を $G$ の walk とする。
+  \begin{enumerate}[label=(\arabic*)\, , resume]
+    \item 任意の $1 \leq i < j \leq n$ に対して、$v_iv_{i+1} \neq v_jv_{j+1}$ であるとき、$W$ を $G$ の \textbf{trail} という。
+    \item 任意の $1 \leq i < j \leq n$ に対して、$v_i \neq v_j$ であるとき、$W$ を $G$ の \textbf{path} という。
+    \item 閉 walk $W$ が 任意の $1 \leq i < j \leq n$ に対して、$v_iv_{i+1} \neq v_jv_{j+1}$ であるとき、$W$ を $G$ の \textbf{circuit} という。
+    \item 閉 walk $W$ が 任意の $1 \leq i < j \leq n$ に対して、$v_i \neq v_j$ であるとき、$W$ を $G$ の \textbf{cycle} という。
+  \end{enumerate}
+\end{dfn}
+
+\begin{dfn}
+  \quad $G$ : 無向グラフ\par
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item 任意の2点間に対して、$G$ に path が存在するとき、$G$ を \textbf{連結} であるという。
+    \item $G$ が連結でないとき、$G$ を \textbf{非連結} であるという。
+    \item $G$ の極大な連結部分グラフを $G$ の \textbf{連結成分} という。
+    \item $G$ が連結であって、かつ $G$ に cycle が存在しないとき、$G$ を \textbf{木} であるという。
+    \item leaf でない頂点が高々1つしか存在しない tree を \textbf{star} という。
+    \item leaf の数が $2$ である tree を \textbf{path} という。
+    \item 連結グラフ $G$ の全域部分グラフであって、かつ tree であるものを $G$ の \textbf{全域木} という。
+  \end{enumerate}
+\end{dfn}
+
+\begin{prob}
+  どの2つの頂点も同じ次数をもたないグラフが存在しないことを示せ。
+\end{prob}
+
+\begin{proof}
+  $G$ を頂点数 $n$ の無向グラフとする。$G$ の頂点の次数は $0, 1, 2, \ldots, n-1$ のいずれかである。しかし、次数が $n-1$ である頂点が存在する場合、次数が $0$ である頂点は存在し得ない。したがって、$G$ の頂点の次数は高々 $n-1$ 種類しか存在しないため、鳩の巣原理により、どの2つの頂点も同じ次数をもたないグラフは存在しない。
+\end{proof}
+
+\begin{prob}
+  頂点数が $8$ の非同型な木をすべて列挙せよ。
+\end{prob}
+
+\begin{proof}
+  頂点数が $8$ の非同型な木は全部で $23$ 種類ある。以下にそのすべてを挙げる
+  （T1 から T23 までは単なる番号である）。
+
+  \begingroup
+  \setlength{\tabcolsep}{6pt}
+  \renewcommand{\arraystretch}{1.25}
+  \newcommand{\treecell}[3][]{%
+    \begin{tabular}{c}
+      \begin{tikzpicture}[
+        baseline=(current bounding box.center),
+        grow=down,
+        level distance=5.2mm,
+        level 1/.style={sibling distance=5.8mm},
+        level 2/.style={sibling distance=5.0mm},
+        level 3/.style={sibling distance=4.2mm},
+        level 4/.style={sibling distance=3.6mm},
+        every node/.style={
+          circle,
+          fill=black,
+          draw=black,
+          inner sep=1.4pt
+        },
+        edge from parent/.style={
+          draw,
+          line width=0.8pt
+        },
+        #1
+      ]
+        #2
+      \end{tikzpicture}\\[-1mm]
+      {\scriptsize T#3}
+    \end{tabular}
+  }
+  \begin{center}
+  \begin{tabular}{cccc}
+    \treecell{\node {} child { node {} child { node {} child { node {} child { node {} } } } } child { node {} child { node {} child { node {} } } };}{1}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } child { node {} } } } child { node {} child { node {} child { node {} } } };}{2}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } } child { node {} child { node {} } } } child { node {} child { node {} } };}{3}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } } child { node {} } } child { node {} child { node {} child { node {} } } };}{4}
+    \\[2mm]
+    \treecell{\node {} child { node {} child { node {} child { node {} } } } child { node {} child { node {} child { node {} } } } child { node {} };}{5}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } child { node {} } } child { node {} } } child { node {} child { node {} } };}{6}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } child { node {} } } } child { node {} child { node {} } child { node {} } };}{7}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } child { node {} } } } child { node {} child { node {} } } child { node {} };}{8}
+    \\[2mm]
+    \treecell{\node {} child { node {} child { node {} child { node {} } } child { node {} } } child { node {} child { node {} } } child { node {} };}{9}
+    &
+    \treecell{\node {} child { node {} child { node {} } child { node {} } } child { node {} child { node {} } } child { node {} child { node {} } };}{10}
+    &
+    \treecell{\node (r) at (0,1.8) {};
+      \node (a) at (-1.2,1.0) {};
+      \node (b) at (0.3,1.0) {};
+      \node (c) at (1.5,1.0) {};
+      \node (d) at (-1.8,0.2) {};
+      \node (e) at (-0.6,0.2) {};
+      \node (f) at (-0.1,0.2) {};
+      \node (g) at (0.8,0.2) {};
+      \draw (r)--(a) (r)--(b) (r)--(c) (a)--(d) (a)--(e) (b)--(f) (b)--(g);}{11}
+    &
+    \treecell{\node {} child { node {} child { node {} child { node {} } child { node {} } child { node {} } } } child { node {} child { node {} } };}{12}
+    \\[2mm]
+    \treecell{\node (r) at (0,1.8) {};
+      \node (a) at (-0.9,1.0) {};
+      \node (b) at (0.9,1.0) {};
+      \node (c) at (-1.5,0.2) {};
+      \node (d) at (-0.9,0.2) {};
+      \node (e) at (-0.3,0.2) {};
+      \node (f) at (-1.5,-0.6) {};
+      \node (g) at (0.9,0.2) {};
+      \draw (r)--(a) (r)--(b) (a)--(c) (a)--(d) (a)--(e) (c)--(f) (b)--(g);}{13}
+    &
+    \treecell{\node {} child { node {} child { node {} } } child { node {} child { node {} } } child { node {} child { node {} } } child { node {} };}{14}
+    &
+    \treecell{\node (r) at (0,1.8) {};
+      \node (a) at (-1.0,1.0) {};
+      \node (b) at (1.0,1.0) {};
+      \node (c) at (-1.9,0.2) {};
+      \node (d) at (-1.0,0.2) {};
+      \node (e) at (-0.1,0.2) {};
+      \node (f) at (0.4,0.2) {};
+      \node (g) at (1.6,0.2) {};
+      \draw (r)--(a) (r)--(b) (a)--(c) (a)--(d) (a)--(e) (b)--(f) (b)--(g);}{15}
+    &
+    \treecell{\node (r) at (0,1.8) {};
+      \node (a) at (-1.0,1.0) {};
+      \node (b) at (0.2,1.0) {};
+      \node (c) at (1.3,1.0) {};
+      \node (d) at (-1.6,0.2) {};
+      \node (e) at (-0.9,0.2) {};
+      \node (f) at (-0.2,0.2) {};
+      \node (g) at (0.2,0.2) {};
+      \draw (r)--(a) (r)--(b) (r)--(c) (a)--(d) (a)--(e) (a)--(f) (b)--(g);}{16}
+    \\[2mm]
+    \treecell{\node {} child { node {} child { node {} } child { node {} } } child { node {} child { node {} } } child { node {} } child { node {} };}{17}
+    &
+    \treecell{\node {} child { node {} child { node {} } child { node {} } child { node {} } } child { node {} } child { node {} } child { node {} };}{18}
+    &
+    \treecell{\node (r) at (0,1.8) {};
+      \node (a) at (-0.5,1.0) {};
+      \node (b) at (1.1,1.0) {};
+      \node (c) at (-1.6,0.2) {};
+      \node (d) at (-0.9,0.2) {};
+      \node (e) at (-0.2,0.2) {};
+      \node (f) at (0.5,0.2) {};
+      \node (g) at (1.1,0.2) {};
+      \draw (r)--(a) (r)--(b) (a)--(c) (a)--(d) (a)--(e) (a)--(f) (b)--(g);}{19}
+    &
+    \treecell{\node {} child { node {} child { node {} } } child { node {} child { node {} } } child { node {} } child { node {} } child { node {} };}{20}
+    \\[2mm]
+    \treecell{\node {} child { node {} child { node {} } child { node {} } child { node {} } child { node {} } } child { node {} } child { node {} };}{21}
+    &
+    \treecell{\node {} child { node {} child { node {} } child { node {} } child { node {} } child { node {} } child { node {} } } child { node {} };}{22}
+    &
+    \treecell{\node {} child { node {} } child { node {} } child { node {} } child { node {} } child { node {} } child { node {} } child { node {} };}{23}
+    &
+  \end{tabular}
+  \end{center}
+  \endgroup
+\end{proof}
+
+\begin{dfn}
+  \quad $G$ : 連結グラフ, \quad $u,v \in V(G)$\par
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item $G$ の $u$ から $v$ への path の長さの最小値を $G$ の $u$ と $v$ の \textbf{距離} といい、$d_G(u,v)$ で表す。
+    \item $G$ の $2$ 点間の距離の最大値を $G$ の \textbf{直径} という。
+    \item 各 $u$ に対して、$\max_{v \in V(G)} d_G(u,v)$ を $G$ の $u$ の \textbf{離心率} という。
+  \end{enumerate}
+\end{dfn}
 \end{document}
