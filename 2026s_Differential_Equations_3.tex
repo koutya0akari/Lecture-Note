@@ -77,7 +77,7 @@
 %% 本文の内容をここに記述
 % ====================================================================
 
-\section{1回：周期関数、三角級数(2026/04/15)}
+\section{第1回：周期関数、三角級数(2026/04/15)}
 \begin{dfn}
 \quad $f(x)$ : $\R$ 上の連続関数\par
 すべての $x \in \R$ に対して $f(x+p) = f(x)$ となるような正の数 $p$ が存在するとき、$f$ は \textbf{周期的} であるという。このとき、$p$ を $f$ の \textbf{周期} という。
@@ -194,7 +194,7 @@
 \end{equation*}
 \end{ex}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[x=0.8cm,y=1cm]
     \pgfmathsetmacro{\p}{pi}
@@ -236,4 +236,297 @@
 \end{tikzpicture}
 \caption{方形波のグラフ}
 \end{figure}
+
+\section{第2回 : 任意の周期 $p=2L$ をもつ関数・偶関数および奇関数（2026/04/22）}
+
+第1回の内容を一般化して、任意の周期 $p=2L$ をもつ関数のフーリエ級数展開を考える。 周期 $p=2\pi$ を $p=2L$ には座標軸の伸縮により簡単に変換できる。
+
+\begin{dfn}
+    周期 $p=2L$ の関数がフーリエ級数をもつとき、そのフーリエ級数は以下のようになる:
+    \[f(x) = a_0 + \sum_{n=1}^{\infty} \left( a_n \cos \left( \frac{n\pi}{L}x \right) + b_n \sin \left( \frac{n\pi}{L}x \right) \right) . \]
+    この級数を\textbf{三角級数} という。
+\end{dfn}
+
+\begin{prop}
+    \quad $f(x)$ : 周期 $p=2L$ の関数\par
+    $f(x)$ のフーリー級数は\textbf{オイラーの公式}を用いて以下で与えられる:
+    \begin{align*}
+        a_0 &= \frac{1}{2L} \int_{-L}^{L} f(x) dx \\
+        a_n &= \frac{1}{L} \int_{-L}^{L} f(x) \cos \left( \frac{n\pi}{L}x \right) dx \quad (n = 1, 2, \ldots) \\
+        b_n &= \frac{1}{L} \int_{-L}^{L} f(x) \sin \left( \frac{n\pi}{L}x \right) dx  \quad (n = 1, 2, \ldots)
+    \end{align*}
+\end{prop}
+
+\begin{proof}
+    周期 $p=2\pi$ の結果に帰着させる。
+
+    $v=\FRAC{\pi x}{L}$ とおき、$g(v) = f(x) = f\left( \frac{Lv}{\pi} \right)$ とおくと、$g$ は周期 $2\pi$ の関数である。したがって、$g$ のフーリエ級数は以下のようになる:
+    \[g(v) = a_0 + \sum_{n=1}^{\infty}\left(a_{n}\cos\left(nv\right) + b_{n}\sin\left(nv\right) \right).\]
+
+    ここで、フーリエ係数は以下のように計算される:
+    \begin{align*}
+        a_0 &= \frac{1}{2\pi} \int_{-\pi}^{\pi} g(v) dv = \frac{1}{2\pi} \int_{-L}^{L} f(x) \cdot \frac{\pi}{L} dx = \frac{1}{2L} \int_{-L}^{L} f(x) dx \\
+        a_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} g(v) \cos (nv) dv = \frac{1}{\pi} \int_{-L}^{L} f(x) \cos \left( \frac{n\pi}{L}x \right) \cdot \frac{\pi}{L} dx = \frac{1}{L} \int_{-L}^{L} f(x) \cos \left( \frac{n\pi}{L}x \right) dx \\
+        b_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} g(v) \sin (nv) dv = \frac{1}{\pi} \int_{-L}^{L} f(x) \sin \left( \frac{n\pi}{L}x \right) \cdot \frac{\pi}{L} dx = \frac{1}{L} \int_{-L}^{L} f(x) \sin \left( \frac{n\pi}{L}x \right) dx.
+    \end{align*}
+\end{proof}
+
+\begin{rem}
+積分区間について: フーリエ係数の積分区間は長さ $p=2L$ の任意の区間で置き換えられ、$0 \leq x \leq 2L$ で積分しても良い。
+\end{rem}
+
+\begin{ex}
+    以下の\textbf{周期的方形波}のフーリエ級数を求める:
+    \[f(x) = \begin{cases} 0 \quad & \text{if } -2 < x < -1 \\ k \quad & \text{if } -1 < x < 1\\ 0 \quad & \text{if } 1 < x < 2 \end{cases}, \qquad p=4 , \qquad L = 4\]
+    ここで、$k$ は正の定数とする
+    オイラーの公式を用いると、フーリエ係数は以下のように計算される:
+\begin{align*}
+    a_0 &= \frac{1}{4} \int_{-2}^{2} f(x) dx = \frac{1}{4} \int_{-1}^{1} k dx = \frac{k}{2} \\
+    a_n &= \frac{1}{2} \int_{-2}^{2} f(x) \cos \left( \frac{n\pi}{2}x \right) dx 
+        = \frac{1}{2} \int_{-1}^{1} k \cos \left( \frac{n\pi}{2}x \right) dx \\
+        &= \text{途中}
+\end{align*}
+\end{ex}
+
+上での方形波の関数は偶関数であるため、\textbf{フーリエ級数は余弦項のみからなり}、正弦項はすべて $0$ になることがわかる。このような形が偶関数のフーリエ級数の特徴である。
+
+\begin{dfn}
+    関数 $f$ が $f(-x) = f(x)$ を満たすとき、$f$ を \textbf{偶関数} という。また、$f(-x) = -f(x)$ を満たすとき、$f$ を \textbf{奇関数} という。
+\end{dfn}
+
+\begin{ex}
+    $f(x) = \cos nx$ は偶関数であり、$f(x) = \sin nx$ は奇関数である。
+\end{ex}
+
+\begin{prop}
+    \quad $f(x)$ : 周期 $p=2L$ の関数\par
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $f$ が偶関数であるとき、
+        \[\int_{-L}^{L}g(x)\, dx = 2\int_{0}^{L}g(x)\, dx.\]
+        \item $f$ が奇関数であるとき、
+        \[\int_{-L}^{L}g(x)\, dx = 0.\]
+        \item また、偶関数と奇関数の積に関する性質として以下が成り立つ:\begin{enumerate}[label=(\roman*)\,]
+            \item $\text{偶関数} \times \text{偶関数} = \text{偶関数}$
+            \item $\text{奇関数} \times \text{奇関数} = \text{偶関数}$
+            \item $\text{偶関数} \times \text{奇関数} = \text{奇関数}$
+        \end{enumerate}
+    \end{enumerate}
+\end{prop}
+
+\begin{rem}
+    上の命題より、$f(x)$ が偶関数であれば、$f(x)\sin \left( \FRAC{n\pi x}{L} \right)$ は奇関数になるため、
+    \[ b_n = \frac{1}{L} \int_{-L}^{L} f(x) \sin \left( \frac{n\pi}{L}x \right) dx = 0. \]
+    したがって、偶関数のフーリエ級数は余弦項のみからなり、正弦項はすべて $0$ になることがわかる。逆に、$f(x)$ が奇関数であれば、$f(x)\cos \left( \FRAC{n\pi x}{L} \right)$ は奇関数になるため、
+    \[ a_n = \frac{1}{L} \int_{-L}^{L} f(x) \cos \left( \frac{n\pi}{L}x \right) dx = 0. \]
+    したがって、奇関数のフーリエ級数は正弦項のみからなり、余弦項はすべて $0$ になることがわかる。
+\end{rem}
+
+\begin{thm}
+    \quad $f(x)$ : 周期 $p=2L$ の関数\par
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $f$ が偶関数であるとき、$f$ は以下の様にフーリエ級数展開され、\textbf{フーリエ余弦級数} と呼ばれる:
+        \[f(x) = a_0 + \sum_{n=1}^{\infty} a_n \cos \left( \frac{n\pi}{L}x \right) . \]
+        ここで、$a_0$, $a_n$ は以下の式で与えられる:
+        \begin{align*}
+            a_0 &= \frac{1}{L} \int_{0}^{L} f(x) dx \\
+            a_n &= \frac{2}{L} \int_{0}^{L} f(x) \cos \left( \frac{n\pi}{L}x \right) dx \quad (n = 1, 2, \ldots)
+        \end{align*}
+        \item $f$ が奇関数であるとき、$f$ は以下の様にフーリエ級数展開され、\textbf{フーリエ正弦級数} と呼ばれる:
+        \[f(x) = \sum_{n=1}^{\infty} b_n \sin \left( \frac{n\pi}{L}x \right) . \]
+        ここで、$b_n$ は以下の式で与えられる:
+        \[b_n = \frac{2}{L} \int_{0}^{L} f(x) \sin \left( \frac{n\pi}{L}x \right) dx \quad (n = 1, 2, \ldots)\] 
+    \end{enumerate}
+\end{thm}
+
+\begin{thm}
+    フーリエ係数には\textbf{線形性}がある。すなわち、以下が成り立つ:
+\begin{align*}
+    a_0(\alpha f + \beta g) &= \alpha a_0(f) + \beta a_0(g) \\
+    a_n(\alpha f + \beta g) &= \alpha a_n(f) + \beta a_n(g) \quad (n = 1, 2, \ldots) \\
+    b_n(\alpha f + \beta g) &= \alpha b_n(f) + \beta b_n(g) \quad (n = 1, 2, \ldots)
+\end{align*}
+    ここで、$a_0(f)$ は関数 $f$ のフーリエ係数 $a_0$ を表し、同様に $a_n(f)$ は関数 $f$ のフーリエ係数 $a_n$ を表し、$b_n(f)$ は関数 $f$ のフーリエ係数 $b_n$ を表す。
+\end{thm}
+
+\begin{ex}
+    次の\textbf{鋸歯状波}と呼ばれる、周期 $p=2\pi$ の関数のフーリエ級数を求める:
+    \[f(x) = x + \pi, \quad -\pi < x < \pi .\]
+    この関数は奇関数であるため、フーリエ余弦級数の項はすべて $0$ になる。したがって、フーリエ正弦級数のみを考える必要がある。フーリエ係数 $b_n$ は以下のように計算される:
+\begin{align*}
+    b_n &= \frac{1}{\pi} \int_{-\pi}^{\pi} (x + \pi) \sin (nx) dx \\
+        &= \frac{1}{\pi} \int_{-\pi}^{\pi} x \sin (nx) dx + \frac{1}{\pi} \int_{-\pi}^{\pi} \pi \sin (nx) dx \\
+        &= \frac{1}{\pi} \int_{-\pi}^{\pi} x \sin (nx) dx + 0 \\
+        &= -\frac{2}{n} (-1)^n
+\end{align*}
+    よって、$f$ のフーリエ級数は以下のようになる:
+    \[f(x) = \pi + 2 \sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} \sin (nx) = \pi + 2 \left( \sin x - \frac{1}{2} \sin 2x + \frac{1}{3} \sin 3x - \cdots \right)\]
+\end{ex}
+
+% 元の関数の基本形
+\newcommand{\basecurve}[1]{%
+  \draw[#1]
+    (0,1.15)
+      .. controls (0.18,0.90) and (0.40,0.84) .. (0.58,0.86)
+      .. controls (0.76,0.90) and (0.92,1.35) .. (1.00,1.95);
+}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]
+
+  \tikzset{
+    axis/.style={black, line width=0.9pt},
+    tick/.style={black, line width=0.9pt},
+    innercurve/.style={black, line width=2.6pt},
+    outercurve/.style={black, line width=1.2pt}
+  }
+
+  %========================
+  % (0) The given function
+  %========================
+  \centering
+  \begin{scope}[shift={(6.2,13.5)}, x=3.2cm, y=1.25cm]
+    \draw[axis] (0,0) -- (1.65,0);
+    \draw[axis] (0,0) -- (0,1.85);
+    \draw[tick] (1,0) -- (1,0.22);
+
+    \basecurve{innercurve}
+
+    \node[anchor=east] at (-0.10,1.72) {$f(x)$};
+    \node[anchor=north] at (1,-0.08) {$L$};
+    \node[anchor=west] at (1.58,-0.02) {$x$};
+  \end{scope}
+
+  \node[anchor=west] at (6.2,11.8)
+    {(0) : 区間 $0 \leq x \leq L$ 上の関数 $f$};
+
+  %=========================================
+  % (a) even periodic continuation, period 2L
+  %=========================================
+  \begin{scope}[shift={(7.8,7.0)}, x=2.45cm, y=1.02cm]
+    % axes
+    \draw[axis] (-2.05,0) -- (2.95,0);
+    \draw[axis] (0,0) -- (0,2.15);
+
+    % ticks
+    \draw[tick] (-1,0) -- (-1,0.22);
+    \draw[tick] ( 1,0) -- ( 1,0.22);
+    \draw[tick] ( 2,0) -- ( 2,0.22);
+
+    % outer thin parts
+    \begin{scope}[shift={(-2,0)}]
+      \basecurve{outercurve}
+    \end{scope}
+
+    \begin{scope}[shift={(2,0)}, xscale=-1]
+      \basecurve{outercurve}
+    \end{scope}
+
+    \begin{scope}[shift={(2,0)}]
+      \basecurve{outercurve}
+    \end{scope}
+
+    % central thick part on [-L,L]
+    \begin{scope}[xscale=-1]
+      \basecurve{innercurve}
+    \end{scope}
+
+    \basecurve{innercurve}
+
+    % labels
+    \node[anchor=east] at (-0.18,1.42) {$f_1(x)$};
+    \node[anchor=north] at (-1,-0.08) {$-L$};
+    \node[anchor=north] at (1,-0.08) {$L$};
+    \node[anchor=west] at (2.88,-0.02) {$x$};
+  \end{scope}
+
+  \node[anchor=west] at (6.2,5.8)
+    {(a) : 偶周期展開};
+
+  %========================================
+  % (b) odd periodic continuation, period 2L
+  %========================================
+  \begin{scope}[shift={(7.8,1.6)}, x=2.45cm, y=1.02cm]
+    % axes
+    \draw[axis] (-2.05,0) -- (2.90,0);
+    \draw[axis] (0,-2.20) -- (0,2.10);
+
+    % ticks
+    \draw[tick] (-1,0) -- (-1,0.22);
+    \draw[tick] ( 1,0) -- ( 1,0.22);
+    \draw[tick] ( 2,0) -- ( 2,0.22);
+
+    % outer thin parts
+    \begin{scope}[shift={(-2,0)}]
+      \basecurve{outercurve}
+    \end{scope}
+
+    \begin{scope}[shift={(2,0)}, xscale=-1, yscale=-1]
+      \basecurve{outercurve}
+    \end{scope}
+
+    \begin{scope}[shift={(2,0)}]
+      \basecurve{outercurve}
+    \end{scope}
+
+    % central thick parts on [-L,L]
+    \begin{scope}[xscale=-1, yscale=-1]
+      \basecurve{innercurve}
+    \end{scope}
+
+    \basecurve{innercurve}
+
+    % jumps
+    \draw[innercurve] (-1, 1.95) -- (-1,-1.95);
+    \draw[innercurve] ( 0,-1.15) -- ( 0, 1.15);
+    \draw[innercurve] ( 1, 1.95) -- ( 1,-1.95);
+    \draw[outercurve] ( 2,-1.15) -- ( 2, 1.15);
+
+    % labels
+    \node[anchor=east] at (-0.18,1.40) {$f_2(x)$};
+    \node[anchor=north] at (-1,-0.08) {$-L$};
+    \node[anchor=north] at ( 1,-0.08) {$L$};
+    \node[anchor=west] at (2.83,-0.02) {$x$};
+  \end{scope}
+
+  \node[anchor=west] at (6.2,-1.1)
+    {(b) : 奇周期展開};
+
+\end{tikzpicture}
+\end{figure}
+
+\vspace{1\baselineskip}
+上の図の様な区間 $0 \leq x \leq L$ 定義された関数 $f$ に対してフーリエ級数を考えたい。このようなものを考えたい場合はよくあり、たとえば、弦の振動や熱伝導の問題などで現れる。これらの問題は、\textbf{偏微分方程式}を経由することで求めることができる。
+
+\begin{dfn}
+    $f(x)$ : $0 \leq x \leq L$ 上の関数\par
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $f$ を $y$ 軸に対して対称になるように $-L \leq x \leq 0$ 上に偶関数として延長した関数のフーリエ級数を $f$ の\textbf{偶周期展開} という。
+        \item $f$ を原点に対して対称になるように $-L \leq x \leq 0$ 上に奇関数として延長した関数のフーリエ級数を $f$ の\textbf{奇周期展開} という。
+    \end{enumerate}
+\end{dfn}
+
+\begin{ex}
+    次の関数の偶周期展開と奇周期展開を求める:
+    \[f(x) = \begin{cases} \frac{2k}{L}x & 0 < x \leq \frac{L}{2} \\ k & \frac{L}{2} \leq x < L \end{cases} .\]
+
+    (1) \quad 偶周期展開 : \par
+    \begin{align*}
+    a_0 &= \frac{1}{L}\left\{\frac{2k}{L}\int_{0}^{\FRAC{L}{2}} x \, dx + \int_{\FRAC{L}{2}}^{L} \left(L - x\right)\,dx\right\} = \frac{k}{2} & \\
+    a_n &= \frac{2}{L}\left\{\frac{2k}{L}\int_{0}^{\FRAC{L}{2}} x \cos \left(\frac{n\pi}{L}x\right) dx + \int_{\FRAC{L}{2}}^{L} \left(L - x\right) \cos \left(\frac{n\pi}{L}x\right) dx\right\} \\
+    &= \frac{1}{L}\left\{\left[\frac{Lx}{n\pi}\sin \left(\frac{n\pi}{L}x\right)\right]_{0}^{\FRAC{L}{2}} - \frac{L}{n\pi}\int_{\FRAC{L}{2}}^{L} \sin \left(\frac{n\pi}{L}x\right) dx \right\}\\
+    &\quad + \frac{1}{L}\left\{\left[\frac{L}{n\pi}\sin\left(\frac{n\pi}{L}x\right)\right]_{\FRAC{L}{2}}^{L} + \frac{L}{n\pi}\int_{\FRAC{L}{2}}^{L} \sin \left(\frac{n\pi}{L}x\right) dx \right\} \\
+    &= \left\{\frac{L^2}{2n\pi}\sin\left(\frac{n\pi}{2}\right) + \frac{L^2}{n^2\pi^2}\left(\cos \left(\frac{n\pi}{2}\right) - 1\right)\right\}\\ &\quad + \left\{0 - \frac{L}{n\pi}\left(L - \frac{L}{2}\right)- \frac{L^2}{n^2\pi^2}\left(\cos(n\pi) - \cos\left(\frac{n\pi}{2}\right)\right)\right\} \\
+    &= \frac{4k}{n^2\pi^2}\left\{2\cos\left(\frac{n\pi}{2}\right) - \cos(n\pi) - 1\right\}.
+    \end{align*}
+
+    したがって、偶周期展開は以下のようになる:
+    \[f(x) = \frac{k}{2} - \frac{16k}{\pi^2}\left(\frac{1}{4}\cos \left(\frac{\pi}{2}x\right) + \frac{1}{36}\cos \left(\frac{6\pi}{L}x\right) + \frac{1}{100}\cos \left(\frac{10\pi}{L}x\right) +  \cdots \right).\]
+
+    (2) \quad 奇周期展開 : \par
+    偶周期展開と同様にして、奇周期展開のフーリエ係数 $b_n$ は以下のように計算される:
+    \[b_n = \frac{8k}{n^2\pi^2}\sin\left(\frac{n\pi}{2}\right).\]
+    したがって、奇周期展開は以下のようになる:
+    \[f(x) = \frac{8k}{\pi^2}\left(\frac{1}{1}\sin \left(\frac{\pi}{L}x\right) - \frac{1}{9}\sin \left(\frac{3\pi}{L}x\right) + \frac{1}{25}\sin \left(\frac{5\pi}{L}x\right) - \cdots \right).\]
+\end{ex}
 \end{document}
