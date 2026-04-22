@@ -1,0 +1,191 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=25mm,
+    bottom=25mm,
+    left=25mm,
+    right=25mm
+}
+% TikZライブラリ
+\usetikzlibrary{
+    patterns,
+    calc,
+    arrows,
+    decorations,
+    angles,
+    shapes.geometric,
+    fit,
+    knots
+}
+% TikZ用のスタイル
+\tikzset{
+  every path/.style={
+    black,
+    line width=1pt
+  },
+  every node/.style={
+    transform shape,
+    knot crossing,
+    inner sep=1.5pt
+  }
+}
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle=,
+    pdfauthor=
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{def}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+
+% 文書情報
+\title{技術英語基礎 1}
+\author{森口湧成}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+\section{第1回 : 2026/4/21}
+
+基本的な概念の定義をするにあたって、閉区間上の有界関数の集合を考え、この集合を $B[a,b]$ と表す。つまり、
+\[B[a,b] := \{f \mid \text{ある} M \in \R \text{が存在し、任意の} x\in [a,b] \text{に対して、} \left\lvert f(x) \right\rvert \leq M \}\]
+とする。
+
+特に、$f \in B[a,b]$ であるとき、$f$ は $[a,b]$ で定義されている。さらに、$M$ は $\left\lvert f(x) \right\rvert \leq M$ の上界に含まれるが、$M$ の取り方は全く一意的ではない
+
+\begin{ex}
+   $f(x) = 1/x$ とする。このとき、$f$ は $x=0$ で定義されていないため、$f \notin B[0,1]$ である。
+
+   しかしながら、任意の $x \in [1,2]$ に対して、
+\[\left\lvert f(x) \right\rvert = \frac{1}{x} \leq 1\] 
+なので $f \in B[1,2]$ である。
+\end{ex}
+
+\begin{ex}
+次の関数を考える : 
+\begin{align*}
+    f(x) = \begin{cases}
+    0 & (x=0) \\
+    1/x & (x\in (0,1])
+\end{cases}
+\end{align*}
+このとき、$f$ は $x=0$ で定義されているが、$f \notin B[0,1]$ である。
+これは、$f$ のグラフを考えればわかるかもしれないが、ここでは、より厳密な議論を行おう。任意の $M>0$ に対して、
+\[\frac{1}{M+1} \in [0,1] \quad \text{かつ} \quad f\left(\frac{1}{M+1}\right) = M+1 > M\]
+したがって、 $\left\lvert f(x) \right\rvert \leq M$ を満たす $M$ は存在しない。したがって、$f \notin B[0,1]$ である。
+\end{ex}
+
+\begin{ex}
+次の関数を考える :
+\begin{align*}
+    f(x) = \begin{cases}
+    0 & (x \in \Q) \\
+    1 & (x \in \R \setminus \Q)
+\end{cases}.
+\end{align*}
+この関数を \textbf{ディリクレ関数}と呼び、$\chi_{\Q}(x)$ で表す。このとき、$f$ は $[0,1]$ 上で定義されている。
+
+この関数は、任意の $x \in [0,1]$ に対して、$\left\lvert\chi_{\Q}(x) \right\rvert \leq 1$ を満たすので、$\chi_{\Q} \in B[0,1]$ である。
+\end{ex}
+
+\begin{rem}
+このディレクレ関数により、$B[a,b]$ に含まれる関数は、必ずしも連続であるとは限らないことがわかる。
+
+一方で、$f$ が $[a,b]$ 上で連続であるとき、$f$ は $B[a,b]$ に含まれることがわかる。実際、$f$ が $[a,b]$ 上で連続であるとき、最大値・最小値の定理より、ある $x_0 \in [a,b]$ が存在して、任意の $x \in [a,b]$ に対して、$\left\lvert f(x) \right\rvert \leq \left\lvert f(x_0) \right\rvert$ を満たす。したがって、$f \in B[a,b]$ である。これは、大学初学年の解析学のほとんどの教科書に書かれている内容である。例えば...を参照。
+\end{rem}
+
+以下、リーマン積分を定義するために、以下、下限和（下リーマン和）および上限和（上リーマン和）を定義する。
+
+\begin{dfn}
+区間 $[a,b]$ の\textbf{分割}とは、有限順序集合
+\[P = \{x_0, x_1, \ldots, x_n\}\]
+であって、
+\[a = x_0 < x_1 < \cdots < x_n = b\]
+を満たすものをいう。
+\end{dfn}
+
+\begin{dfn}
+$f \in B[a,b]$ とする。区間 $[a,b]$ の分割 $P = \{x_0, x_1, \ldots, x_n\}$ と、その各部分区間 $[x_{i-1}, x_i]$ に対し、
+\begin{align*}
+    m_i &= \inf_{x \in [x_{i-1}, x_i]} f(x) \\
+    M_i &= \sup_{x \in [x_{i-1}, x_i]} f(x)
+\end{align*}
+とする。
+\end{dfn}
+
+\begin{dfn}
+    上の状況のもとで考える。
+    \begin{enumerate}
+        \item \textbf{下限和}（\textbf{下リーマン和}）とは、次の値をいう :
+        \[L(f,P) = \sum_{i=1}^n m_i (x_i - x_{i-1})\]
+        \item \textbf{上限和}（\textbf{上リーマン和}）とは、次の値をいう :
+        \[U(f,P) = \sum_{i=1}^n M_i (x_i - x_{i-1})\]
+    \end{enumerate}
+\end{dfn}
+
+\begin{prop}
+$f \in B[a,b]$、$P$ を区間 $[a,b]$ の分割とする。このとき、
+\[m = \inf_{x \in [a,b]}{f(x)}, \quad M = \sup_{x \in [a,b]}{f(x)}\]
+とすると、
+\[m(b-a) \leq L(f,P) \leq U(f,P) \leq M(b-a)\]
+が成り立つ。
+\end{prop}
+
+\begin{proof}
+この証明は素直にやればよい。
+
+まず、任意の $i \in \{1, 2, \ldots, n\}$ に対して、 
+\[m_i = \inf_{x \in [x_{i-1}, x_i]} f(x) \geq m\]
+である。したがって、
+\begin{align*}
+    L(f,P) = \sum_{i=1}^n m_i (x_i - x_{i-1}) \geq \sum_{i=1}^n m (x_i - x_{i-1}) = m \sum_{i=1}^n (x_i - x_{i-1}) = m(b-a) 
+\end{align*}
+同様に、任意の $i \in \{1, 2, \ldots, n\}$ に対して、
+\[M_i = \sup_{x \in [x_{i-1}, x_i]} f(x) \leq M\]
+ である。したがって、
+\begin{align*}
+    M_i = \sup_{x \in [x_{i-1}, x_i]} f(x) \leq M
+\end{align*}
+である。したがって、
+\begin{align*}
+    U(f,P) = \sum_{i=1}^n M_i (x_i - x_{i-1}) \leq \sum_{i=1}^n M (x_i - x_{i-1}) = M \sum_{i=1}^n (x_i - x_{i-1}) = M(b-a) 
+\end{align*}
+以上より、
+\[m(b-a) \leq L(f,P) \leq U(f,P) \leq M(b-a)\]
+が成り立つ。
+\end{proof}
+\end{document}
