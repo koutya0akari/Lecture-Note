@@ -1,0 +1,2100 @@
+% ====================================================================
+
+% ====================================================================
+\documentclass[article,paper=a4paper]{jlreq}
+
+% jpreportパッケージの読み込み
+\usepackage{jpreport}
+
+% ページレイアウトの設定
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{
+    top=25mm,
+    bottom=25mm,
+    left=25mm,
+    right=25mm
+}
+% TikZライブラリ
+\usetikzlibrary{
+    patterns,
+    calc,
+    arrows,
+    decorations,
+    angles,
+    shapes.geometric,
+    fit,
+    knots
+}
+% TikZ用のスタイル
+\tikzset{
+  every path/.style={
+    black,
+    line width=1pt
+  },
+  every node/.style={
+    transform shape,
+    knot crossing,
+    inner sep=1.5pt
+  }
+}
+% ハイパーリンクの設定
+\usepackage[unicode]{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink]{cleveref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={制御理論入門},
+    pdfauthor={akari0koutya}
+}
+
+% 数学演算子の定義
+
+
+% cleveref用の日本語設定
+\crefname{thm}{定理}{定理}
+\crefname{lem}{補題}{補題}
+\crefname{cor}{系}{系}
+\crefname{ex}{例}{例}
+\crefname{def}{定義}{定義}
+\crefname{dfn}{定義}{定義}
+\crefname{prop}{命題}{命題}
+\crefname{prob}{問題}{問題}
+\crefname{rem}{注意}{注意}
+\crefname{exe}{演習}{演習}
+
+% 色彩の定義
+\definecolor{yukari}{RGB}{196, 163, 191}
+
+% 文書情報
+\title{制御概論}
+\author{akari0koutya}
+\date{\today}
+
+\begin{document}
+
+% --- タイトル ------------------------------------------------------
+\maketitle
+\tableofcontents
+%% 本文の内容をここに記述
+% ====================================================================
+
+\clearpage
+
+\section{状態方程式（1）(2026/04/17)}
+
+ここでは，入力をもたない状態方程式
+\[
+  \dot{x}=Ax
+\]
+を考える．初期値を $x(0)$ とすると，解は行列の指数関数を用いて
+\[
+  x(t)=e^{tA}x(0)
+\]
+と表される．したがって，この節の主な課題は $e^{tA}$ を具体的に計算することである．
+これは，スカラーの微分方程式 $\dot{x}=ax$ の解が $x(t)=e^{at}x(0)$ であることの
+行列版である．ただし，行列の場合には $A$ の固有値や標準形によって
+$e^{tA}$ の見た目が変わるため，固有値の型に分けて計算する．
+
+\subsection{行列指数関数と標準形}
+
+\begin{dfn}
+正方行列 $A$ に対して，行列指数関数を
+\[
+  e^{tA}
+    =
+    E+tA+\frac{t^2}{2!}A^2+\frac{t^3}{3!}A^3+\cdots
+    =
+    \sum_{k=0}^{\infty}\frac{t^k}{k!}A^k
+\]
+で定める．ここで $E$ は単位行列である．
+\end{dfn}
+
+\begin{rem}
+$e^{tA}$ は数の指数関数と同じ形の級数で定義される．ただし，$A^2,A^3,\ldots$ は行列の積である．
+この定義により，$A$ が対角行列に近い形で表せるときには，各成分ごとの指数関数として扱える．
+\end{rem}
+
+\begin{prop}
+状態方程式
+\[
+  \dot{x}=Ax
+\]
+の初期値 $x(0)$ に対する解は
+\[
+  x(t)=e^{tA}x(0)
+\]
+である．
+\end{prop}
+
+\begin{proof}
+行列指数関数を項別に微分する．
+\begin{align*}
+  \frac{d}{dt}e^{tA}
+    &=
+    \frac{d}{dt}
+    \left(
+      E+tA+\frac{t^2}{2!}A^2+\frac{t^3}{3!}A^3+\cdots
+    \right)\\
+    &=
+    A+tA^2+\frac{t^2}{2!}A^3+\cdots\\
+    &=
+    A\left(E+tA+\frac{t^2}{2!}A^2+\cdots\right)\\
+    &=Ae^{tA}.
+\end{align*}
+したがって，$x(t)=e^{tA}x(0)$ とおけば
+\begin{align*}
+  \dot{x}(t)
+    &=
+    \frac{d}{dt}\{e^{tA}x(0)\}\\
+    &=
+    \left(\frac{d}{dt}e^{tA}\right)x(0)\\
+    &=
+    Ae^{tA}x(0)
+     =
+    Ax(t).
+\end{align*}
+つまり，$x(t)=e^{tA}x(0)$ は $\dot{x}=Ax$ を満たす．また
+\[
+  x(0)=e^{0A}x(0)=Ex(0)=x(0)
+\]
+であるから，これは与えられた初期値を満たす解である．
+\end{proof}
+
+\begin{prop}
+$A$ が正則行列 $P$ により
+\[
+  P^{-1}AP=J
+\]
+と変換できるとき，
+\[
+  e^{tA}=Pe^{tJ}P^{-1}
+\]
+である．
+\end{prop}
+
+\begin{proof}
+$P^{-1}AP=J$ より $A=PJP^{-1}$ である．例えば
+\[
+  A^2
+    =
+    (PJP^{-1})(PJP^{-1})
+    =
+    PJ(P^{-1}P)JP^{-1}
+    =
+    PJ^2P^{-1}
+\]
+であり，同様に
+\[
+  A^3
+    =
+    A^2A
+    =
+    (PJ^2P^{-1})(PJP^{-1})
+    =
+    PJ^3P^{-1}
+\]
+である．一般に，$k=0,1,2,\ldots$ に対して
+\[
+  A^k=(PJP^{-1})^k=P J^k P^{-1}
+\]
+が成り立つ．これを行列指数関数の級数に代入すると
+\begin{align*}
+  e^{tA}
+    &=
+    \sum_{k=0}^{\infty}\frac{t^k}{k!}A^k\\
+    &=
+    \sum_{k=0}^{\infty}\frac{t^k}{k!}P J^k P^{-1}\\
+    &=
+    P\left(\sum_{k=0}^{\infty}\frac{t^k}{k!}J^k\right)P^{-1}
+     =
+    Pe^{tJ}P^{-1}.
+\end{align*}
+\end{proof}
+
+\subsection{2次行列の場合}
+
+$A\in M_2(\R)$ の場合，固有値の形によって $e^{tA}$ の公式は次の3種類に分かれる．
+実固有値が2つに分かれる場合，実固有値が重なる場合，複素共役の固有値をもつ場合である．
+以下の公式を使えば，固有ベクトルを明示的に並べた行列 $P$ を最後まで計算しなくても，
+$A$ と固有値だけから $e^{tA}$ を求められる．
+
+\begin{prop}
+\textbf{相異なる実固有値の場合．}
+$A$ の固有値が $\lambda_1,\lambda_2\in\R$，$\lambda_1\ne\lambda_2$ であるとする．このとき
+\[
+  e^{tA}
+    =
+    e^{\lambda_1t}P_1+e^{\lambda_2t}P_2
+\]
+である．ただし
+\[
+  P_1=\frac{1}{\lambda_1-\lambda_2}(A-\lambda_2E),
+  \qquad
+  P_2=\frac{1}{\lambda_2-\lambda_1}(A-\lambda_1E)
+\]
+である．
+\end{prop}
+
+\begin{proof}
+固有ベクトルを $p_1,p_2$ とし，
+\[
+  P=(p_1\ p_2)
+\]
+とおくと
+\[
+  P^{-1}AP=
+  \begin{pmatrix}
+    \lambda_1 & 0\\
+    0 & \lambda_2
+  \end{pmatrix}.
+\]
+対角行列の指数関数は対角成分ごとに指数関数をとればよいので
+\[
+  e^{t(P^{-1}AP)}
+  =
+  \begin{pmatrix}
+    e^{\lambda_1t} & 0\\
+    0 & e^{\lambda_2t}
+  \end{pmatrix}
+\]
+である．したがって，相似変換の公式より
+\[
+  e^{tA}
+    =
+    P
+    \begin{pmatrix}
+      e^{\lambda_1t} & 0\\
+      0 & e^{\lambda_2t}
+    \end{pmatrix}
+    P^{-1}.
+\]
+ここで
+\[
+  E_1=
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 0
+  \end{pmatrix},
+  \qquad
+  E_2=
+  \begin{pmatrix}
+    0 & 0\\
+    0 & 1
+  \end{pmatrix}
+\]
+とおくと
+\[
+  P^{-1}AP=\lambda_1E_1+\lambda_2E_2,
+  \qquad
+  E_1+E_2=E.
+\]
+両辺を左から $P$，右から $P^{-1}$ で挟むと
+\[
+  A=\lambda_1PE_1P^{-1}+\lambda_2PE_2P^{-1}
+\]
+である．$E_2=E-E_1$ を用いると
+\begin{align*}
+  A
+    &=
+    \lambda_1PE_1P^{-1}
+    +\lambda_2P(E-E_1)P^{-1}\\
+    &=
+    (\lambda_1-\lambda_2)PE_1P^{-1}+\lambda_2E.
+\end{align*}
+したがって
+\[
+  PE_1P^{-1}
+    =
+    \frac{1}{\lambda_1-\lambda_2}(A-\lambda_2E).
+\]
+同様に
+\[
+  E_1=E-E_2
+\]
+を用いれば
+\begin{align*}
+  A
+    &=
+    \lambda_1P(E-E_2)P^{-1}
+    +\lambda_2PE_2P^{-1}\\
+    &=
+    \lambda_1E+(\lambda_2-\lambda_1)PE_2P^{-1}
+\end{align*}
+である．よって
+\[
+  PE_2P^{-1}
+    =
+    \frac{1}{\lambda_2-\lambda_1}(A-\lambda_1E).
+\]
+これらを $P_1,P_2$ と書けば，
+\[
+  e^{tA}
+    =
+    e^{\lambda_1t}P_1+e^{\lambda_2t}P_2
+\]
+を得る．
+\end{proof}
+
+\begin{prop}
+\textbf{重解の場合．}
+$A$ の固有値が $\lambda$ の重解で，ジョルダン標準形が
+\[
+  P^{-1}AP=
+  \begin{pmatrix}
+    \lambda & 1\\
+    0 & \lambda
+  \end{pmatrix}
+\]
+であるとする．このとき
+\[
+  e^{tA}
+    =
+    e^{\lambda t}\{E+t(A-\lambda E)\}
+\]
+である．
+\end{prop}
+
+\begin{proof}
+\[
+  D=
+  \begin{pmatrix}
+    0 & 1\\
+    0 & 0
+  \end{pmatrix}
+\]
+とおくと，$D^2=O$ であり，
+\[
+  P^{-1}AP=\lambda E+D
+\]
+と書ける．よって
+\[
+  A=\lambda E+PDP^{-1}
+\]
+である．また
+\[
+  e^{tD}
+    =
+    E+tD+\frac{t^2}{2!}D^2+\cdots
+    =
+    E+tD
+\]
+である．第2項以降で $D^2$ を含むものはすべて零行列になるからである．したがって
+\begin{align*}
+  e^{tA}
+    &=
+    P e^{t(\lambda E+D)} P^{-1}\\
+    &=
+    e^{\lambda t}P(E+tD)P^{-1}\\
+    &=
+    e^{\lambda t}\{E+tPDP^{-1}\}.
+\end{align*}
+ここで $PDP^{-1}=A-\lambda E$ であるから，
+\[
+  e^{tA}
+    =
+    e^{\lambda t}\{E+t(A-\lambda E)\}
+\]
+を得る．
+\end{proof}
+
+\begin{prop}
+\textbf{複素共役固有値の場合．}
+$A$ の固有値が $\alpha\pm i\beta$，$\beta\ne0$ であるとする．このとき
+\[
+  e^{tA}
+    =
+    e^{\alpha t}
+    \left\{
+      \cos(\beta t)E
+      +\frac{\sin(\beta t)}{\beta}(A-\alpha E)
+    \right\}
+\]
+である．
+\end{prop}
+
+\begin{proof}
+実標準形を
+\[
+  P^{-1}AP=
+  \begin{pmatrix}
+    \alpha & \beta\\
+    -\beta & \alpha
+  \end{pmatrix}
+  =
+  \alpha E+\beta J,
+  \qquad
+  J=
+  \begin{pmatrix}
+    0 & 1\\
+    -1 & 0
+  \end{pmatrix}
+\]
+と書く．このとき $J^2=-E$ であるから
+\begin{align*}
+  e^{\beta tJ}
+    &=
+    E+\beta tJ+\frac{(\beta t)^2}{2!}J^2
+      +\frac{(\beta t)^3}{3!}J^3+\cdots\\
+    &=
+    \left(1-\frac{(\beta t)^2}{2!}
+      +\frac{(\beta t)^4}{4!}-\cdots\right)E\\
+    &\quad+
+    \left(\beta t-\frac{(\beta t)^3}{3!}
+      +\frac{(\beta t)^5}{5!}-\cdots\right)J\\
+    &=
+    \cos(\beta t)E+\sin(\beta t)J.
+\end{align*}
+したがって
+\begin{align*}
+  e^{tA}
+    &=
+    P e^{t(\alpha E+\beta J)}P^{-1}\\
+    &=
+    e^{\alpha t}
+    P\{\cos(\beta t)E+\sin(\beta t)J\}P^{-1}\\
+    &=
+    e^{\alpha t}
+    \{\cos(\beta t)E+\sin(\beta t)PJP^{-1}\}.
+\end{align*}
+一方，
+\[
+  A=P(\alpha E+\beta J)P^{-1}
+    =
+    \alpha E+\beta PJP^{-1}
+\]
+なので
+\[
+  PJP^{-1}=\frac{1}{\beta}(A-\alpha E).
+\]
+これを代入して公式を得る．
+\end{proof}
+
+\begin{rem}
+$2$ 次行列
+\[
+  A=
+  \begin{pmatrix}
+    a & b\\
+    c & d
+  \end{pmatrix}
+\]
+の固有値は
+\[
+  \det(\lambda E-A)
+    =
+    \begin{vmatrix}
+      \lambda-a & -b\\
+      -c & \lambda-d
+    \end{vmatrix}
+    =
+    \lambda^2-(\operatorname{tr}A)\lambda+\det A
+\]
+から求められる．すなわち
+\[
+  \lambda^2-(\operatorname{tr}A)\lambda+\det A=0
+\]
+を解けばよい．
+\end{rem}
+
+\subsection{例}
+
+\begin{ex}
+次の微分方程式の解を求める．ただし，初期値を $x(0)$ とする．また，
+$t\to\infty$ での解の挙動を調べる．
+\[
+  \begin{array}{lll}
+    \text{(1)}&
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      7 & -6\\
+      3 & -2
+    \end{pmatrix}x,
+    &
+    \text{(2)}\quad 
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      3 & -1\\
+      1 & 1
+    \end{pmatrix}x,\\[5mm]
+    \text{(3)}&
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      -1 & 2\\
+      -1 & -3
+    \end{pmatrix}x.
+  \end{array}
+\]
+\end{ex}
+
+\begin{proof}[解]
+\textbf{(1)}
+\[
+  A=
+  \begin{pmatrix}
+    7 & -6\\
+    3 & -2
+  \end{pmatrix}
+\]
+とおく．
+まず固有値を調べ，どの公式を使うかを決める．
+\[
+  \operatorname{tr}A=7+(-2)=5,
+  \qquad
+  \det A=7\cdot(-2)-(-6)\cdot3=4
+\]
+であるから，特性方程式は
+\[
+  \lambda^2-5\lambda+4=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda-1)(\lambda-4)=0.
+\]
+よって固有値は $\lambda_1=1,\lambda_2=4$ である．相異なる実固有値の場合の公式より
+\[
+  e^{tA}=e^{t}P_1+e^{4t}P_2
+\]
+となる．ここで
+\begin{align*}
+  P_1
+    &=
+    \frac{1}{1-4}(A-4E)
+     =
+    -\frac{1}{3}
+    \left\{
+    \begin{pmatrix}
+      7 & -6\\
+      3 & -2
+    \end{pmatrix}
+    -
+    \begin{pmatrix}
+      4 & 0\\
+      0 & 4
+    \end{pmatrix}
+    \right\}\\
+    &=
+    -\frac{1}{3}
+    \begin{pmatrix}
+      3 & -6\\
+      3 & -6
+    \end{pmatrix}
+     =
+    \begin{pmatrix}
+      -1 & 2\\
+      -1 & 2
+    \end{pmatrix},\\
+  P_2
+    &=
+    \frac{1}{4-1}(A-E)
+     =
+    \frac{1}{3}
+    \left\{
+    \begin{pmatrix}
+      7 & -6\\
+      3 & -2
+    \end{pmatrix}
+    -
+    \begin{pmatrix}
+      1 & 0\\
+      0 & 1
+    \end{pmatrix}
+    \right\}\\
+    &=
+    \frac{1}{3}
+    \begin{pmatrix}
+      6 & -6\\
+      3 & -3
+    \end{pmatrix}
+     =
+    \begin{pmatrix}
+      2 & -2\\
+      1 & -1
+    \end{pmatrix}.
+\end{align*}
+したがって
+\[
+  e^{tA}
+    =
+    e^t
+    \begin{pmatrix}
+      -1 & 2\\
+      -1 & 2
+    \end{pmatrix}
+    +
+    e^{4t}
+    \begin{pmatrix}
+      2 & -2\\
+      1 & -1
+    \end{pmatrix}.
+\]
+よって
+\[
+  x(t)
+    =
+    \left\{
+      e^t
+      \begin{pmatrix}
+        -1 & 2\\
+        -1 & 2
+      \end{pmatrix}
+      +
+      e^{4t}
+      \begin{pmatrix}
+        2 & -2\\
+        1 & -1
+      \end{pmatrix}
+    \right\}x(0).
+\]
+この解は，$e^t$ を含む成分と $e^{4t}$ を含む成分の和である．
+どちらも $t\to\infty$ で増大するため，零解以外では原点から離れていく．
+したがって $x(0)\ne0$ なら解は発散し，
+\[
+  \|x(t)\|\to\infty
+  \qquad (t\to\infty)
+\]
+となる．
+
+\medskip
+\textbf{(2)}
+\[
+  A=
+  \begin{pmatrix}
+    3 & -1\\
+    1 & 1
+  \end{pmatrix}
+\]
+とおく．
+ここでもまず特性方程式を作る．
+\[
+  \operatorname{tr}A=3+1=4,
+  \qquad
+  \det A=3\cdot1-(-1)\cdot1=4
+\]
+であるから，
+\[
+  \lambda^2-4\lambda+4=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda-2)^2=0.
+\]
+したがって固有値は $\lambda=2$ の重解である．
+この場合には重解の公式
+\[
+  e^{tA}=e^{2t}\{E+t(A-2E)\}
+\]
+を用いる．実際，
+\[
+  A-2E=
+  \begin{pmatrix}
+    3 & -1\\
+    1 & 1
+  \end{pmatrix}
+  -
+  \begin{pmatrix}
+    2 & 0\\
+    0 & 2
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 & -1\\
+    1 & -1
+  \end{pmatrix}
+\]
+なので
+\[
+  e^{tA}
+    =
+    e^{2t}\{E+t(A-2E)\}
+    =
+    e^{2t}
+    \left\{
+      \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+      \end{pmatrix}
+      +
+      t
+      \begin{pmatrix}
+        1 & -1\\
+        1 & -1
+      \end{pmatrix}
+    \right\}.
+\]
+よって
+\[
+  x(t)
+    =
+    e^{2t}
+    \left\{
+      \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+      \end{pmatrix}
+      +
+      t
+      \begin{pmatrix}
+        1 & -1\\
+        1 & -1
+      \end{pmatrix}
+    \right\}x(0).
+\]
+括弧の中には $t$ に比例する項があるが，支配的なのは前に掛かっている指数因子 $e^{2t}$ である．
+$e^{2t}$ が増大するため，$x(0)\ne0$ なら
+\[
+  \|x(t)\|\to\infty
+  \qquad (t\to\infty)
+\]
+である．
+
+\medskip
+\textbf{(3)}
+\[
+  A=
+  \begin{pmatrix}
+    -1 & 2\\
+    -1 & -3
+  \end{pmatrix}
+\]
+とおく．
+固有値を求めると，
+\[
+  \operatorname{tr}A=-1+(-3)=-4,
+  \qquad
+  \det A=(-1)(-3)-2(-1)=5
+\]
+であるから，
+\[
+  \lambda^2+4\lambda+5=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda+2)^2+1=0.
+\]
+したがって固有値は
+\[
+  \lambda=-2\pm i
+\]
+である．ここでは $\alpha=-2,\beta=1$ であり，
+\[
+  A-\alpha E=A+2E=
+  \begin{pmatrix}
+    -1 & 2\\
+    -1 & -3
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    2 & 0\\
+    0 & 2
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 & 2\\
+    -1 & -1
+  \end{pmatrix}.
+\]
+複素共役固有値の場合の公式より
+\[
+  e^{tA}
+    =
+    e^{-2t}
+    \left\{
+      \cos(t)E+\sin(t)(A+2E)
+    \right\}.
+\]
+すなわち
+\[
+  x(t)
+    =
+    e^{-2t}
+    \left\{
+      \cos(t)
+      \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+      \end{pmatrix}
+      +
+      \sin(t)
+      \begin{pmatrix}
+        1 & 2\\
+        -1 & -1
+      \end{pmatrix}
+    \right\}x(0).
+\]
+この解は，回転を表す三角関数の部分に，減衰因子 $e^{-2t}$ が掛かった形である．
+三角関数の部分は有界であり，$e^{-2t}\to0$ であるから
+\[
+  \|x(t)\|\to0
+  \qquad (t\to\infty)
+\]
+である．
+\end{proof}
+
+\begin{exe}
+次の同次状態方程式についても，同様に $e^{tA}$ を求めて解の挙動を調べよ．
+\[
+  \begin{array}{lll}
+    \text{(1)}&
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      -5 & 4\\
+      -2 & 1
+    \end{pmatrix}x,
+    &
+    \text{(2)}\quad 
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      3 & -4\\
+      1 & -1
+    \end{pmatrix}x,\\[5mm]
+    \text{(3)}&
+    \displaystyle
+    \dot{x}=
+    \begin{pmatrix}
+      1 & -4\\
+      2 & -3
+    \end{pmatrix}x.
+  \end{array}
+\]
+\end{exe}
+
+\begin{proof}[解答]
+\textbf{(1)}
+\[
+  A=
+  \begin{pmatrix}
+    -5 & 4\\
+    -2 & 1
+  \end{pmatrix}
+\]
+とおく．まず固有値を求める．
+\[
+  \operatorname{tr}A=-5+1=-4,
+  \qquad
+  \det A=(-5)\cdot1-4\cdot(-2)=3
+\]
+であるから，特性方程式は
+\[
+  \lambda^2+4\lambda+3=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda+1)(\lambda+3)=0.
+\]
+したがって固有値は $\lambda_1=-1,\lambda_2=-3$ である．
+相異なる実固有値の場合の公式を用いると
+\[
+  e^{tA}=e^{-t}P_1+e^{-3t}P_2
+\]
+である．ここで
+\begin{align*}
+  P_1
+    &=
+    \frac{1}{-1-(-3)}\{A-(-3)E\}
+     =
+    \frac{1}{2}
+    \left\{
+    \begin{pmatrix}
+      -5 & 4\\
+      -2 & 1
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      3 & 0\\
+      0 & 3
+    \end{pmatrix}
+    \right\} \\
+    &=
+    \frac{1}{2}
+    \begin{pmatrix}
+      -2 & 4\\
+      -2 & 4
+    \end{pmatrix}
+     =
+    \begin{pmatrix}
+      -1 & 2\\
+      -1 & 2
+    \end{pmatrix},\\
+  P_2
+    &=
+    \frac{1}{-3-(-1)}\{A-(-1)E\}
+     =
+    -\frac{1}{2}
+    \left\{
+    \begin{pmatrix}
+      -5 & 4\\
+      -2 & 1
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      1 & 0\\
+      0 & 1
+    \end{pmatrix}
+    \right\}\\
+    &=
+    -\frac{1}{2}
+    \begin{pmatrix}
+      -4 & 4\\
+      -2 & 2
+    \end{pmatrix}
+     =
+    \begin{pmatrix}
+      2 & -2\\
+      1 & -1
+    \end{pmatrix}.
+\end{align*}
+よって
+\[
+  x(t)
+    =
+    \left\{
+      e^{-t}
+      \begin{pmatrix}
+        -1 & 2\\
+        -1 & 2
+      \end{pmatrix}
+      +
+      e^{-3t}
+      \begin{pmatrix}
+        2 & -2\\
+        1 & -1
+      \end{pmatrix}
+    \right\}x(0).
+\]
+指数因子 $e^{-t}$，$e^{-3t}$ はどちらも $0$ に収束するので
+\[
+  \|x(t)\|\to0
+  \qquad (t\to\infty)
+\]
+である．
+
+\medskip
+\textbf{(2)}
+\[
+  A=
+  \begin{pmatrix}
+    3 & -4\\
+    1 & -1
+  \end{pmatrix}
+\]
+とおく．このとき
+\[
+  \operatorname{tr}A=3+(-1)=2,
+  \qquad
+  \det A=3\cdot(-1)-(-4)\cdot1=1
+\]
+であるから，
+\[
+  \lambda^2-2\lambda+1=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda-1)^2=0.
+\]
+したがって固有値は $\lambda=1$ の重解である．重解の場合の公式より
+\[
+  e^{tA}=e^t\{E+t(A-E)\}
+\]
+である．実際，
+\[
+  A-E=
+  \begin{pmatrix}
+    3 & -4\\
+    1 & -1
+  \end{pmatrix}
+  -
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 1
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    2 & -4\\
+    1 & -2
+  \end{pmatrix}
+\]
+なので
+\[
+  x(t)
+    =
+    e^t
+    \left\{
+      \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+      \end{pmatrix}
+      +
+      t
+      \begin{pmatrix}
+        2 & -4\\
+        1 & -2
+      \end{pmatrix}
+    \right\}x(0).
+\]
+ここで $(A-E)^2=O$ であるから，括弧の中は $x(0)$ に対する高々一次の項である．
+もし $(A-E)x(0)=0$ なら $x(t)=e^t x(0)$ となり，$(A-E)x(0)\ne0$ なら
+$t e^t(A-E)x(0)$ が支配的になる．したがって，$x(0)\ne0$ なら
+\[
+  \|x(t)\|\to\infty
+  \qquad (t\to\infty)
+\]
+である．
+
+\medskip
+\textbf{(3)}
+\[
+  A=
+  \begin{pmatrix}
+    1 & -4\\
+    2 & -3
+  \end{pmatrix}
+\]
+とおく．固有値を求めると
+\[
+  \operatorname{tr}A=1+(-3)=-2,
+  \qquad
+  \det A=1\cdot(-3)-(-4)\cdot2=5
+\]
+であるから，
+\[
+  \lambda^2+2\lambda+5=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda+1)^2+4=0.
+\]
+したがって固有値は
+\[
+  \lambda=-1\pm2i
+\]
+である．ここでは $\alpha=-1,\beta=2$ であり，
+\[
+  A-\alpha E=A+E=
+  \begin{pmatrix}
+    1 & -4\\
+    2 & -3
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 1
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    2 & -4\\
+    2 & -2
+  \end{pmatrix}.
+\]
+複素共役固有値の場合の公式より
+\[
+  e^{tA}
+    =
+    e^{-t}
+    \left\{
+      \cos(2t)E+\frac{\sin(2t)}{2}(A+E)
+    \right\}.
+\]
+すなわち
+\[
+  x(t)
+    =
+    e^{-t}
+    \left\{
+      \cos(2t)
+      \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+      \end{pmatrix}
+      +
+      \sin(2t)
+      \begin{pmatrix}
+        1 & -2\\
+        1 & -1
+      \end{pmatrix}
+    \right\}x(0).
+\]
+三角関数の部分は有界であり，前に掛かっている $e^{-t}$ が $0$ に収束する．
+したがって
+\[
+  \|x(t)\|\to0
+  \qquad (t\to\infty)
+\]
+である．
+\end{proof}
+
+\clearpage
+
+\section{状態方程式（2）(2026/04/24)}
+
+今回は，状態方程式の解を行列の指数関数を用いて表す方法を扱う．
+同次方程式の解は $e^{tA}$ で記述され，入力 $u(t)$ がある場合には，
+その影響を積分として足し合わせる．後半では，同じ解がラプラス変換からも得られることを確認する．
+
+\subsection{行列の指数関数}
+
+\begin{prop}
+$A\in M_2(\R)$ とし，$E$ を単位行列とする．$A$ の固有値は
+\[
+  \lambda^2-(\operatorname{tr} A)\lambda+\det A=0
+\]
+の解として求められる．このとき，$e^{tA}$ は固有値の形に応じて次のように表せる．
+
+\begin{enumerate}[label=(\arabic*)]
+  \item $\lambda_1\ne\lambda_2$ のとき
+  \begin{align*}
+    e^{tA}
+      &= e^{\lambda_1 t}P_1+e^{\lambda_2 t}P_2,\\
+    P_1
+      &=\frac{A-\lambda_2 E}{\lambda_1-\lambda_2},
+      &
+    P_2
+      &=\frac{A-\lambda_1 E}{\lambda_2-\lambda_1}.
+  \end{align*}
+
+  \item $\lambda=\lambda_0$ が重解のとき
+  \[
+    e^{tA}
+      = e^{\lambda_0 t}\{E+t(A-\lambda_0 E)\}.
+  \]
+
+  \item $\lambda=\alpha\pm i\beta$，
+  $\alpha\in\R,\ \beta\in\R^\times$ のとき
+  \[
+    e^{tA}
+      = e^{\alpha t}
+        \left\{
+          \cos(\beta t)E
+          +\frac{\sin(\beta t)}{\beta}(A-\alpha E)
+        \right\}.
+  \]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+ここでは公式の意味を確認しておく．$2$ 次正方行列では，ケイリー・ハミルトンの定理により，
+$A$ の高い次数のべきは $E$ と $A$ の一次結合に帰着できる．したがって $e^{tA}$ も
+$E$ と $A$ の一次結合として表せる．
+
+固有値が異なる場合，$P_1,P_2$ は
+\[
+  P_1+P_2=E,
+  \qquad
+  AP_1=\lambda_1P_1,
+  \qquad
+  AP_2=\lambda_2P_2
+\]
+を満たす射影行列である．よって
+\[
+  A=\lambda_1P_1+\lambda_2P_2,
+  \qquad
+  A^k=\lambda_1^k P_1+\lambda_2^k P_2
+  \quad (k=0,1,2,\ldots)
+\]
+となるから，
+\begin{align*}
+  e^{tA}
+    &=\sum_{k=0}^{\infty}\frac{t^k A^k}{k!} \\
+    &=\sum_{k=0}^{\infty}\frac{(\lambda_1t)^k}{k!}P_1
+      +\sum_{k=0}^{\infty}\frac{(\lambda_2t)^k}{k!}P_2 \\
+    &=e^{\lambda_1t}P_1+e^{\lambda_2t}P_2.
+\end{align*}
+
+重解の場合は，$N=A-\lambda_0E$ とおくと $N^2=O$ である．したがって
+\[
+  e^{tA}
+    =e^{t(\lambda_0E+N)}
+    =e^{\lambda_0t}e^{tN}
+    =e^{\lambda_0t}(E+tN)
+    =e^{\lambda_0t}\{E+t(A-\lambda_0E)\}.
+\]
+複素共役の固有値をもつ場合も，同じく $A-\alpha E$ を用いて $E$ と $A-\alpha E$ に分けると，
+三角関数の形の公式が得られる．
+\end{proof}
+
+\subsection{解の公式}
+
+\begin{prop}
+状態方程式
+\begin{equation}
+  \dot{x}=Ax+bu(t)
+  \label{eq:state-equation}
+\end{equation}
+の解は
+\begin{equation}
+  x(t)
+    =e^{tA}x(0)
+      +\int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau
+  \label{eq:solution-formula}
+\end{equation}
+で与えられる．
+\end{prop}
+
+\begin{proof}
+まず $u(t)=0$ の場合を考える．このとき
+\[
+  \dot{x}=Ax
+\]
+であり，行列指数関数の性質
+\[
+  \frac{d}{dt}e^{tA}=Ae^{tA}
+\]
+より，一般解は
+\[
+  x=e^{tA}c
+  \qquad (c:\text{定数})
+\]
+である．
+
+入力 $u(t)$ がある場合には，定数ベクトル $c$ を時刻に依存する未知関数 $c(t)$ に置き換え，
+\[
+  x(t)=e^{tA}c(t)
+\]
+とおく．これを式~\eqref{eq:state-equation} に代入する．まず左辺は積の微分により
+\[
+  \dot{x}(t)
+    =Ae^{tA}c(t)+e^{tA}\dot{c}(t)
+\]
+である．一方，右辺は
+\[
+  Ax(t)+bu(t)=Ae^{tA}c(t)+bu(t)
+\]
+であるから，
+\begin{align*}
+  Ae^{tA}c(t)+e^{tA}\dot{c}(t)
+    &=Ae^{tA}c(t)+bu(t),\\
+  e^{tA}\dot{c}(t)
+    &=bu(t),\\
+  \dot{c}(t)
+    &=e^{-tA}bu(t).
+\end{align*}
+最後の式では，左から $e^{-tA}$ を掛けている．これを $0$ から $t$ まで積分すると
+\[
+  c(t)-c(0)
+    =\int_0^t e^{-\tau A}bu(\tau)\,d\tau
+\]
+である．ここで $c_0=c(0)$ と書けば
+\[
+  c(t)=c_0+\int_0^t e^{-\tau A}bu(\tau)\,d\tau.
+\]
+よって
+\begin{align*}
+  x(t)
+    &=e^{tA}c(t)\\
+    &=e^{tA}c_0
+      +e^{tA}\int_0^t e^{-\tau A}bu(\tau)\,d\tau\\
+    &=e^{tA}c_0
+      +\int_0^t e^{tA}e^{-\tau A}bu(\tau)\,d\tau\\
+    &=e^{tA}c_0
+      +\int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau.
+\end{align*}
+また，$x(0)=e^{0A}c_0=c_0$ であるから式~\eqref{eq:solution-formula} を得る．
+\end{proof}
+
+\begin{rem}
+同じ式は，積分因子の考え方からも得られる．
+\[
+  \dot{x}-Ax=bu(t)
+\]
+に左から $e^{-tA}$ を掛けると
+\[
+  e^{-tA}\dot{x}-e^{-tA}Ax=e^{-tA}bu(t)
+\]
+である．ここで
+\[
+  \frac{d}{dt}\left(e^{-tA}x(t)\right)
+    =
+    -Ae^{-tA}x(t)+e^{-tA}\dot{x}(t)
+    =
+    e^{-tA}\{\dot{x}(t)-Ax(t)\}
+\]
+だから，
+\[
+  \frac{d}{dt}\left(e^{-tA}x(t)\right)=e^{-tA}bu(t).
+\]
+両辺を $0$ から $t$ まで積分すると
+\[
+  e^{-tA}x(t)-x(0)
+    =
+    \int_0^t e^{-\tau A}bu(\tau)\,d\tau.
+\]
+両辺に左から $e^{tA}$ を掛ければ式~\eqref{eq:solution-formula} が従う．
+\end{rem}
+
+\subsection{例}
+
+\begin{ex}
+次の微分方程式の解を求め，また $t\to\infty$ のときの解の挙動を調べる：
+\[
+  \begin{cases}
+    \displaystyle
+    \dot{x}
+      =
+      \begin{pmatrix}
+        1 & -2\\
+        3 & -4
+      \end{pmatrix}x
+      +
+      \binom{0}{2}u,\\[3mm]
+    u(t)=1.
+  \end{cases}
+\]
+\end{ex}
+
+\begin{proof}[解]
+$A=\begin{pmatrix}1&-2\\3&-4\end{pmatrix}$ とおく．
+まず，固有値を求める．
+\[
+  \operatorname{tr}A=1+(-4)=-3,
+  \qquad
+  \det A=1\cdot(-4)-(-2)\cdot3=2.
+\]
+したがって特性方程式は
+\[
+  \lambda^2+3\lambda+2=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda+1)(\lambda+2)=0.
+\]
+よって
+\[
+  \lambda=-2,\,-1
+\]
+である．
+
+$\lambda_1=-1,\ \lambda_2=-2$ とすると，
+\begin{align*}
+  P_1
+    &=
+    \frac{1}{-1-(-2)}\{A-(-2)E\}
+    =
+    \begin{pmatrix}
+      3 & -2\\
+      3 & -2
+    \end{pmatrix},\\
+  P_2
+    &=
+    \frac{1}{-2-(-1)}\{A-(-1)E\}
+    =
+    \begin{pmatrix}
+      -2 & 2\\
+      -3 & 3
+    \end{pmatrix}.
+\end{align*}
+したがって
+\[
+  e^{tA}
+    =
+    e^{-t}
+    \begin{pmatrix}
+      3 & -2\\
+      3 & -2
+    \end{pmatrix}
+    +
+    e^{-2t}
+    \begin{pmatrix}
+      -2 & 2\\
+      -3 & 3
+    \end{pmatrix}.
+\]
+
+ここで $b=\binom{0}{2}$，$u(t)=1$ より，
+\[
+  bu(t)=\binom{0}{2}.
+\]
+入力による項は，$r=t-\tau$ とおくと次のように計算できる．まず
+\begin{align*}
+  e^{rA}b
+    &=
+    e^{-r}
+    \begin{pmatrix}
+      3 & -2\\
+      3 & -2
+    \end{pmatrix}
+    \binom{0}{2}
+    +
+    e^{-2r}
+    \begin{pmatrix}
+      -2 & 2\\
+      -3 & 3
+    \end{pmatrix}
+    \binom{0}{2}\\
+    &=
+    e^{-r}\binom{-4}{-4}
+    +
+    e^{-2r}\binom{4}{6}.
+\end{align*}
+したがって
+\begin{align*}
+  \int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau
+    &=
+    \int_0^t
+      \left\{
+        e^{-(t-\tau)}\binom{-4}{-4}
+        +
+        e^{-2(t-\tau)}\binom{4}{6}
+      \right\}d\tau\\
+    &=
+    \int_0^t
+      \left\{
+        e^{-r}\binom{-4}{-4}
+        +
+        e^{-2r}\binom{4}{6}
+      \right\}dr\\
+    &=
+    \binom{-4}{-4}(1-e^{-t})
+      +
+    \binom{4}{6}\frac{1-e^{-2t}}{2}\\
+    &=
+    \binom{-2}{-1}
+      +
+    e^{-t}\binom{4}{4}
+      +
+    e^{-2t}\binom{-2}{-3}.
+\end{align*}
+すなわち
+\[
+  \int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau
+    =
+    e^{-t}\binom{4}{4}
+    +
+    e^{-2t}\binom{-2}{-3}
+    +
+    \binom{-2}{-1}.
+\]
+よって，解の公式~\eqref{eq:solution-formula} から
+\[
+  x(t)
+    =
+    \left\{
+      e^{-t}
+      \begin{pmatrix}
+        3 & -2\\
+        3 & -2
+      \end{pmatrix}
+      +
+      e^{-2t}
+      \begin{pmatrix}
+        -2 & 2\\
+        -3 & 3
+      \end{pmatrix}
+    \right\}x(0)
+    +
+    e^{-t}\binom{4}{4}
+    +
+    e^{-2t}\binom{-2}{-3}
+    +
+    \binom{-2}{-1}.
+\]
+右辺の $e^{-t}$，$e^{-2t}$ を含む項は，$t\to\infty$ で消えていく過渡項である．
+したがって，初期値 $x(0)$ に依存しない定常値として
+\[
+  \lim_{t\to\infty}x(t)=\binom{-2}{-1}.
+\]
+\end{proof}
+
+\subsection{ラプラス変換}
+
+\begin{prop}
+$x(t)$，$u(t)$ のラプラス変換をそれぞれ $X(s)$，$U(s)$ とする．状態方程式
+\[
+  \dot{x}=Ax+bu
+\]
+をラプラス変換すると，
+\begin{equation}
+  X(s)
+    =(sE-A)^{-1}\{bU(s)+x(0)\}
+  \label{eq:laplace-solution}
+\end{equation}
+である．
+\end{prop}
+
+\begin{proof}
+ラプラス変換では，時間微分が
+\[
+  \mathcal{L}[\dot{x}](s)=sX(s)-x(0)
+\]
+に移る．したがって，状態方程式をラプラス変換すると
+\begin{align*}
+  sX(s)-x(0)
+    &=AX(s)+bU(s),\\
+  sX(s)-AX(s)
+    &=bU(s)+x(0),\\
+  (sE-A)X(s)
+    &=bU(s)+x(0).
+\end{align*}
+したがって式~\eqref{eq:laplace-solution} が従う．逆変換により
+\[
+  x(t)
+    =
+    \mathcal{L}^{-1}\!\left[(sE-A)^{-1}\right]x(0)
+    +
+    \mathcal{L}^{-1}\!\left[(sE-A)^{-1}bU(s)\right].
+\]
+ここで
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}\right]
+    =e^{tA},
+\]
+であり，積の逆変換には畳み込み定理を用いるので
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}bU(s)\right]
+    =
+    \int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau
+\]
+が成立する．
+\end{proof}
+
+\subsection{例のラプラス変換による解法}
+
+\begin{proof}[別解]
+先ほどの例をラプラス変換で確認する．
+まず
+\[
+  sE-A
+    =
+    \begin{pmatrix}
+      s-1 & 2\\
+      -3 & s+4
+    \end{pmatrix}
+\]
+であり，
+\[
+  \det(sE-A)
+    =(s-1)(s+4)+6
+    =s^2+3s+2
+    =(s+1)(s+2).
+\]
+したがって
+\[
+  (sE-A)^{-1}
+    =
+    \frac{1}{(s+1)(s+2)}
+    \begin{pmatrix}
+      s+4 & -2\\
+      3 & s-1
+    \end{pmatrix}.
+\]
+これを
+\[
+  \frac{A_1}{s+1}+\frac{A_2}{s+2}
+\]
+と部分分数分解する．両辺に $(s+1)(s+2)$ を掛けると
+\[
+  \begin{pmatrix}
+    s+4 & -2\\
+    3 & s-1
+  \end{pmatrix}
+    =
+    (s+2)A_1+(s+1)A_2
+\]
+となる．したがって，$s=-1,-2$ を代入すれば係数が求まる：
+\begin{align*}
+  A_1
+    &=
+    \left[
+      \frac{1}{s+2}
+      \begin{pmatrix}
+        s+4 & -2\\
+        3 & s-1
+      \end{pmatrix}
+    \right]_{s=-1}
+    =
+    \begin{pmatrix}
+      3 & -2\\
+      3 & -2
+    \end{pmatrix},\\
+  A_2
+    &=
+    \left[
+      \frac{1}{s+1}
+      \begin{pmatrix}
+        s+4 & -2\\
+        3 & s-1
+      \end{pmatrix}
+    \right]_{s=-2}
+    =
+    \begin{pmatrix}
+      -2 & 2\\
+      -3 & 3
+    \end{pmatrix}.
+\end{align*}
+したがって
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}\right]
+    =
+    e^{-t}
+    \begin{pmatrix}
+      3 & -2\\
+      3 & -2
+    \end{pmatrix}
+    +
+    e^{-2t}
+    \begin{pmatrix}
+      -2 & 2\\
+      -3 & 3
+    \end{pmatrix}.
+\]
+
+また，$b=\binom{0}{2}$，$u(t)=1$ なので $U(s)=1/s$ である．
+入力による項は
+\[
+  (sE-A)^{-1}bU(s)
+    =
+    \frac{1}{(s+1)(s+2)}
+    \begin{pmatrix}
+      s+4 & -2\\
+      3 & s-1
+    \end{pmatrix}
+    \binom{0}{2}\frac{1}{s}
+    =
+    \frac{1}{s(s+1)(s+2)}
+    \binom{-4}{2s-2}.
+\]
+これを
+\[
+  \frac{B_1}{s}+\frac{B_2}{s+1}+\frac{B_3}{s+2}
+  \qquad (B_1,B_2,B_3\in\R^2)
+\]
+とおく．両辺に $s(s+1)(s+2)$ を掛けると
+\[
+  \binom{-4}{2s-2}
+    =
+    (s+1)(s+2)B_1
+    +s(s+2)B_2
+    +s(s+1)B_3.
+\]
+よって，$s=0,-1,-2$ を順に代入すれば
+\begin{align*}
+  B_1
+    &=
+    \left[
+      \frac{1}{(s+1)(s+2)}
+      \binom{-4}{2s-2}
+    \right]_{s=0}
+    =
+    \binom{-2}{-1},\\
+  B_2
+    &=
+    \left[
+      \frac{1}{s(s+2)}
+      \binom{-4}{2s-2}
+    \right]_{s=-1}
+    =
+    \binom{4}{4},\\
+  B_3
+    &=
+    \left[
+      \frac{1}{s(s+1)}
+      \binom{-4}{2s-2}
+    \right]_{s=-2}
+    =
+    \binom{-2}{-3}.
+\end{align*}
+よって
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}bU(s)\right]
+    =
+    \binom{-2}{-1}
+    +
+    e^{-t}\binom{4}{4}
+    +
+    e^{-2t}\binom{-2}{-3}.
+\]
+これは時間領域で直接積分した入力項と一致している．したがって，
+式~\eqref{eq:solution-formula} で求めた解と同じ結果が得られる．
+\end{proof}
+
+\clearpage
+
+\subsection{演習}
+
+\begin{exe}
+次の状態方程式の解を求め，また $t\to\infty$ のときの解の挙動を調べよ．
+\[
+  \begin{cases}
+    \displaystyle
+    \dot{x}
+      =
+      \begin{pmatrix}
+        -4 & 1\\
+        -6 & 1
+      \end{pmatrix}x
+      +
+      \binom{1}{1}u,\\[3mm]
+    u(t)=1.
+  \end{cases}
+\]
+\end{exe}
+
+\begin{proof}[解答]
+\[
+  A=
+  \begin{pmatrix}
+    -4 & 1\\
+    -6 & 1
+  \end{pmatrix},
+  \qquad
+  b=\binom{1}{1}
+\]
+とおく．まず $e^{tA}$ を求める．
+\[
+  \operatorname{tr}A=-4+1=-3,
+  \qquad
+  \det A=(-4)\cdot1-1\cdot(-6)=2
+\]
+であるから，特性方程式は
+\[
+  \lambda^2+3\lambda+2=0
+  \qquad\Longleftrightarrow\qquad
+  (\lambda+1)(\lambda+2)=0.
+\]
+よって固有値は $\lambda_1=-1,\lambda_2=-2$ である．相異なる実固有値の場合の公式より，
+\[
+  e^{tA}=e^{-t}P_1+e^{-2t}P_2
+\]
+である．ここで
+\begin{align*}
+  P_1
+    &=
+    \frac{1}{-1-(-2)}\{A-(-2)E\}
+     =
+    A+2E\\
+    &=
+    \begin{pmatrix}
+      -4 & 1\\
+      -6 & 1
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      2 & 0\\
+      0 & 2
+    \end{pmatrix}
+     =
+    \begin{pmatrix}
+      -2 & 1\\
+      -6 & 3
+    \end{pmatrix},\\
+  P_2
+    &=
+    \frac{1}{-2-(-1)}\{A-(-1)E\}
+     =
+    -(A+E)\\
+    &=
+    -
+    \left\{
+    \begin{pmatrix}
+      -4 & 1\\
+      -6 & 1
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+      1 & 0\\
+      0 & 1
+    \end{pmatrix}
+    \right\}
+     =
+    \begin{pmatrix}
+      3 & -1\\
+      6 & -2
+    \end{pmatrix}.
+\end{align*}
+したがって
+\[
+  e^{tA}
+    =
+    e^{-t}
+    \begin{pmatrix}
+      -2 & 1\\
+      -6 & 3
+    \end{pmatrix}
+    +
+    e^{-2t}
+    \begin{pmatrix}
+      3 & -1\\
+      6 & -2
+    \end{pmatrix}.
+\]
+
+次に入力による項を計算する．ここでは $u(t)=1$ なので $bu(t)=b$ である．
+$r=t-\tau$ とおくと，
+\begin{align*}
+  e^{rA}b
+    &=
+    e^{-r}
+    \begin{pmatrix}
+      -2 & 1\\
+      -6 & 3
+    \end{pmatrix}
+    \binom{1}{1}
+    +
+    e^{-2r}
+    \begin{pmatrix}
+      3 & -1\\
+      6 & -2
+    \end{pmatrix}
+    \binom{1}{1}\\
+    &=
+    e^{-r}\binom{-1}{-3}
+    +
+    e^{-2r}\binom{2}{4}.
+\end{align*}
+よって
+\begin{align*}
+  \int_0^t e^{(t-\tau)A}bu(\tau)\,d\tau
+    &=
+    \int_0^t
+      \left\{
+        e^{-r}\binom{-1}{-3}
+        +
+        e^{-2r}\binom{2}{4}
+      \right\}dr\\
+    &=
+    \binom{-1}{-3}(1-e^{-t})
+      +
+      \binom{2}{4}\frac{1-e^{-2t}}{2}\\
+    &=
+    \binom{0}{-1}
+      +
+      e^{-t}\binom{1}{3}
+      +
+      e^{-2t}\binom{-1}{-2}.
+\end{align*}
+したがって，解の公式~\eqref{eq:solution-formula} より
+\[
+  x(t)
+    =
+    \left\{
+      e^{-t}
+      \begin{pmatrix}
+        -2 & 1\\
+        -6 & 3
+      \end{pmatrix}
+      +
+      e^{-2t}
+      \begin{pmatrix}
+        3 & -1\\
+        6 & -2
+      \end{pmatrix}
+    \right\}x(0)
+    +
+    e^{-t}\binom{1}{3}
+    +
+    e^{-2t}\binom{-1}{-2}
+    +
+    \binom{0}{-1}.
+\]
+右辺の $e^{-t}$，$e^{-2t}$ を含む項は $t\to\infty$ で消える．
+したがって，初期値に依存しない定常値として
+\[
+  \lim_{t\to\infty}x(t)=\binom{0}{-1}
+\]
+である．
+\end{proof}
+
+\subsection{演習のラプラス変換による解法}
+
+\begin{proof}[別解]
+先ほどの演習
+\[
+  \dot{x}
+    =
+    \begin{pmatrix}
+      -4 & 1\\
+      -6 & 1
+    \end{pmatrix}x
+    +
+    \binom{1}{1}u,
+  \qquad
+  u(t)=1
+\]
+をラプラス変換で解く．
+\[
+  A=
+  \begin{pmatrix}
+    -4 & 1\\
+    -6 & 1
+  \end{pmatrix},
+  \qquad
+  b=\binom{1}{1}
+\]
+とおくと，
+\[
+  sE-A
+    =
+    \begin{pmatrix}
+      s+4 & -1\\
+      6 & s-1
+    \end{pmatrix}
+\]
+であり，
+\[
+  \det(sE-A)
+    =(s+4)(s-1)+6
+    =s^2+3s+2
+    =(s+1)(s+2).
+\]
+したがって
+\[
+  (sE-A)^{-1}
+    =
+    \frac{1}{(s+1)(s+2)}
+    \begin{pmatrix}
+      s-1 & 1\\
+      -6 & s+4
+    \end{pmatrix}.
+\]
+これを
+\[
+  \frac{A_1}{s+1}+\frac{A_2}{s+2}
+\]
+と部分分数分解する．両辺に $(s+1)(s+2)$ を掛けると
+\[
+  \begin{pmatrix}
+    s-1 & 1\\
+    -6 & s+4
+  \end{pmatrix}
+    =
+    (s+2)A_1+(s+1)A_2
+\]
+となる．よって，$s=-1,-2$ を代入して
+\begin{align*}
+  A_1
+    &=
+    \left[
+      \frac{1}{s+2}
+      \begin{pmatrix}
+        s-1 & 1\\
+        -6 & s+4
+      \end{pmatrix}
+    \right]_{s=-1}
+     =
+    \begin{pmatrix}
+      -2 & 1\\
+      -6 & 3
+    \end{pmatrix},\\
+  A_2
+    &=
+    \left[
+      \frac{1}{s+1}
+      \begin{pmatrix}
+        s-1 & 1\\
+        -6 & s+4
+      \end{pmatrix}
+    \right]_{s=-2}
+     =
+    \begin{pmatrix}
+      3 & -1\\
+      6 & -2
+    \end{pmatrix}.
+\end{align*}
+したがって
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}\right]
+    =
+    e^{-t}
+    \begin{pmatrix}
+      -2 & 1\\
+      -6 & 3
+    \end{pmatrix}
+    +
+    e^{-2t}
+    \begin{pmatrix}
+      3 & -1\\
+      6 & -2
+    \end{pmatrix}.
+\]
+
+また，$u(t)=1$ なので $U(s)=1/s$ である．入力による項は
+\[
+  (sE-A)^{-1}bU(s)
+    =
+    \frac{1}{(s+1)(s+2)}
+    \begin{pmatrix}
+      s-1 & 1\\
+      -6 & s+4
+    \end{pmatrix}
+    \binom{1}{1}\frac{1}{s}
+    =
+    \frac{1}{s(s+1)(s+2)}
+    \binom{s}{s-2}.
+\]
+これを
+\[
+  \frac{B_1}{s}+\frac{B_2}{s+1}+\frac{B_3}{s+2}
+  \qquad (B_1,B_2,B_3\in\R^2)
+\]
+とおく．両辺に $s(s+1)(s+2)$ を掛けると
+\[
+  \binom{s}{s-2}
+    =
+    (s+1)(s+2)B_1
+    +s(s+2)B_2
+    +s(s+1)B_3.
+\]
+よって，$s=0,-1,-2$ を順に代入して
+\begin{align*}
+  B_1
+    &=
+    \left[
+      \frac{1}{(s+1)(s+2)}
+      \binom{s}{s-2}
+    \right]_{s=0}
+     =
+    \binom{0}{-1},\\
+  B_2
+    &=
+    \left[
+      \frac{1}{s(s+2)}
+      \binom{s}{s-2}
+    \right]_{s=-1}
+     =
+    \binom{1}{3},\\
+  B_3
+    &=
+    \left[
+      \frac{1}{s(s+1)}
+      \binom{s}{s-2}
+    \right]_{s=-2}
+     =
+    \binom{-1}{-2}.
+\end{align*}
+したがって
+\[
+  \mathcal{L}^{-1}\!\left[(sE-A)^{-1}bU(s)\right]
+    =
+    \binom{0}{-1}
+    +
+    e^{-t}\binom{1}{3}
+    +
+    e^{-2t}\binom{-1}{-2}.
+\]
+以上より
+\[
+  x(t)
+    =
+    \left\{
+      e^{-t}
+      \begin{pmatrix}
+        -2 & 1\\
+        -6 & 3
+      \end{pmatrix}
+      +
+      e^{-2t}
+      \begin{pmatrix}
+        3 & -1\\
+        6 & -2
+      \end{pmatrix}
+    \right\}x(0)
+    +
+    e^{-t}\binom{1}{3}
+    +
+    e^{-2t}\binom{-1}{-2}
+    +
+    \binom{0}{-1}.
+\]
+これは時間領域で直接積分した解と一致する．また，指数関数を含む項は
+$t\to\infty$ で消えるので
+\[
+  \lim_{t\to\infty}x(t)=\binom{0}{-1}
+\]
+である．
+\end{proof}
+
+\end{document}
