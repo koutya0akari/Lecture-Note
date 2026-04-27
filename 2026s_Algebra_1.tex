@@ -251,4 +251,152 @@
 なので、$\R^n$ は $\R$-加群である。\\
 \indent $\R^0 = \{0\}$ とする。
 \end{ex}
+
+\section{3回 : 2026/4/27}
+
+\begin{exe}
+  \quad $K$ : 体, $a \in K\backslash\{0\}$.\\
+  このとき, $ab = 1$ ならば $b = a^{-1}$ であることを示せ。
+\end{exe}
+\begin{proof}[解答]
+  $ab = 1$ と仮定するこのとき、
+  \begin{align*}
+    a^{-1} &= a^{-1}\cdot 1\\
+    &= a^{-1} \cdot (ab) \\
+    &= (a^{-1} \cdot a) \cdot b \\
+    &= 1 \cdot b \\
+    &= b
+  \end{align*}
+
+  より, $b = a^{-1}$ である。
+\end{proof}
+
+\begin{exe}
+  \quad $M$ : $R$-加群, $x \in M$.\\
+  このとき, $0x = 0$ であることを示せ。
+\end{exe}
+
+\begin{proof}[解答]
+  分配法則より, 
+  $0x = (0 + 0)x = 0x + 0x$ であるので、両辺から $0x$ を引くと $0 = 0x$ となる。
+\end{proof}
+
+\begin{ex}
+  アーベル群は自然に $\Z$-\hspace{0pt}加群と見做せる。\\
+  $M$ : アーベル群, $x \in M$\\
+  このとき, 
+  \[2\cdot x = (1+1)\cdot x = 1\cdot x + 1\cdot x = x+x.\]
+  このように、$n \in \Z$ に対して 
+  \[n\cdot x = \begin{cases}
+  \underbrace{x + x + \cdots + x}_{n \text{ 個}} & (n > 0) \\
+  0 & (n = 0) \\
+  \underbrace{(-x) + (-x) + \cdots + (-x))}_{n \text{ 個}} & (n < 0)
+  \end{cases}\]
+  とすると、$M$ は $\Z$-\hspace{0pt}加群と見做せることがわかる。
+\end{ex}
+
+\begin{rem}
+  \quad $R$ : 環, $M$ : $R$-加群.\\
+  \begin{enumerate}
+    \item $\forall x\in M$, $0x = 0$.
+    \item $\forall x\in M$, $\underbrace{(-1)x}_{-1 \in R, x \in M} = \underbrace{-x}_{-x\in M : M\text{における}x\text{の下方に関しての逆元}}$.
+  \end{enumerate}
+  一つ目に関しては、すでに示した通りである。二つ目に関しては、
+  \begin{align*}
+    (-1)x + x &= (-1)x + 1x \\
+    &= (-1 + 1)x \\
+    &= 0x \\
+    &= 0
+  \end{align*}
+
+  $\Z/2\Z = \{2\Z, \overline{1}+2\Z\}$ はアーベル群でり、上の例より、$\Z$-\hspace{0pt}加群と見做せる。これは、$\Z^n$ と同型でない。実際、$\Z^n$ は$\{0\}$ あるいは無限集合であるのに対し、$\Z/2\Z$ は$2$元集合である。
+\end{rem}
+
+\clearpage
+
+\begin{dfn}
+  \quad $R$ : 環\\
+  $R$の\textbf{イデアル}とは、$I \subseteq R$ であって、以下の条件を満たすものをいう :
+\begin{enumerate}
+  \item $\forall a, b \in I, a + b \in I$
+  \item $\forall a \in I, \forall r \in R, ra \in I$
+\end{enumerate}
+\end{dfn}
+
+\begin{ex}
+  $R$ のイデアル $I$ は $R$-加群である。\\
+  実際、$a, b \in I$ と $r \in R$ に対し、
+  \[a\in I \Rightarrow 1a=(-1)\cdot a\in I.\]
+  また、$R/I$ も $R$-加群である。実際、$a + I, b + I \in R/I$ と $r \in R$ に対し、
+  \begin{align*}
+    (a + I) + (b + I) &= (a + b) + I \in R/I \\
+    r(a + I) &= ra + I \in R/I
+  \end{align*}
+\end{ex}
+
+\subsection{部分加群と剰余加群}
+
+\begin{dfn}
+  \quad $R$ : 環, $M$ : $R$-加群\\
+  $M$の\textbf{部分加群}とは、$N \subseteq M$ であって、以下の条件を満たすものをいう :
+\begin{enumerate}
+  \item $\forall x, y \in N, x + y \in N$
+  \item $\forall x \in N, \forall r \in R, rx \in N$
+\end{enumerate} 
+\end{dfn}
+
+\begin{rem}
+  $R$ 自身を $R$-加群と見做すと、$R$ のイデアルは $R$ の部分加群である。
+\end{rem}
+
+\begin{dfn}
+  \quad $R$ : 環, $M$ : $R$-加群, $N$ : $M$ の部分加群\\
+  このとき、アーベル群としての剰余群 $M/N = \{x + N \mid x \in M\}$ に対して、$R$-加群構造が次のように定まる :
+\begin{align*}
+  (x + N) + (y + N) &= (x + y) + N \\
+  r(x + N) &= rx + N
+\end{align*}
+このように定めると、$M/N$ は $R$-加群となる。これは well-definedに定まっている。これを\textbf{剰余加群}という。
+\end{dfn}
+
+\begin{rem}
+  $M/N$ とはなんだろうか？\\
+  $x \in M$ に対して、
+  \[x+N = \{x+n \mid n\in N\} \]
+  と定め、
+  \[M/N := \{x+N \mid x\in M\}\]
+  する。ここで、$x, y \in M$ に対して、
+  \[x \sim y \iff x - y \in N\]
+  と定めと、この $\sim$ は $M$ 上の同値関係である。
+  この同値関係により、$M$ を\textbf{類別}することができる。つまり、$M = \bigcup_{\lambda \in \Lambda} M_{\lambda} $ であって、
+  \begin{align*}
+    \begin{cases}
+      M_{\lambda} \cap M_{\mu} = \emptyset & (\lambda \neq \mu) \\
+      M_{\lambda} = \{x \in M \mid x \sim x_{\lambda}\} & (\lambda \in \Lambda)
+    \end{cases}
+  \end{align*}
+  各 $M_{\lambda}$ は、$x_{\lambda}$ を用いて $x_{\lambda}+N$ と表せることが証明できる。
+\end{rem}
+
+\begin{rem}
+  \quad $M/N$ の演算の well-definedness について、つまり、
+  \[(x+N)+(y+N)=(x+y)+N\]
+  が矛盾なく"定義"できているか、を吟味する。\\
+  $x, y, x', y' \in M$ として、
+  \begin{align*}
+    \begin{cases}
+      x+N = x^{\prime}+N \\
+      y+N = y^{\prime}+N
+    \end{cases}
+  \end{align*}
+  とすると、$x - x^{\prime} \in N$ かつ $y - y^{\prime} \in N$ である。したがって、
+  \[(x+y) - (x^{\prime} + y^{\prime}) = (x - x^{\prime}) + (y - y^{\prime}) \in N\]
+  なので、$(x+y)+N = (x^{\prime} + y^{\prime}) + N$  である。\\
+  \quad 同様にして、$r(x+N) = rx + N$ も well-defined に定まっていることがわかる。
+  このことから、$M/N$ の加法の定義は一見、大表現の取り方に依存しているが、剰余類の選び方にしか依存していないことがわかる。\\
+  \quad 尚、 $M/N$ の $0$ は $0+N$ である。\\
+  実際、
+  \[(0+N)+(m+N) = (0+m)+N=m+N\]
+  なので、$0+N$ は $M/N$ の単位元である。
+\end{rem}
 \end{document}
