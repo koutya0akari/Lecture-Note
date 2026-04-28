@@ -461,4 +461,342 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
 もし点列 $\{x_n\}_{n \in \N}$ のある部分列 $\{x_{i(n)}\}_{n \in I}$ が $x$ に収束すると仮定する。
 すると、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。$\{x_{i(n)}\}_{n \in I}$ は $\{x_n\}_{n \in \N}$ の部分列なので $i(n) \geq n$ であるから、任意の $n \geq N$ に対して $d(x_{i(n)},x) < \varepsilon$ を満たす。しかし、$\varepsilon$ は任意であるため、ある $\delta > 0$ が存在して、任意の $n \in \N$ に対して $d(x_n,x) \geq \delta$ を満たすという仮定に矛盾する。したがって、点列 $\{x_n\}_{n \in \N}$ の任意の部分列 $\{x_{i(n)}\}_{n \in I}$ は収束しない。
 \end{proof}
+
+\section{第3回 : (2026/04/28)}
+
+\subsection{平面 $\R^2$ 上の点列}
+\begin{thm}
+    \quad $\{(x_n,y_n)\}$ : $\R^2$ 上の点列, $(\R^2,d)$ : 2次元ユークリッド空間.\\
+   このとき、
+   \[\lim_{n \to \infty} (x_n,y_n) = (x,y)\]
+   であることと、
+   \[\lim_{n \to \infty} x_n = x, \quad \lim_{n \to \infty} y_n = y\]
+   であることは同値である。
+\end{thm}
+
+\begin{proof}
+    $\Rightarrow$ : $\lim_{n \to \infty} (x_n,y_n) = (x,y)$ とする。任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して、
+    \begin{align*}
+        d((x_n,y_n),(x,y)) &= \sqrt{(x_n - x)^2 + (y_n - y)^2} < \varepsilon
+    \end{align*}
+    を満たす。ここで、$\sqrt{(x_n - x)^2 + (y_n - y)^2} < \varepsilon$ であるから、$\left\lvert x_n - x \right\rvert < \varepsilon$ および $\left\lvert y_n - y \right\rvert < \varepsilon$ を満たす。したがって、$\lim_{n \to \infty} x_n = x$ および $\lim_{n \to \infty} y_n = y$ である。
+
+    $\Leftarrow$ : $\lim_{n \to \infty} x_n = x, \quad \lim_{n \to \infty} y_n = y$ とする。任意の $\varepsilon > 0$ に対して、ある $N_1, N_2 \in \N$ が存在して、任意の $n \geq N_1$ に対して $\left\lvert x_n - x\right\rvert < \varepsilon/\sqrt{2}$ を満たし、任意の $n \geq N_2$ に対して $\left\lvert y_n - y\right\rvert < \varepsilon/\sqrt{2}$ を満たす。ここで、ある $N = \max\{N_1,N_2\} \in \N$ が存在して、任意の $n \geq N$ に対して、
+    \begin{align*}
+        d((x_n,y_n),(x,y)) &= \sqrt{(x_n - x)^2 + (y_n - y)^2} < \sqrt{\left(\frac{\varepsilon}{\sqrt{2}}\right)^2 + \left(\frac{\varepsilon}{\sqrt{2}}\right)^2} = \varepsilon
+    \end{align*}
+    を満たす。したがって、$\lim_{n \to \infty} (x_n,y_n) = (x,y)$ である。
+\end{proof}
+
+\begin{lem}\label{lem:distance-comparison}
+    \quad $X$ : 集合, $d, d^{\prime}$ : $X$ 上の距離.\\
+    ここで、ある $k > 0$ が存在して、任意の $x,y \in X$ に対して、
+    \[d(x,y) \leq k\cdot d^{\prime}(x,y)\]
+    を満たすとする。このとき、点列 $\{x_n\}_{n \in \N}$ が $x$ に対して $d$ によって収束するならば、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $d^{\prime}$ によっても収束する。
+\end{lem}
+
+\begin{proof}
+    点列 $\{x_n\}_{n \in \N}$ が $x$ に対して $d$ によって収束するならば、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。ここで、ある $k > 0$ が存在して、任意の $x,y \in X$ に対して $d(x,y) \leq k\cdot d^{\prime}(x,y)$ を満たすので、任意の $n \geq N$ に対して、
+    \[d^{\prime}(x_n,x) \leq k\cdot d(x_n,x) < k\cdot \varepsilon\]
+    を満たす。$\varepsilon$ は任意であるため、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $d^{\prime}$ によっても収束する。
+\end{proof}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+  scale=1.0,
+  line cap=round,
+  line join=round,
+  >=Stealth,
+  every node/.style={font=\large}
+]
+
+% center point
+\coordinate (x0) at (4.3,2.0);
+
+% ambient space X
+\draw[line width=1.4pt]
+  (0.2,1.75)
+  .. controls (0.35,2.45) and (0.75,2.95) .. (1.25,2.95)
+  .. controls (2.30,2.90) and (2.60,2.75) .. (3.75,3.10)
+  .. controls (5.15,3.55) and (6.25,3.55) .. (7.25,2.95)
+  .. controls (8.00,2.45) and (8.25,1.55) .. (7.70,0.95)
+  .. controls (7.25,0.45) and (6.15,0.25) .. (5.25,0.05)
+  .. controls (4.40,-0.10) and (3.85,0.20) .. (3.55,0.35)
+  .. controls (2.75,0.45) and (2.55,0.20) .. (2.15,0.40)
+  .. controls (1.25,0.15) and (0.45,0.45) .. (0.15,1.15)
+  .. controls (0.05,1.35) and (0.10,1.55) .. cycle;
+
+% label X
+\node at (0.35,3.55) {$X$};
+
+% outer green neighborhood
+\draw[black, line width=1.4pt]
+  (x0) ellipse [x radius=1.55, y radius=0.85];
+
+% inner orange neighborhood
+\draw[black, line width=1.4pt]
+  (x0) ellipse [x radius=0.62, y radius=0.52];
+
+% point x_0
+\fill (x0) circle (3.5pt);
+\node[right=2pt] at (x0) {\large $x_0$};
+
+% green arrow and label
+\draw[black, line width=1.4pt, ->]
+  (6.95,2.65) .. controls (6.55,2.55) and (6.25,2.35) .. (5.85,2.25);
+
+\node[black, right] at (7.15,2.55)
+  {\large $U_d\!\left(x_0;\dfrac{\varepsilon}{k}\right)$};
+
+% orange arrow and label
+\draw[black, line width=1.4pt, ->]
+  (3.78,0.95) .. controls (3.65,1.30) and (3.72,1.63) .. (3.95,1.75);
+
+\node[black, below] at (5,1)
+  {\large $U_{d'}(x_0;\varepsilon)$};
+
+\end{tikzpicture}
+\end{figure}
+
+\begin{prop}
+    \quad $\{p_n\}$ : $\R^2$ 上の点列, $X \in \R^2$ : 点.\\
+    \quad $d_2$ : 2次元ユークリッド距離, $d_2^P$ : 2次元パリ距離, $d_{2}^{F}$ : 2次元チェビシェフ距離.\\
+    このとき、次は同値である : 
+\begin{enumerate}[label=(\arabic*)\,]
+    \item 点列 $\{p_n\}$ は $X$ に対して $d_2$ によって収束する。
+    \item 点列 $\{p_n\}$ は $X$ に対して $d_{2}^{P}$ によって収束する。
+    \item 点列 $\{p_n\}$ は $X$ に対して $d_{2}^{F}$ によって収束する。
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}
+    (1) $\Rightarrow$ (2) : 任意の $(x,y), (x^{\prime},y^{\prime}) \in \R^2$ に対して、
+    \begin{align*}
+        d_2^P((x,y),(x^{\prime},y^{\prime})) &\leq d_2((x,y),(x^{\prime},y^{\prime})) \\
+        &\leq \sqrt{2}\cdot d_2^P((x,y),(x^{\prime},y^{\prime}))
+    \end{align*}
+    を満たす。したがって、補題\ref{lem:distance-comparison}より、点列 $\{p_n\}$ は $X$ に対して $d_2^P$ によって収束する。\\
+    
+    (2) $\Rightarrow$ (3) : 任意の $(x,y), (x^{\prime},y^{\prime}) \in \R^2$ に対して、
+    \begin{align*}
+        d_{2}^{F}((x,y),(x^{\prime},y^{\prime})) &\leq d_2^P((x,y),(x^{\prime},y^{\prime})) \\
+        &\leq 2\cdot d_{2}^{F}((x,y),(x^{\prime},y^{\prime}))
+    \end{align*}
+    を満たす。したがって、補題\ref{lem:distance-comparison}より、点列 $\{p_n\}$ は $X$ に対して $d_{2}^{F}$ によって収束する。\\
+    
+    (3) $\Rightarrow$ (1) : 任意の $(x,y), (x^{\prime},y^{\prime}) \in \R^2$ に対して、
+    \begin{align*}
+        d_2((x,y),(x^{\prime},y^{\prime})) &\leq \sqrt{2}\cdot d_{2}^{F}((x,y),(x^{\prime},y^{\prime})) \\
+        &\leq 2\cdot d_2((x,y),(x^{\prime},y^{\prime}))
+    \end{align*}
+    を満たす。したがって、補題\ref{lem:distance-comparison}より、点列 $\{p_n\}$ は $X$ に対して $d_2$ によって収束する。
+\end{proof}
+
+\begin{ex}
+    上の状況で、各 $n$ に対し、$p_n = \left(1, \frac{1}{n}\right)$ , $X = (1,0)$ とする。すると、点列 $\{p_n\}$ は $X$ に対して $d_2$ によって収束するが、点列 $\{p_n\}$ は $X$ に対して $d_{2}^{P}$ によって収束しない。\\
+
+    実際、任意の $n \in \N$ に対して、
+    \begin{align*}
+        d_2(p_n,X) &= \sqrt{\left(1 - 1\right)^2 + \left(\frac{1}{n} - 0\right)^2} = \frac{1}{n} \to 0 \quad (n \to \infty) \\
+        d_2^P(p_n,X) &=
+        d_2(p_n, (0,0)) + d_2((0,0),X) \\
+        &= \sqrt{1^2 + \left(\frac{1}{n}\right)^2} + \sqrt{1^2 + 0^2} \\
+        &= \sqrt{1 + \frac{1}{n^2}} + 1 \to 2 \quad (n \to \infty)
+    \end{align*}   
+    を満たす。 したがって、点列 $\{p_n\}$ は $X$ に対して $d_2$ によって収束するが、点列 $\{p_n\}$ は $X$ に対して $d_{2}^{P}$ によって収束しない。
+\end{ex}
+
+\begin{ex}
+    $X$ : 集合, $p_{0}(x,y) := \begin{cases}
+        0 \quad & (x=y) \\
+        1 \quad & (x \neq y)
+    \end{cases}$.\\
+    $p_{0}$ は $X$ 上の距離を定める。この距離空間 $(X, p_0)$ を\textbf{離散距離空間}と呼ぶ。\\
+    \quad 任意の点列 $\{x_n\}_{n \in \N}$ と点 $x \in X$ に対して、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束するならば、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たす。逆に、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たすならば、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束する。したがって、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束することと、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たすことは同値である。
+\end{ex}
+
+\subsection{距離空間の開集合}
+
+\begin{dfn}
+    \quad $(X,d)$ : 距離空間, $x \in X$ : 点, $\varepsilon > 0$.\\
+    \[U_d(x;\varepsilon) := \{y \in X \mid d(x,y) \leq  \varepsilon\}\]
+    を $X$ 上の点 $x$ と実数 $\varepsilon$ に対する$\varepsilon$\textbf{-\hspace{0pt}近傍}と呼ぶ。、$U(x;\varepsilon)$ と略記することもある。
+\end{dfn}
+
+\begin{ex}
+    \quad $(\R^2, d_2)$ : 2次元ユークリッド距離空間, $x = (0,0)$ : 点, $\varepsilon > 0$.\\
+    このとき、$U_{d_2}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の円盤の内部である。
+\end{ex}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=1.0]
+
+  % 座標軸
+  \draw[->,thick] (-0.5,0) -- (5.5,0) node[right] {$x_1$};
+  \draw[->,thick] (0,-0.5) -- (0,4.5) node[above] {$x_2$};
+
+  % 点 x の位置
+  \coordinate (x) at (2.5,2);
+
+  % 近傍 U_{d_2}(x;\varepsilon)
+  \filldraw[fill=blue!10, draw=blue, thick] (x) circle (1.2);
+
+  % 中心点 x
+  \fill (x) circle (2pt);
+  \node[above right] at (x) {$x$};
+
+  % 半径 epsilon を示す点
+  \coordinate (p) at (3.7,2);
+
+  % 半径の線
+  \draw[dashed,thick] (x) -- (p);
+  \node[below] at ($(x)!0.5!(p)$) {$\varepsilon$};
+
+  % 円周上の点（任意）
+  \fill (p) circle (1.5pt);
+
+  % 集合名
+  \node[blue] at (2.5,3.6) {$U_{d_2}(x;\varepsilon)$};
+
+  % 空間のラベル
+  \node at (5.0,4.1) {$\mathbb{R}^2$};
+\end{tikzpicture}
+\end{figure}
+
+\begin{ex}
+    \quad $(\R^3, d_3)$ : 3次元ユークリッド距離空間, $x = (0,0,0)$ : 点, $\varepsilon > 0$.\\
+    このとき、$U_{d_3}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の球体の内部である。
+\end{ex}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.2, >=Stealth, line cap=round, line join=round]
+
+    \coordinate (O) at (0,0);
+    \def\R{2.2}
+
+    \shade[ball color=blue!15, opacity=0.8] (O) circle (\R);
+    \draw[thick] (O) circle (\R);
+
+    \draw[dashed] (-\R,0) arc[start angle=180,end angle=360,x radius=\R,y radius=0.65];
+    \draw[thick]   (\R,0) arc[start angle=0,end angle=180,x radius=\R,y radius=0.65];
+
+    \fill (O) circle (2pt);
+    \node[below left] at (O) {$x=(0,0,0)$};
+
+    \coordinate (P) at ({\R*cos(35)},{\R*sin(35)});
+    \draw[thick,->] (O) -- (P);
+    \node[midway, above right] {$\varepsilon$};
+
+    \node at (0,2.9) {$U_{d_3}(x;\varepsilon)$};
+    \node at (3.3,2.3) {$(\mathbb{R}^3,d_3)$};
+
+  \end{tikzpicture}
+  \caption{$U_{d_3}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の開球である。}
+\end{figure}
+
+\begin{ex}
+    \quad $(\R^2, d_2^P)$ : 2次元パリ距離空間, $x = (0,0)$ : 点, $\varepsilon > 0$.\\
+    このとき、$U_{d_2^P}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の正方形の内部である。つまり、
+    \[U_{d_2^P}(x;\varepsilon) = \{(x,y) \in \R^2 \mid |x| + |y| < \varepsilon\}\]
+    である。
+\end{ex}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[scale=1.2, >=Stealth]
+
+    \def\eps{2}
+
+
+    % 開球
+    \filldraw[fill=blue!10, draw=blue, thick]
+      (0,\eps) -- (\eps,0) -- (0,-\eps) -- (-\eps,0) -- cycle;
+
+    % 原点
+    \fill (0,0) circle (2pt);
+    \node[below left,font=\small] at (-0.1,-0.05) {$x=(0,0)$};
+
+    % 頂点ラベル
+    \node[above right] at (0.1,\eps) {$(0,\varepsilon)$};
+    \node[above right] at (\eps,0.1) {$(\varepsilon,0)$};
+    \node[below right] at (0.1,-\eps) {$(0,-\varepsilon)$};
+    \node[above left] at (-\eps,0.1) {$(-\varepsilon,0)$};
+
+    % 集合名
+    \node[blue] at (-3,2.55) {$U_{d_2^P}(x;\varepsilon)$};
+
+    % 座標軸（実線）
+    \draw[->, thick] (-2.8,0) -- (2.8,0) node[below right] {$x$};
+    \draw[->, thick] (0,-2.8) -- (0,2.8) node[above left] {$y$};
+
+
+  \end{tikzpicture}
+  \caption{$U_{d_2^P}(x;\varepsilon)=\{(x,y)\in\mathbb{R}^2 \mid |x|+|y|<\varepsilon\}$}
+\end{figure}
+
+\begin{lem}
+    \quad $(X,d)$ : 距離空間, $x \in X$ : 点\\
+    このとき、次が成り立つ :
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item 任意の $\varepsilon > 0$ に対して、$x \in U_d(x;\varepsilon)$ を満たす。
+        \item 任意の $\varepsilon \geq \delta > 0$ に対して、$U_d(x;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。
+        \item 任意の $\varepsilon > 0$ に対して $y \in U_d(x;\varepsilon)$ ならば、ある $\delta > 0$ が存在して、$U_d(y;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。
+    \end{enumerate}
+\end{lem}
+
+\begin{proof}[(1)の証明]
+    任意の $\varepsilon > 0$ に対して、$d(x,x) = 0 < \varepsilon$ を満たす。したがって、$x \in U_d(x;\varepsilon)$ を満たす。
+\end{proof}
+
+\begin{proof}[(2)の証明]
+    任意の $\varepsilon \geq \delta > 0$ に対して、任意の $y \in U_d(x;\delta)$ に対して $d(x,y) < \delta \leq \varepsilon$ を満たす。したがって、$U_d(x;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。
+\end{proof}
+
+\begin{proof}[(3)の証明]
+    任意の $\varepsilon > 0$ に対して $y \in U_d(x;\varepsilon)$ ならば、$d(x,y) < \varepsilon$ を満たす。したがって、$\delta = \varepsilon - d(x,y) > 0$ とおくと、任意の $z \in U_d(y;\delta)$ に対して $d(y,z) < \delta$ を満たす。よって、
+    \[d(x,z) \leq d(x,y) + d(y,z) < d(x,y) + (\varepsilon - d(x,y)) = \varepsilon\]
+    を満たす。したがって、$U_d(y;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。
+\end{proof}
+
+\begin{dfn}
+    \quad $(X,d)$ : 距離空間, $U \subseteq X$.\\
+    $U$ が $X$ の\textbf{開集合}であるとは、任意の $x \in U$ に対して、ある $\varepsilon > 0$ が存在して $U_d(x;\varepsilon) \subseteq U$ を満たすことをいう。
+\end{dfn}
+
+\begin{prop}
+    \quad $(X,d)$ : 距離空間.\\
+    このとき、任意の $\varepsilon > 0$ に対して、$U_d(x;\varepsilon)$ は $X$ の開集合である。
+\end{prop}
+
+\begin{proof}
+    任意の $y \in U_d(x;\varepsilon)$ に対して、$d(x,y) < \varepsilon$ を満たす。したがって、$\delta = \varepsilon - d(x,y) > 0$ とおくと、任意の $z \in U_d(y;\delta)$ に対して $d(y,z) < \delta$ を満たす。よって、
+    \[d(x,z) \leq d(x,y) + d(y,z) < d(x,y) + (\varepsilon - d(x,y)) = \varepsilon\]
+    を満たす。したがって、$U_d(y;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。したがって、任意の $y \in U_d(x;\varepsilon)$ に対して、ある $\delta > 0$ が存在して $U_d(y;\delta) \subseteq U_d(x;\varepsilon)$ を満たす。したがって、$U_d(x;\varepsilon)$ は $X$ の開集合である。
+\end{proof}
+
+\begin{thm}
+    \quad $(X,d)$ : 距離空間, $U \subseteq X$.\quad このとき、次の性質が成り立つ : 
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $X$ と $\emptyset$ は $X$ の開集合である。
+        \item 有限個の開集合 $\mathcal{O}_1, \mathcal{O}_2, \ldots, \mathcal{O}_n$ の和集合 $\bigcap_{i=1}^n \mathcal{O}_i$ は $X$ の開集合である。
+        \item 任意の個数の開集合 $\{\mathcal{O}_i\}_{i \in I}$ の和集合 $\bigcup_{i \in I} \mathcal{O}_i$ は $X$ の開集合である。
+    \end{enumerate}
+\end{thm}
+
+\begin{proof}[(1)の証明]
+    任意の $x \in X$ に対して、ある $\varepsilon > 0$ が存在して $U_d(x;\varepsilon) \subseteq X$ を満たす。したがって、$X$ は $X$ の開集合である。
+
+    $\emptyset$ は空集合であるから、任意の $x \in \emptyset$ に対して、ある $\varepsilon > 0$ が存在して $U_d(x;\varepsilon) \subseteq \emptyset$ を満たす。したがって、$\emptyset$ は $X$ の開集合である。
+\end{proof}
+
+\begin{proof}[(2)の証明]
+    任意の $x \in \bigcap_{i=1}^n \mathcal{O}_i$ に対して、任意の $1 \leq i \leq n$ に対して $x \in \mathcal{O}_i$ を満たす。したがって、任意の $1 \leq i \leq n$ に対して、ある $\varepsilon_i > 0$ が存在して $U_d(x;\varepsilon_i) \subseteq \mathcal{O}_i$ を満たす。ここで、$\varepsilon = \min\{\varepsilon_1, \varepsilon_2, \ldots, \varepsilon_n\} > 0$ とおくと、任意の $1 \leq i \leq n$ に対して $U_d(x;\varepsilon) \subseteq U_d(x;\varepsilon_i) \subseteq \mathcal{O}_i$ を満たす。したがって、任意の $1 \leq i \leq n$ に対して $U_d(x;\varepsilon) \subseteq \mathcal{O}_i$ を満たす。したがって、$U_d(x;\varepsilon) \subseteq \bigcap_{i=1}^n \mathcal{O}_i$ を満たす。したがって、$\bigcap_{i=1}^n \mathcal{O}_i$ は $X$ の開集合である。
+\end{proof}
+
+\begin{proof}[(3)の証明]
+    任意の $x \in \bigcup_{i \in I} \mathcal{O}_i$ に対して、ある $i_0 \in I$ が存在して $x \in \mathcal{O}_{i_0}$ を満たす。したがって、ある $\varepsilon > 0$ が存在して $U_d(x;\varepsilon) \subseteq \mathcal{O}_{i_0}$ を満たす。したがって、$U_d(x;\varepsilon) \subseteq \bigcup_{i \in I} \mathcal{O}_i$ を満たす。したがって、$\bigcup_{i \in I} \mathcal{O}_i$ は $X$ の開集合である。
+\end{proof}
 \end{document}
