@@ -79,9 +79,9 @@
 \tableofcontents
 %% 本文の内容をここに記述
 % ====================================================================
-\section{1回 : 2026/4/13}
+\section{第1回 : 2026/4/13}
 \subsection{ガイダンス}
-\section{2回 : 2026/4/20}
+\section{第2回 : 2026/4/20}
 \subsection{復習}
 \begin{dfn}
 \textbf{アーベル群}(\textbf{可換群}) とは、
@@ -252,7 +252,7 @@
 \indent $\R^0 = \{0\}$ とする。
 \end{ex}
 
-\section{3回 : 2026/4/27}
+\section{第3回 : 2026/4/27}
 
 \begin{exe}
   \quad $K$ : 体, $a \in K\backslash\{0\}$.\\
@@ -399,4 +399,211 @@
   \[(0+N)+(m+N) = (0+m)+N=m+N\]
   なので、$0+N$ は $M/N$ の単位元である。
 \end{rem}
+
+\section{第4回 : 2026/5/01}
+
+\begin{rem}
+  $M$ : $R$-\hspace{0pt}加群, $N$ : $M$ の部分$R$-\hspace{0pt}加群\\
+  このとき、$M/N = \{x+N | x\in M\}$ に対して、$a\in R, x+N\in M/N$ に対して、スカラー倍を
+  \[a(x+N) = ax + N\]
+  と定義したい。この定義は、$M/N$ の加法の定義と同様に、well-defined に定まっていることを確認する必要がある。\\
+  $a\in R, x, y \in M$ として、
+  \begin{align*}
+    \begin{cases}
+      x+N = x^{\prime}+N \\
+      y+N = y^{\prime}+N
+    \end{cases}
+  \end{align*}
+  とすると、$x - x^{\prime} \in N$ かつ $y - y^{\prime} \in N$ である。したがって、 
+  \begin{align*}
+    a(x+y) - a(x^{\prime} + y^{\prime}) &= ax + ay - ax^{\prime} - ay^{\prime} \\
+    &= a(x - x^{\prime}) + a(y - y^{\prime}) \in N
+  \end{align*}
+  なので、$a(x+y) + N = a(x^{\prime} + y^{\prime}) + N$ である。\\
+  \quad 同様にして、$a(x+y) + N = a(x^{\prime} + y^{\prime}) + N$ も well-defined に定まっていることがわかる。
+
+  また、$M/N$ が $R$-\hspace{0pt}加群であることは容易にわかる。例えば、結合法則は、
+  \begin{align*}
+    a(b(x+N)) &= a(bx + N) \\
+    &= (a(bx)) + N \\
+    &= ((ab)x) + N \\
+    &= (ab)(x+N)
+  \end{align*}
+  である。そのほかは、$M$ が $R$-\hspace{0pt}加群であることから、同様にして示せる。
+\end{rem}
+
+\subsection{準同型写像と準同型定理}
+
+\begin{dfn}
+  \quad $R$ : 環, $M, N$ : $R$-加群\\
+  このとき、写像 $f \colon M \to N$ が$R$\textbf{-\hspace{0pt}線形写像}または$R$\textbf{-\hspace{0pt}加群の準同型写像}であるとは、$\forall x, y \in M, \forall r \in R$ に対して、
+  \begin{align*}
+    f(x+y) &= f(x) + f(y) \\
+    f(rx) &= rf(x)
+  \end{align*}
+  を満たすことをいう。
+\end{dfn}
+
+\begin{dfn}
+  \quad $R$ : 環, $M, N$ : $R$-加群\\
+  このとき、$M$と$N$が\textbf{同型}であるとは、$R$-\hspace{0pt}線形写像 $f \colon M \to N$ と $g \colon N \to M$ であって、
+  \[g \circ f = \mathrm{id}_M, \quad f \circ g = \mathrm{id}_N\]
+  を満たすものが存在することをいう。また、このとき、$f$ は同型（写像）であるという。
+\end{dfn}
+
+\begin{prop}
+  \quad $R$ : 環, $M, N$ : $R$-加群\\
+  このとき、次のの条件は同値である :
+\begin{enumerate}[label=(\arabic*)\,]
+  \item $M$ と $N$ は同型である。
+  \item $M$ と $N$ の間に全単射な $R$-\hspace{0pt}線形写像が存在する。
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[(1) $\Rightarrow$ (2)]
+  $M$ と $N$ は同型であると仮定する。このとき、$R$-\hspace{0pt}線形写像 $f \colon M \to N$ と $g \colon N \to M$ であって、
+  \[g \circ f = \mathrm{id}_M, \quad f \circ g = \mathrm{id}_N\]
+  を満たすものが存在する。特に、$f$ は全単射である。
+\end{proof}
+
+\begin{proof}[(2) $\Rightarrow$ (1)]
+  $M$ と $N$ の間に全単射な $R$-\hspace{0pt}線形写像 $f \colon M \to N$ が存在すると仮定する。このとき、$f$ は全単射であるので、逆写像 $f^{-1} \colon N \to M$ が存在する。さらに、$f^{-1}$ は $R$-\hspace{0pt}線形写像であることがわかる。実際、$y_1, y_2 \in N$ と $r \in R$ に対し、
+  \begin{align*}
+    f^{-1}(y_1 + y_2) &= f^{-1}(y_1) + f^{-1}(y_2) \\
+    f^{-1}(ry_1) &= f^{-1}(r f(f^{-1}(y_1))) \qquad (\because f \text{ は逆写像をもつ})\\
+    &= f^{-1}(f(r f^{-1}(y_1))) \qquad (\because f \text{ は } R\text{-線形})\\
+    &= r f^{-1}(y_1)
+  \end{align*}
+  である。したがって、$f$ と $f^{-1}$ は同型な写像であるので、$M$ と $N$ は同型である。
+\end{proof}
+
+\begin{dfn}
+  \quad $R$ : 環, $M, N$ : $R$-加群, $f \colon M \to N$ : $R$-\hspace{0pt}線形写像
+  \begin{enumerate}[label=(\arabic*)\,]
+    \item $f$ の\textbf{核}とは、$\Ker(f) := \{x \in M \mid f(x) = 0\}$ をいう。
+    \item $f$ の\textbf{像}とは、$\im(f) := \{f(x) \mid x \in M\}$ をいう。
+  \end{enumerate}
+\end{dfn}
+
+\begin{prop}
+  \quad $R$ : 環, $M, N$ : $R$-加群, $f \colon M \to N$ : $R$-\hspace{0pt}線形写像\\
+  このとき、以下が成り立つ :
+\begin{enumerate}[label=(\arabic*)\,]
+  \item $\Ker(f)$ は $M$ の部分$R$-\hspace{0pt}加群である。
+  \item $\im(f)$ は $N$ の部分$R$-\hspace{0pt}加群である。
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[(1)]
+  $x, y \in \Ker(f)$ と $r \in R$ に対し、
+  \begin{align*}
+    f(x+y) &= f(x) + f(y) = 0 + 0 = 0 \\
+    f(rx) &= rf(x) = r\cdot 0 = 0
+  \end{align*}
+  なので、$x+y \in \Ker(f)$ かつ $rx \in \Ker(f)$ である。したがって、$\Ker(f)$ は $M$ の部分$R$-\hspace{0pt}加群である。
+\end{proof}
+
+\begin{proof}[(2)]
+  $y_1, y_2 \in \im(f)$ と $r \in R$ に対し、それぞれ $x_1, x_2 \in M$ が存在して $f(x_1) = y_1, f(x_2) = y_2$ である。このとき、
+  \begin{align*}
+    y_1 + y_2 &= f(x_1) + f(x_2) = f(x_1 + x_2) \\
+    ry_1 &= r f(x_1) = f(rx_1)
+  \end{align*}
+  なので、$y_1 + y_2 \in \im(f)$ かつ $ry_1 \in \im(f)$ である。したがって、$\im(f)$ は $N$ の部分$R$-\hspace{0pt}加群である。
+\end{proof}
+
+\begin{rem}
+  重要な性質として、以下のものがある :
+  \[f(0) = f(0+0) = f(0) + f(0)\]
+  したがって、$f(0) = 0$ である。
+\end{rem}
+
+\begin{thm}
+  \quad $R$ : 環, $f \colon M \to N$ : $R$-\hspace{0pt}線形写像\\
+  \quad $\pi \colon M \to M/\Ker(f), x \mapsto x + \Ker(f)$ \\
+  このとき、$R$-\hspace{0pt}線形写像 $g \colon M/\Ker(f) \to N$ がただ一つ存在し、
+  \[g(x + \Ker(f)) = f(x)\]
+  が成り立つ。また、この $g$ は同型
+  \[M/\Ker(f) \overset{\cong}{\to} \im(f)\]
+  を定める。\\
+  $g$ の条件は次のように表すこともできる :\\
+  \begin{center}
+    \begin{tikzcd}
+  A \ar[r, "f"] \arrow[d, "g"'] & B \ar[d] \\
+  C \ar[r] & D
+\end{tikzcd}
+  \end{center}
+\end{thm}
+
+\begin{proof}
+  $g$ が存在することを示す。$x + \Ker(f) \in M/\Ker(f)$ に対して、$g(x + \Ker(f)) := f(x)$ と定める。これが well-defined に定まっていることを確認する。$x, y \in M$ として、
+  \begin{align*}
+    \begin{cases}
+      x + \Ker(f) = y + \Ker(f) \\
+      f(x) = g(x + \Ker(f)) \\
+      f(y) = g(y + \Ker(f))
+    \end{cases}
+  \end{align*}
+  とすると、$x - y \in \Ker(f)$ であるので、$f(x - y) = 0$ である。したがって、$f(x) = f(y)$ である。したがって、$g(x + \Ker(f)) = g(y + \Ker(f))$ である。\\
+
+  \vspace{1\baselineskip}
+
+  \quad $g$ は $R$-\hspace{0pt}線形写像であることを確認する。$x, y \in M$ と $r \in R$ に対し、
+  \begin{align*}
+    g((x+y) + \Ker(f)) &= g((x+\Ker(f)) + (y+\Ker(f)))\\
+    &= g(x+\Ker(f)) + g(y+\Ker(f))\\
+    &= f(x) + f(y)\\
+    &= f(x+y)
+  \end{align*}
+  および
+  \begin{align*}
+    g(r(x+\Ker(f))) &= g(rx + \Ker(f))\\
+    &= f(rx)\\
+    &= rf(x)
+  \end{align*}
+  より、$g$ は $R$-\hspace{0pt}線形写像である。\\
+
+  \vspace{1\baselineskip}
+
+  $g$ は一意的であることを確認する。$g' \colon M/\Ker(f) \to N$ も $R$-\hspace{0pt}線形写像であって、$g'(x + \Ker(f)) = f(x)$ を満たすとする。このとき、$\forall x + \Ker(f) \in M/\Ker(f), g(x + \Ker(f)) = g'(x + \Ker(f))$ である。したがって、$g$ は一意的である。\\
+
+  \vspace{1\baselineskip}
+
+  $g$ は同型であることを確認するために、全単射であることを確認する。\\
+  \vspace{1\baselineskip}
+  \quad 全射であることは、$\forall y\in\im(f),\exists x\in M/\Ker(f)$ に対して、$g(x)=y$ を示せば十分である。$\forall y\in\im(f),\exists x_0\in M$ に対して、$f(x_0)=y$ である。このとき、
+  \[g(x_0 + \Ker(f)) = f(x_0) = y\]
+  なので、$g$ は全射である。\\
+  \quad 単射であることは、$\forall x\in M/\Ker(f), g(x)=0 \Rightarrow x=0$ を示せば十分である。$x\in M/\Ker(f)$ として、$g(x)=0$ と仮定する。このとき、$x = x_0 + \Ker(f)$ と表せる $x_0 \in M$ が存在する。このとき、
+  \[0 = g(x) = g(x_0 + \Ker(f)) = f(x_0)\]
+  なので、$x_0 \in \Ker(f)$ である。したがって、$x = x_0 + \Ker(f) = 0 + \Ker(f) = 0$ である。\\
+  $g$ は同型であることがわかったので、$g^{-1} \colon \im(f) \to M/\Ker(f)$ が存在する。さらに、$g^{-1}$ は $R$-\hspace{0pt}線形写像であることがわかる。実際、$y_1, y_2 \in \im(f)$ と $r \in R$ に対し、
+  \begin{align*}
+    g^{-1}(y_1 + y_2) &= g^{-1}(y1) + g^{-1}(y_2) \\
+    g^{-1}(ry_1) &= g^{-1}(r g(g^{-1}(y_1))) \qquad (\because g \text{ は逆写像をもつ})\\
+    &= g^{-1}(g(r g^{-1}(y_1))) \qquad (\because g \text{ は } R\text{-線形})\\
+    &= r g^{-1}(y_1)
+  \end{align*}
+  である。したがって、$g$ と $g^{-1}$ は同型な写像であるので、$M/\Ker(f)$ と $\im(f)$ は同型である。
+\end{proof}
+
+\begin{ex}
+  \quad $f(x)$ : $\R$ 上の $C^{\infty}$ 関数, $F(x)$ : $f(x)$ の原始関数, \\
+  \quad $C^{\infty}(\R)$ : $\R$ 上の $C^{\infty}$ 関数全体の集合, $D \colon C^{\infty}(\R) \to C^{\infty}(\R), f \mapsto f'$ : $C^{\infty}(\R)$ 上の微分作用素
+  \vspace{\zh}
+  このとき、$D$ は $C^{\infty}(\R)$ 上の $\R$-\hspace{0pt}線形写像である。さらに、
+  \begin{align*}
+    \Ker(D) &= \{F(x) \in C^{\infty}(\R) \mid F'(x) = 0\}\\
+    &= \{\R \text{上の定数関数}\}\\
+    &= \R
+  \end{align*}
+  また、
+  \begin{align*}
+    \im(D) &= \{f'(x) \in C^{\infty}(\R) \mid f(x) \in C^{\infty}(\R)\}\\
+    &= C^{\infty}(\R)
+  \end{align*}
+  よって、準同型定理より、\[C^{\infty}(\R)/\R \overset{\cong}{\to} C^{\infty}(\R)\] である。
+  $D$ の逆写像は不定積分 $\int f(x) dx$ である。実際、$f(x) \in C^{\infty}(\R)$ に対して、$f(x) + \R \in C^{\infty}(\R)/\R$ と定めると、$C^{\infty}(\R)/\R$ の元である $f(x) + \R$ は $C^{\infty}(\R)$ の元である $\int f(x) dx$ と同一視できる。\\
+  たとえば、$f(x) = e^x$ とすると、$f(x) + \R$ は $C^{\infty}(\R)/\R$ の元である。これは不定積分 $\int e^x dx$ と同一視できる。
+\end{ex}
 \end{document}
