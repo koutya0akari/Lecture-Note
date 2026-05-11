@@ -79,10 +79,10 @@
 \tableofcontents
 %% 本文の内容をここに記述
 % ====================================================================
-\section{第1回 : 2026/4/13}
-\subsection{ガイダンス}
-\section{第2回 : 2026/4/20}
-\subsection{復習}
+\lecture{第1回 : 2026/4/13}
+\section{ガイダンス}
+\lecture{第2回 : 2026/4/20}
+\section{復習}
 \begin{dfn}
 \textbf{アーベル群}(\textbf{可換群}) とは、
 \begin{align*}
@@ -252,7 +252,7 @@
 \indent $\R^0 = \{0\}$ とする。
 \end{ex}
 
-\section{第3回 : 2026/4/27}
+\lecture{第3回 : 2026/4/27}
 
 \begin{exe}
   \quad $K$ : 体, $a \in K\backslash\{0\}$.\\
@@ -400,7 +400,7 @@
   なので、$0+N$ は $M/N$ の単位元である。
 \end{rem}
 
-\section{第4回 : 2026/5/01}
+\lecture{第4回 : 2026/5/01}
 
 \begin{rem}
   $M$ : $R$-\hspace{0pt}加群, $N$ : $M$ の部分$R$-\hspace{0pt}加群\\
@@ -606,4 +606,231 @@
   $D$ の逆写像は不定積分 $\int f(x) dx$ である。実際、$f(x) \in C^{\infty}(\R)$ に対して、$f(x) + \R \in C^{\infty}(\R)/\R$ と定めると、$C^{\infty}(\R)/\R$ の元である $f(x) + \R$ は $C^{\infty}(\R)$ の元である $\int f(x) dx$ と同一視できる。\\
   たとえば、$f(x) = e^x$ とすると、$f(x) + \R$ は $C^{\infty}(\R)/\R$ の元である。これは不定積分 $\int e^x dx$ と同一視できる。
 \end{ex}
+
+\lecture{第5回 : 2026/05/11}
+
+\begin{prob}
+  \quad $f \colon M \to N$ : $R$-\hspace{0pt}線形写像\\
+  \quad $M_0 \subseteq M$ であって、$m \in M_0$ ならば $f(m) = 0$ を満たす。\\
+  ここで、$g$ を $M/M_0 \to N$ であって、$g(m + M_0) = f(m)$ を満たす写像として定めたいとする。このとき、以下について解け。
+  \begin{enumerate}[label=(\arabic*)\,]
+    \item $m + M_0$ の定義を内包的記法により表せ。
+    \item $g$ が well-defined に定まっているとはどういうことか説明せよ。
+    \item $g$ が well-defined に定まっていることを示せ。
+  \end{enumerate}
+\end{prob}
+
+\begin{proof}[解答 (1)]
+    \item $m + M_0 = \{m + m_0 \mid m_0 \in M_0\}$ である。
+\end{proof}
+
+\begin{proof}[解答 (2)]
+  $g$ が well-defined に定まっているとは、$m, m' \in M$ として、$m + M_0 = m' + M_0$ と仮定したときに、$g(m + M_0) = g(m' + M_0)$ であることをいう。
+\end{proof}
+
+\begin{proof}[解答 (3)]
+  $g$ が well-defined に定まっていることを示すために、$m, m' \in M$ として、$m + M_0 = m' + M_0$ と仮定する。このとき、$m - m' \in M_0$ であるので、$f(m - m') = 0$ である。したがって、$f(m) = f(m')$ である。したがって、
+  \[g(m + M_0) = f(m) = f(m') = g(m' + M_0)\]
+  である。これにより、$g$ は well-defined に定まっていることがわかる。
+\end{proof}
+
+\begin{prop}
+  \quad $R$ : 環, $M$ : $R$-加群, $n \geq 0$\\
+  $R$-\hspace{0pt}線形写像 $f \colon R^n \to M$ を与えることは、$M$ の元 $x_1, x_2, \ldots, x_n$ を与えることと同値である。
+
+  より正確には、
+  \[\{f \colon R^n \to M \mid  f \text{ は } R\text{-\hspace{0pt}線形}\} \to M^n, \qquad f \mapsto (f(e_1), f(e_2), \ldots, f(e_n))\]
+  は全単射である。ここで、
+  \[\mathbf{e}_1 = \begin{pmatrix}1 \\ 0 \\ \vdots \\ 0\end{pmatrix}, \mathbf{e}_2 = \begin{pmatrix}0 \\ 1 \\ \vdots \\ 0\end{pmatrix}, \ldots, \mathbf{e}_n = \begin{pmatrix}0 \\ 0 \\ \vdots \\ 1\end{pmatrix}\]
+  である。
+\end{prop}
+
+\begin{proof}
+  【単射性】: $f, g \colon R^n \to M$ を $R$-\hspace{0pt}線形写像とする。
+
+  このとき、
+  \[f(\mathbf{e}_1) = g(\mathbf{e}_1), f(\mathbf{e}_2) = g(\mathbf{e}_2), \ldots, f(\mathbf{e}_n) = g(\mathbf{e}_n)\]
+  と仮定する。このとき、
+  \[\forall a = (a_1, a_2, \ldots, a_n) = a_1\mathbf{e}_1 + a_2\mathbf{e}_2 + \cdots + a_n\mathbf{e}_n \in R^n \]
+  に対して、
+  \begin{align*}
+    f(x) &= f(a_1\mathbf{e}_1 + a_2\mathbf{e}_2 + \cdots + a_n\mathbf{e}_n) \\
+    &= a_1 f(\mathbf{e}_1) + a_2 f(\mathbf{e}_2) + \cdots + a_n f(\mathbf{e}_n) \\
+    &= a_1 g(\mathbf{e}_1) + a_2 g(\mathbf{e}_2) + \cdots + a_n g(\mathbf{e}_n) \\
+    &= g(a_1\mathbf{e}_1 + a_2\mathbf{e}_2 + \cdots + a_n\mathbf{e}_n) \\
+    &= g(x)
+  \end{align*}
+  である。したがって、$f = g$ である。\\
+  【全射性】: $(x_1, x_2, \ldots, x_n) \in M^n$ をとる。このとき、$f \colon R^n \to M$ を、
+  \[a = \begin{pmatrix}
+a_1 \\ a_2 \\ \vdots \\ a_n
+  \end{pmatrix}  \mapsto a_1x_1 + a_2x_2 + \cdots + a_nx_n\]
+  と定める。すると、$b = \begin{pmatrix}
+    b_1 \\ b_2 \\ \vdots \\ b_n
+      \end{pmatrix} \in R^n$ に対して、
+      \begin{align*}
+        f(a+b) &= f\left(\begin{pmatrix}a_1 + b_1 \\ a_2 + b_2 \\ \vdots \\ a_n + b_n\end{pmatrix}\right) \\
+        &= (a_1 + b_1)x_1 + (a_2 + b_2)x_2 + \cdots + (a_n + b_n)x_n \\
+        &= a_1x_1 + a_2x_2 + \cdots + a_nx_n + b_1x_1 + b_2x_2 + \cdots + b_nx_n \\
+        &= f(a) + f(b)
+      \end{align*}
+      および
+      \begin{align*}
+        f(ra) &= f\left(\begin{pmatrix}ra_1 \\ ra_2 \\ \vdots \\ ra_n\end{pmatrix}\right) \\  
+        &= (ra_1)x_1 + (ra_2)x_2 + \cdots + (ra_n)x_n \\
+        &= r(a_1x_1 + a_2x_2 + \cdots + a_nx_n) \\
+        &= rf(a)
+      \end{align*}
+      である。したがって、$f$ は $R$-\hspace{0pt}線形写像である。さらに、$f(\mathbf{e}_i) = x_i$ であるので、$f$ は $(x_1, x_2, \ldots, x_n)$ に対応する $R$-\hspace{0pt}線形写像である。したがって、全射である。
+\end{proof}
+
+\section{有限生成自由加群と行列}
+
+\subsection{線形写像と行列}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$
+  \begin{enumerate}[label=(\arabic*)\,]
+    \item $R$ の元の組 $A = (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}$ を $R$ を成分とする $m$ 行 $n$ 列の\textbf{行列}という。これを
+     \[
+       \begin{pmatrix}
+         a_{11} & a_{12} & \cdots & a_{1n} \\
+         a_{21} & a_{22} & \cdots & a_{2n} \\
+         \vdots & \vdots & \ddots & \vdots \\
+         a_{m1} & a_{m2} & \cdots & a_{mn}
+       \end{pmatrix}
+     \]
+     と表す。$a_{ij}$ を $A$ の $(i, j)$ 成分という。
+    \item $m \times n$ 行列 $(a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}$ の全体がなす集合を $M_{m, n}(R)$ と表す。特に、$M_{n, n}(R)$ を $M_n(R)$ と表す。
+  \end{enumerate}
+\end{dfn}
+
+\begin{rem}
+  \textbf{上三角行列} や \textbf{対角行列} といった行列の用語を上と同様に定義する。
+\end{rem}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$ , $M_{m, n}(R)$ : $A = (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}, B = (b_{ij})_{1 \leq i \leq m, 1 \leq j \leq n} \in M_{m, n}(R), r \in R$ とする。このとき、演算を次のように定める :
+\begin{align*}
+  A + B &:= (a_{ij} + b_{ij})_{1 \leq i \leq m, 1 \leq j \leq n} \\
+  rA &:= (ra_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}
+\end{align*}
+\end{dfn}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$ , $M_{m, n}(R)$ : $A = (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}, B = (b_{ij})_{1 \leq i \leq m, 1 \leq j \leq n} \in M_{m, n}(R), r \in R$ とする。ここで、行列の積を次のように定める :
+\[AB := \left(\sum_{k=1}^n a_{ik}b_{kj}\right)_{1 \leq i \leq m, 1 \leq j \leq n}\]
+\end{dfn}
+
+\begin{prop}
+  \quad $R$ : 環
+  \begin{enumerate}[label=(\arabic*)\,]
+    \item $M_{m, n}(R)$ は $R$-加群である。
+    \item $M_n(R)$ において、行列の積は分配法則と結合法則を満たす。
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}[証明 (1)]
+  $A, B, C \in M_{m, n}(R)$ と $r, s \in R$ に対して、以下が成り立つ :
+  \begin{align*}
+    (A+B)+C &= ((a_{ij} + b_{ij}) + c_{ij})_{1 \leq i \leq m, 1 \leq j \leq n} \\
+    &= (a_{ij} + (b_{ij} + c_{ij}))_{1 \leq i \leq m, 1 \leq j \leq n} \\
+    &= A+(B+C)\\
+    A+B &= B+A\\
+    A+0 &= A\\
+    r(A+B) &= rA + rB\\
+    (r+s)A &= rA + sA\\
+    r(sA) &= (rs)A
+  \end{align*}
+  よって、$M_{m, n}(R)$ は $R$-加群である。
+\end{proof}
+\begin{proof}[証明 (2)]
+  $A, B, C \in M_n(R)$ と $r \in R$ に対して、以下が成り立つ :
+  \begin{align*}
+    A(B+C) &= A\left(\left(\sum_{k=1}^n b_{ik}c_{kj}\right)_{1 \leq i \leq n, 1 \leq j \leq n}\right) = \left(\sum_{k=1}^n a_{ik}\left(\sum_{\ell=1}^n b_{k\ell}c_{\ell j}\right)\right)_{1 \leq i \leq n, 1 \leq j \leq n}\\
+    &=\left(\sum_{\ell=1}^n\left(\sum_{k=1}^n a_{ik}b_{k\ell}\right)c_{\ell j}\right)_{1 \leq i \leq n, 1 \leq j \leq n} = (AB)C
+  \end{align*}
+  および
+  \begin{align*}
+    r(AB) &= r\left(\left(\sum_{k=1}^n a_{ik}b_{kj}\right)_{1 \leq i \leq n, 1 \leq j \leq n}\right) = \left(\sum_{k=1}^n (ra_{ik})b_{kj}\right)_{1 \leq i \leq n, 1 \leq j \leq n} = (rA)B\\
+    r(AB) &= r\left(\left(\sum_{k=1}^n a_{ik}b_{kj}\right)_{1 \leq i \leq n, 1 \leq j \leq n}\right) = \left(\sum_{k=1}^n a_{ik}(rb_{kj})\right)_{1 \leq i \leq n, 1 \leq j \leq n} = A(rB)
+  \end{align*}
+  よって、行列の積は分配法則と結合法則を満たす。
+\end{proof}
+
+\begin{dfn}
+  \quad $R$ : 環, $n \geq 0$
+  \begin{enumerate}[label=(\arabic*)\,]
+    \item $A \in M_n(R)$ の\textbf{逆行列}とは、$B \in M_n(R)$ であって、
+    \[AB = BA = I_n = \begin{pmatrix}
+1 & 0 & \cdots & 0 \\
+0 & 1 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & 1  
+    \end{pmatrix}\]
+    を満たすものをいう。ここで、$I_n$ は $n$ 行 $n$ 列の単位行列である。また、この $B$ を $A^{-1}$ と表す。
+      \item $A \in M_n(R)$ が\textbf{可逆}あるいは\textbf{正則}であるとは、$A$ の逆行列が存在することをいう。正則な $n$ 次行列全体の集合を $GL_n(R)$ と表し、\textbf{一般線形群}という。
+  \end{enumerate}
+\end{dfn}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$ , $A \in M_{m, n}(R)$.
+  このとき、写像 $T_A$ を以下のように定める :
+  \[T_A \colon R^n \to R^m ,\qquad T_A(x) = Ax\]
+\end{dfn}
+
+\begin{prop}
+  \quad $R$ : 環, $m, n \geq 0$ , $A \in M_{m, n}(R)$.
+  このとき、以下が成り立つ :
+\begin{enumerate}[label=(\arabic*)\,]
+  \item $T_A$ は $R$-\hspace{0pt}線形写像である。
+  \item $f$ : $R^n \to R^m$ が $R$-\hspace{0pt}線形写像であるとき、$A \in M_{m, n}(R)$ がただ一つ存在して、$f = T_A$ を満たす。
+\end{enumerate}
+\end{prop}
+
+\begin{proof}[証明 (1)]
+  $x, y \in R^n$ と $r \in R$ に対して、以下が成り立つ :
+  \begin{align*}
+    T_A(x+y) &= A(x+y) = Ax + Ay = T_A(x) + T_A(y)\\
+    T_A(rx) &= A(rx) = r(Ax) = rT_A(x)
+  \end{align*}
+  よって、$T_A$ は $R$-\hspace{0pt}線形写像である。
+\end{proof}
+
+\begin{proof}[証明 (2)]
+  $f$ : $R^n \to R^m$ が $R$-\hspace{0pt}線形写像であるとする。このとき、$A = (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}$ を、$a_{ij} := f(\mathbf{e}_j)_i$ と定める。ここで、$f(\mathbf{e}_j)_i$ は $f(\mathbf{e}_j)$ の $i$ 成分を表す。すると、$x = (x_1, x_2, \ldots, x_n) \in R^n$ に対して、
+  \begin{align*}
+    T_A(x) &= A\begin{pmatrix}x_1 \\ x_2 \\ \vdots \\ x_n\end{pmatrix} = \begin{pmatrix}\sum_{j=1}^n a_{1j}x_j \\ \sum_{j=1}^n a_{2j}x_j \\ \vdots \\ \sum_{j=1}^n a_{mj}x_j\end{pmatrix}\\
+    &= \begin{pmatrix}\sum_{j=1}^n f(\mathbf{e}_j)_1 x_j \\ \sum_{j=1}^n f(\mathbf{e}_j)_2 x_j \\ \vdots \\ \sum_{j=1}^n f(\mathbf{e}_j)_m x_j\end{pmatrix} = f\left(\sum_{j=1}^n x_j\mathbf{e}_j\right) = f(x)
+  \end{align*}
+  である。したがって、$f = T_A$ である。
+
+  逆に、$f = T_A$ であるとする。このとき、$A = (a_{ij})_{1 \leq i \leq m, 1 \leq j \leq n}$ を $a_{ij} := f(\mathbf{e}_j)_i$ と定めると、
+  \[A\mathbf{e}_1 = f(\mathbf{e}_1), \quad A\mathbf{e}_2 = f(\mathbf{e}_2), \quad \ldots, \quad A\mathbf{e}_n = f(\mathbf{e}_n)\]
+  が成り立つ。
+  
+  したがって、$A$ は一意に定まる。
+\end{proof}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$ , $A \in M_{m, n}(R)$.
+  このとき、$A$ の\textbf{行列式} を次で定める :
+\[\det(A) := \sum_{\sigma \in S_n} \sgn(\sigma) \prod_{i=1}^n a_{i\sigma(i)}\]
+\end{dfn}
+
+\begin{dfn}
+  \quad $R$ : 環, $m, n \geq 0$ , $A \in M_{m, n}(R)$.
+  このとき、写像 $f : M \to N$ が\textbf{多重線形}であるとは、$M = M_1 \times M_2 \times \cdots \times M_n$ と $N$ が $R$-加群であって、$\forall i, \forall m_j \in M_j (j \neq i), f(m_1, m_2, \ldots, m_n)$ は $M_i$ の元 $m_i$ について線形であることをいう。
+  
+\end{dfn}
+
+\begin{prop}
+  \quad $R$ : 環, $n \geq 0$ , $A \in M_n(R)$.
+  このとき、以下が成り立つ :
+\begin{enumerate}[label=(\arabic*)\,]
+  \item $\det(A)$ は列について\textbf{多重線形}である。
+  \item $A$ に同一の2列があるとき、$\det(A) = 0$ である。
+  \item $\det(AB) = \det(A)\det(B)$
+  \end{enumerate}
+\end{prop}
 \end{document}

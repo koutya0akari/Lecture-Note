@@ -1,6 +1,4 @@
 % ====================================================================
-
-% ====================================================================
 \documentclass[article,paper=a4paper]{jlreq}
 
 % jpreportパッケージの読み込み
@@ -83,7 +81,7 @@
 %% 本文の内容をここに記述
 % ====================================================================
 
-\section{第1回(2026/04/15)}
+\lecture{第1回(2026/04/15)}
 
 \begin{dfn}
     \textbf{無向グラフ} $G$ とは、空でない有限集合 $V(G)$ と $V(G) \times V(G)$ の部分集合 $E(G)$ からなる組である。$V(G)$ の元を \textbf{頂点} と呼び、$E(G)$ の元を \textbf{辺} と呼ぶ。
@@ -328,7 +326,7 @@ F\mapsto r
 \label{fig:graph-subgraphs}
 \end{figure}
 
-\section{第2回 : （2026/04/22）}
+\lecture{第2回 : （2026/04/22）}
 
 \begin{dfn}
   \quad $G$ : 無向グラフ, \quad $v_1, v_2, \ldots, v_n \in V(G)$
@@ -499,9 +497,21 @@ F\mapsto r
 \begin{dfn}
   \quad $G$ : 連結グラフ, \quad $u,v \in V(G)$\par
   \begin{enumerate}[label=(\arabic*)\, ]
-    \item $G$ の $u$ から $v$ への path の長さの最小値を $G$ の $u$ と $v$ の \textbf{距離} といい、$d_G(u,v)$ で表す。
-    \item $G$ の $2$ 点間の距離の最大値を $G$ の \textbf{直径} という。
-    \item 各 $u$ に対して、$\max_{v \in V(G)} d_G(u,v)$ を $G$ の $u$ の \textbf{離心率} という。
+    \item $G$ の $u$ から $v$ への path の長さの最小値を $G$ の $u$ と $v$ の \textbf{距離} といい、$\operatorname{dist}_G(u,v)$ で表す。
+    \item $G$ の $2$ 点間の距離の最大値を $G$ の \textbf{直径} といい、$\text{diam}(G)$ で表す。
+    \item 各 $u$ に対して、$\max_{v \in V(G)} \operatorname{dist}_G(u,v)$ を $G$ の $u$ の \textbf{離心率} といい、$\operatorname{ecc}_G(u)$ で表す。
+    \item $G$ の離心率の最小値を $G$ の \textbf{半径} といい、$\rad(G)$ で表す。
+    \item $G$ の半径と等しい離心率をもつ頂点全体を $G$ の \textbf{中心} といい、$C(G)$ で表す。
   \end{enumerate}
 \end{dfn}
+
+\begin{prop}
+  \quad $G$ : 連結グラフ \quad このとき、以下が成り立つ
+  \begin{enumerate}
+    \item 任意の $u, v, w \in V(G)$ に対して、$\operatorname{dist}_G(u,w) \leq \operatorname{dist}_G(u,v) + \operatorname{dist}_G(v,w)$ が成り立つ。
+    \item 任意の $u, v \in V(G)$ に対して、$\operatorname{dist}_G(u,v) \leq \max_{w \in V(G)} \operatorname{dist}_G(u,w) + \max_{w \in V(G)} \operatorname{dist}_G(v,w)$ が成り立つ。
+    \item 任意の $u \in V(G)$ に対して、$\operatorname{ecc}_G(u) \leq \text{diam}(G)$ が成り立つ。
+    \item $\rad(G) \leq \text{diam}(G) \leq 2\rad(G)$ が成り立つ。
+  \end{enumerate}
+\end{prop}
 \end{document}

@@ -80,8 +80,8 @@
 %% 本文の内容をここに記述
 % ====================================================================
 
-\section{第1回 : ガイダンス (2026/04/14)}
-\subsection{注意点}
+\lecture{第1回 : ガイダンス (2026/04/14)}
+\section{注意点}
 
 \begin{itemize}
     \item 第8回に中間試験、第15回に期末試験
@@ -90,7 +90,7 @@
     \item 前半に距離空間を扱い、後半に位相空間を扱う
 \end{itemize}
 
-\subsection{アブストラクト}
+\section{アブストラクト}
 
 ある集合を幾何学的な対象として扱うには、どういった情報があるとうれしいか。\par
 $\longrightarrow$ 位相空間
@@ -148,15 +148,15 @@ $\longrightarrow$ 位相空間
     \item $d(x,y) = d(y,x)$
     \item $d(x,z) \leq d(x,y) + d(y,z)$ \quad （三角不等式）
 \end{itemize}
-\subsection{教科書}
+\section{教科書}
 
 \begin{itemize}
     \item 小山晃著, 位相空間論 : 現代数学への基礎, 森北出版, 2021.
 \end{itemize}
 
-\section{第2回 : (2026/04/21)}
+\lecture{第2回 : (2026/04/21)}
 
-\subsection{距離関数と距離空間}
+\section{距離関数と距離空間}
 
 \begin{dfn}
 $X$ を集合、$d\colon X \times X \to \R$ を写像とし、以下の条件を満たすとする :
@@ -404,7 +404,7 @@ $X$ を集合、$d\colon X \times X \to \R$ を写像とし、以下の条件を
     と定めると、$d_{1}, d_{2}$ は $C([a,b])$ に距離を定める。
 \end{ex}
 
-\subsection{点列の収束と極限}
+\section{点列の収束と極限}
 
 $\N$ を正の整数全体の集合とする。
 
@@ -462,9 +462,9 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
 すると、任意の $\varepsilon > 0$ に対して、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $d(x_n,x) < \varepsilon$ を満たす。$\{x_{i(n)}\}_{n \in I}$ は $\{x_n\}_{n \in \N}$ の部分列なので $i(n) \geq n$ であるから、任意の $n \geq N$ に対して $d(x_{i(n)},x) < \varepsilon$ を満たす。しかし、$\varepsilon$ は任意であるため、ある $\delta > 0$ が存在して、任意の $n \in \N$ に対して $d(x_n,x) \geq \delta$ を満たすという仮定に矛盾する。したがって、点列 $\{x_n\}_{n \in \N}$ の任意の部分列 $\{x_{i(n)}\}_{n \in I}$ は収束しない。
 \end{proof}
 
-\section{第3回 : (2026/04/28)}
+\lecture{第3回 : (2026/04/28)}
 
-\subsection{平面 $\R^2$ 上の点列}
+\section{平面 \texorpdfstring{$\R^2$}{R2} 上の点列}
 \begin{thm}
     \quad $\{(x_n,y_n)\}$ : $\R^2$ 上の点列, $(\R^2,d)$ : 2次元ユークリッド空間.\\
    このとき、
@@ -501,7 +501,7 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
     を満たす。$\varepsilon$ は任意であるため、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $d^{\prime}$ によっても収束する。
 \end{proof}
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
   scale=1.0,
@@ -616,7 +616,7 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
     \quad 任意の点列 $\{x_n\}_{n \in \N}$ と点 $x \in X$ に対して、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束するならば、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たす。逆に、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たすならば、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束する。したがって、点列 $\{x_n\}_{n \in \N}$ は $x$ に対して $p_0$ によって収束することと、ある $N \in \N$ が存在して、任意の $n \geq N$ に対して $x_n = x$ を満たすことは同値である。
 \end{ex}
 
-\subsection{距離空間の開集合}
+\section{距離空間の開集合}
 
 \begin{dfn}
     \quad $(X,d)$ : 距離空間, $x \in X$ : 点, $\varepsilon > 0$.\\
@@ -629,7 +629,7 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
     このとき、$U_{d_2}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の円盤の内部である。
 \end{ex}
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[scale=1.0]
 
@@ -670,6 +670,8 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
     このとき、$U_{d_3}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の球体の内部である。
 \end{ex}
 
+\vspace{1\baselineskip}
+
 \begin{figure}[htbp]
   \centering
   \begin{tikzpicture}[scale=1.2, >=Stealth, line cap=round, line join=round]
@@ -684,14 +686,13 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
     \draw[thick]   (\R,0) arc[start angle=0,end angle=180,x radius=\R,y radius=0.65];
 
     \fill (O) circle (2pt);
-    \node[below left] at (O) {$x=(0,0,0)$};
+    \node at (0,-1) {$x=(0,0,0)$};
 
     \coordinate (P) at ({\R*cos(35)},{\R*sin(35)});
     \draw[thick,->] (O) -- (P);
     \node[midway, above right] {$\varepsilon$};
 
-    \node at (0,2.9) {$U_{d_3}(x;\varepsilon)$};
-    \node at (3.3,2.3) {$(\mathbb{R}^3,d_3)$};
+    \node at (3,2) {$U_{d_3}(x;\varepsilon)$};
 
   \end{tikzpicture}
   \caption{$U_{d_3}(x;\varepsilon)$ は原点を中心とする半径 $\varepsilon$ の開球である。}

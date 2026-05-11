@@ -21,6 +21,7 @@
     calc,
     arrows,
     decorations,
+    decorations.markings,
     angles,
     shapes.geometric,
     fit,
@@ -84,15 +85,15 @@
 \tableofcontents
 %% 本文の内容をここに記述
 % ====================================================================
-\section*{ガイダンス (2026/04/15)}
-\subsection{成績}
+\lecture{ガイダンス (2026/04/15)}
+\section{成績}
 \begin{itemize}
     \item 平常点 : 50点（4点 $\times$ レポート12問 + アンケート 2点）
     \item 期末試験 : 50点（+10点のボーナス問題有）
     \item  $\min\{\text{平常点}+\text{期末試験},100\}$
 \end{itemize}
 
-\section{1回(2026/04/15)}
+\lecture{1回(2026/04/15)}
 
 原点中心を中心とした半径 $r$ の円を考える。このとき、円の法事の仕方はいくつかの方法がある。
 \begin{itemize}
@@ -311,7 +312,7 @@
     である。ここで、$\gamma$ の正則性より、$\frac{d\gamma}{dt}(t) \neq 0$ であるため、$S'(t) > 0$ が成り立つ。したがって、$S(t)$ は単調増加関数である。
 \end{proof}
 
-\section{第2回 : (2026/04/22)}
+\lecture{第2回 : (2026/04/22)}
 
 \begin{thm}[逆関数定理]
     \quad $f : U \to V$ : $C^{1}$ 級関数, $U,V$ : 開集合\\
@@ -539,5 +540,185 @@
         \end{pmatrix}\right) \\
         &= -\frac{1}{R}
     \end{align*}
+    
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1,>=stealth]
+    % 座標軸
+    \draw[->] (-2.4,0) -- (2.4,0) node[right] {$x$};
+    \draw[->] (0,-2.4) -- (0,2.4) node[above] {$y$};
+
+    % 円（半径 R）
+    \draw[thick] (0,0) circle (1.8);
+    \draw[thick] (0,0) -- (1.8,0) node[above right] {$R$};
+
+    % 時計回りの矢印
+    \draw[thick,postaction={decorate},
+        decoration={markings, mark=at position 0.45 with {\arrow{stealth}}}]
+        (0,1.8) arc (90:-210:1.8);
+
+    % 反時計回りの矢印
+    \draw[thick,postaction={decorate},
+        decoration={markings, mark=at position 0.45 with {\arrow{stealth}}}]
+        (0,-1.8) arc (-90:210:1.8);
+\end{tikzpicture}
+\caption{$x$ 軸・$y$ 軸上の半径 $R$ の円と回転方向}
+\end{figure}
+
+\lecture{第3回 : (2026/04/30)}
+
+幾何学とは何か？幾何学とは、空間の不変量を研究する学問である。例えば、点と線の距離、曲線の長さ、曲面の面積などが普遍量である。これらの普遍量は、空間の構造に依存しないため、幾何学的な性質を表すことができる。
+
+\begin{ex}
+    二つの曲線を回転させて移動させて重なるとき、対応する各点の曲率は等しいはずである。
+\end{ex}
+
+\begin{thm}
+    \quad $\gamma(s)$ : 弧長パラメータ表示された曲線\\
+    $\gamma$ の曲率 $\kappa(s)$ は、回転と並行移動で不変である。すなわち、
+    \[A\in \SO(2) := \{R \in \SL(2,\R) \mid {}^\top R\cdot R = \id, \det R = 1\}, \quad \bm{b} \in \R^2\]
+    に対し、曲線
+\[\tilde{\gamma}(s) := A\gamma(s) + \bm{b}\]
+の曲率 $\tilde{\kappa}(s)$ は $\kappa(s)$ と等しい。
+\end{thm}
+
+\begin{rem}
+    $ A \in \SO(2)$ は回転を表し、$\bm{b} \in \R^2$ は並行移動を表す。したがって、$\tilde{\gamma}(s)$ は $\gamma(s)$ を回転させてから並行移動させた曲線である。
+\end{rem}
+
+\begin{proof}
+    今、$\tilde{\gamma}(s) = A\gamma(s) + \bm{b}$ と定義されているから、
+    \begin{align*}
+    \norm{\tilde{\gamma}^{\prime}(s)} &= \gamma^{\prime}(s)\cdot \gamma^{\prime}(s) \\
+    &= {}^\top(\tilde{\gamma}^{\prime}(s)) \cdot \tilde{\gamma}^{\prime}(s) \\
+    &= {}^\top(A\gamma^{\prime}(s)) \cdot A\gamma^{\prime}(s) \\
+    &= {}^\top \gamma^{\prime}(s) \cdot {}^\top A \cdot A \cdot \gamma^{\prime}(s) \\
+    &= {}^\top \gamma^{\prime}(s) \cdot \gamma^{\prime}(s) \\
+    &= 1
+    \end{align*}
+    であり、
+    \begin{align*}
+        \tilde{\kappa}(s) &= \det(\tilde{\gamma}^{\prime}(s), \tilde{\gamma}^{\prime\prime}(s)) \\
+        &= \det(A\gamma^{\prime}(s), A\gamma^{\prime\prime}(s)) \\
+        &= \det A \cdot \det(\gamma^{\prime}(s), \gamma^{\prime\prime}(s)) \\
+        &= 1 \cdot \kappa(s) \\
+        &= \kappa(s)
+    \end{align*}
+    である。したがって、$\tilde{\kappa}(s) = \kappa(s)$ である。
+\end{proof}
+
+\begin{prop}
+    $\SO(2) = \left\{R_\theta = \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} \relmid | \theta \in \R\right\}$ である。したがって、回転は角度 $\theta$ によって完全に決まる。
+\end{prop}
+
+\begin{proof}[$\supseteq $ の証明]
+    $R \in \left\{R_\theta = \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} \relmid | \theta \in \R\right\}$ とすると、
+    \[\det R = \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} = 1\] であり、また、
+    \[{}^\top R \cdot R = \begin{pmatrix}
+        \cos\theta & \sin\theta\\
+        -\sin\theta & \cos\theta
+    \end{pmatrix} \cdot \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} = \id\] である。したがって、$R \in \SO(2)$ である。
+\end{proof}
+
+\begin{proof}[$\subseteq$ の証明]
+    $R \in \SO(2)$ とする。$R = (\bm{e}_1, \bm{e}_2)$ とおくと、${}^\top R = \begin{pmatrix}
+        {}^\top \bm{e}_1\\
+        {}^\top \bm{e}_2
+    \end{pmatrix}$ であるから、
+    \begin{align*}
+        {}^\top R \cdot R &= \begin{pmatrix}
+        {}^\top \bm{e}_1\\
+        {}^\top \bm{e}_2
+    \end{pmatrix} \cdot (\bm{e}_1, \bm{e}_2) \\
+    &= \begin{pmatrix}
+        {}^\top \bm{e}_1 \cdot \bm{e}_1 & {}^\top \bm{e}_1 \cdot \bm{e}_2\\
+        {}^\top \bm{e}_2 \cdot \bm{e}_1 & {}^\top \bm{e}_2 \cdot \bm{e}_2
+    \end{pmatrix}\\
+    &= \begin{pmatrix}
+        \bm{e}_1\bm{e}_1 & \bm{e}_1\bm{e}_2\\
+        \bm{e}_2\bm{e}_1 & \bm{e}_2\bm{e}_2
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        1 & 0\\
+        0 & 1
+    \end{pmatrix} = \id
+    \end{align*}
+    よって、$\bm{e}_1 \cdot \bm{e}_2 = 0$ 、つまり $\bm{e}_1$ と $\bm{e}_2$ は直交する。また、$\norm{\bm{e}_1} = 1$ より、$\bm{e}_1 = \begin{pmatrix} \cos\theta \\ \sin\theta \end{pmatrix}$ と表すことができる。先ほど示したように、$\bm{e}_2$ は $\bm{e}_1$ と直交する単位ベクトルであるから、$\bm{e}_2 = \begin{pmatrix} -\sin\theta \\ \cos\theta \end{pmatrix}$ と表すことができる。したがって、
+\[R = (\bm{e}_1, \bm{e}_2) = \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} = R_\theta\]
+である。したがって、$R \in \left\{R_\theta = \begin{pmatrix}
+        \cos\theta & -\sin\theta\\
+        \sin\theta & \cos\theta
+    \end{pmatrix} \relmid | \theta \in \R\right\}$ である。
+    
+\end{proof}
+
+\begin{prob}
+    以下を示せ : 
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $\SO(2)$ は通常の行列の積に関してアーベル群になることを示せ。
+        \item $\operatorname{O}(2)$ がアーベル群でないことを示せ。
+    \end{enumerate}
+\end{prob}
+
+\begin{proof}[(1) の証明]
+    $R_\theta, R_\phi \in \SO(2)$ とする。すると、
+    \[
+        R_\theta R_\phi = R_{\theta + \phi}
+    \]
+    である。したがって、$\SO(2)$ は行列の積に関して閉じている。また、$R_0 = \id$ であるから、単位元が存在する。さらに、$R_{-\theta} = R_\theta^{-1}$ であるから、逆元が存在する。最後に、$R_\theta R_\phi = R_{\theta + \phi} = R_{\phi + \theta} = R_\phi R_\theta$ であるから、$\SO(2)$ はアーベル群である。
+\end{proof}
+
+\begin{proof}[(2) の証明]
+    例えば、$R = \begin{pmatrix}
+        1 & 0\\
+        0 & -1
+    \end{pmatrix}$ と $S = \begin{pmatrix}
+        0 & 1\\
+        1 & 0
+    \end{pmatrix}$ を考えると、確かにこれらは
+    \begin{align*}
+        {}^\top R \cdot R &= \begin{pmatrix}
+            1 & 0\\
+            0 & -1
+        \end{pmatrix} \cdot \begin{pmatrix}
+            1 & 0\\
+            0 & -1
+    \end{pmatrix} &= \id\\
+        {}^\top S \cdot S &= \begin{pmatrix}
+            0 & 1\\
+            1 & 0
+        \end{pmatrix} \cdot \begin{pmatrix}
+            0 & 1\\
+            1 & 0
+    \end{pmatrix} &= \id
+    \end{align*}
+    であるから、$R, S \in \operatorname{O}(2)$ である。しかし、
+    \[
+        RS = \begin{pmatrix}
+        0 & 1\\
+        -1 & 0
+    \end{pmatrix} \neq \begin{pmatrix}
+        0 & -1\\
+        1 & 0
+    \end{pmatrix} = SR
+    \]
+    である。したがって、$\operatorname{O}(2)$ はアーベル群でない。
 \end{proof}
 \end{document}
