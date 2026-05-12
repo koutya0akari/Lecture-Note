@@ -80,8 +80,11 @@
 %% 本文の内容をここに記述
 % ====================================================================
 
-\lecture{第1回 : ガイダンス (2026/04/14)}
-\section{注意点}
+\lecture{第1回 : (2026/04/14)}
+
+\section{ガイダンス}
+
+\subsection{注意点}
 
 \begin{itemize}
     \item 第8回に中間試験、第15回に期末試験
@@ -90,7 +93,7 @@
     \item 前半に距離空間を扱い、後半に位相空間を扱う
 \end{itemize}
 
-\section{アブストラクト}
+\subsection{アブストラクト}
 
 ある集合を幾何学的な対象として扱うには、どういった情報があるとうれしいか。\par
 $\longrightarrow$ 位相空間
@@ -148,7 +151,8 @@ $\longrightarrow$ 位相空間
     \item $d(x,y) = d(y,x)$
     \item $d(x,z) \leq d(x,y) + d(y,z)$ \quad （三角不等式）
 \end{itemize}
-\section{教科書}
+
+\subsection{教科書}
 
 \begin{itemize}
     \item 小山晃著, 位相空間論 : 現代数学への基礎, 森北出版, 2021.
@@ -800,4 +804,135 @@ d(x,y) &\leq d(x,x_n) + d(x_n,y) \\
 \begin{proof}[(3)の証明]
     任意の $x \in \bigcup_{i \in I} \mathcal{O}_i$ に対して、ある $i_0 \in I$ が存在して $x \in \mathcal{O}_{i_0}$ を満たす。したがって、ある $\varepsilon > 0$ が存在して $U_d(x;\varepsilon) \subseteq \mathcal{O}_{i_0}$ を満たす。したがって、$U_d(x;\varepsilon) \subseteq \bigcup_{i \in I} \mathcal{O}_i$ を満たす。したがって、$\bigcup_{i \in I} \mathcal{O}_i$ は $X$ の開集合である。
 \end{proof}
+
+\lecture{第4回 : (2026/05/12)}
+
+\begin{ex}
+    \quad $(\R^2, d_2)$ : 2次元ユークリッド距離空間, $x = (0,0) \in \R^2$, $\mathcal{O}_i = U\left(x,\frac{1}{i}\right)$.\\
+    このとき、$\bigcap_{i=1}^{\infty} \mathcal{O}_i = \{x\}$ である。したがって、$\bigcap_{i=1}^{\infty} \mathcal{O}_i$ は $X$ の開集合ではない。
+    \begin{proof}[$\subseteq$に関して : ]
+        任意の $y \in \bigcap_{i=1}^{\infty} \mathcal{O}_i$ に対して、任意の $i \in \N$ に対して $y \in U\left(x,\frac{1}{i}\right)$ を満たす。したがって、任意の $i \in \N$ に対して $d(x,y) < \frac{1}{i}$ を満たす。$\frac{1}{i} \to 0$ (as $i \to \infty$) であるから、$d(x,y) = 0$ を満たす。したがって、$y = x$ を満たす。したがって、$\bigcap_{i=1}^{\infty} \mathcal{O}_i \subseteq \{x\}$ を満たす。
+    \end{proof}
+    \begin{proof}[$\supseteq$に関して : ]
+        任意の $i \in \N$ に対して、$d(x,x) = 0 < \frac{1}{i}$ を満たすので任意の $i \in \N$ に対して $x \in U\left(x,\frac{1}{i}\right)$ を満たす。よって、$x \in \bigcap_{i=1}^{\infty} \mathcal{O}_i$ を満たし、したがって、$\{x\} \subseteq \bigcap_{i=1}^{\infty} \mathcal{O}_i$ を満たす。
+    \end{proof}
+\end{ex}
+
+\begin{prop}
+    \quad $(\R^2, d_2)$ : 2次元ユークリッド距離空間, $A \subseteq \R^2$.\\
+    このとき、以下は同値である : 
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item $A$ は $(\R^2, d_2)$ の開集合である。
+        \item $A$ は $(\R^2, d_2^P)$ の開集合である。
+        \item $A$ は $(\R^2, d_{2}^{F})$ の開集合である。
+        \item 
+    \end{enumerate}
+\end{prop}
+
+\begin{proof}[(1) $\Rightarrow$ (2)の証明]
+    $A$ は $(\R^2, d_2)$ の開集合であるから、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2}(x;\sqrt{2}\varepsilon) \subseteq A$ を満たす。ここで、補題\ref{lem:distance-comparison}より、任意の $y \in U_{d_2^P}(x;\varepsilon)$ に対して 
+    \[d_2(x,y) \leq \sqrt{2}\cdot d_{d_2^P}(x,y) < \sqrt{2}\varepsilon\]
+    を満たす。もし、$d_{d_2^P}(x,y) < \varepsilon$ を満たすならば、$d_2(x,y) < \sqrt{2}\varepsilon$ を満たすので、
+    \[U_{d_2^P}(x;\varepsilon) \subseteq U_{d_2}(x;\sqrt{2}\varepsilon) \subseteq A\]
+    を満たす。したがって、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2^P}(x;\varepsilon) \subseteq A$ を満たす。したがって、$A$ は $(\R^2, d_2^P)$ の開集合である。
+\end{proof}
+
+\begin{proof}[(2) $\Rightarrow$ (1)の証明]
+    $A$ は $(\R^2, d_2^P)$ の開集合であるから、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2^P}(x;\sqrt{2}\varepsilon) \subseteq A$ を満たす。ここで、補題\ref{lem:distance-comparison}より、任意の $y \in U_{d_2}(x;\varepsilon)$ に対して
+    \[d_{d_2^P}(x,y) \leq d_2(x,y) < \varepsilon\]
+    を満たす。もし、$d_2(x,y) < \varepsilon$ を満たすならば、$d_{d_2^P}(x,y) < \varepsilon$ を満たすので、
+    \[U_{d_2}(x;\varepsilon) \subseteq U_{d_2^P}(x;\sqrt{2}\varepsilon) \subseteq A\]
+    を満たす。したがって、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2}(x;\varepsilon) \subseteq A$ を満たす。したがって、$A$ は $(\R^2, d_2)$ の開集合である。
+\end{proof}
+
+\begin{proof}[(1) $\Rightarrow$ (3)の証明]
+    $A$ は $(\R^2, d_2)$ の開集合であるから、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2}(x;\sqrt{2}\varepsilon) \subseteq A$ を満たす。ここで、補題\ref{lem:distance-comparison}より、任意の $y \in U_{d_2^F}(x;\varepsilon)$ に対して
+    \[d_2(x,y) \leq \sqrt{2}\cdot d_{d_2^F}(x,y) < \sqrt{2}\varepsilon\]
+    を満たす。もし、$d_{d_2^F}(x,y) < \varepsilon$ を満たすならば、$d_2(x,y) < \sqrt{2}\varepsilon$ を満たすので、
+    \[U_{d_2^F}(x;\varepsilon) \subseteq U_{d_2}(x;\sqrt{2}\varepsilon) \subseteq A\]
+    を満たす。したがって、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2^F}(x;\varepsilon) \subseteq A$ を満たす。したがって、$A$ は $(\R^2, d_{2}^{F})$ の開集合である。
+\end{proof}
+
+\begin{proof}[(3) $\Rightarrow$ (1)の証明]
+    $A$ は $(\R^2, d_{2}^{F})$ の開集合であるから、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2^F}(x;\varepsilon) \subseteq A$ を満たす。ここで、補題\ref{lem:distance-comparison}より、任意の $y \in U_{d_2}(x;\varepsilon)$ に対して
+    \[d_{d_2^F}(x,y) \leq d_2(x,y) < \varepsilon\]
+    を満たす。もし、$d_2(x,y) < \varepsilon$ を満たすならば、$d_{d_2^F}(x,y) < \varepsilon$ を満たすので、
+    \[U_{d_2}(x;\varepsilon) \subseteq U_{d_2^F}(x;\varepsilon) \subseteq A\]
+    を満たす。したがって、任意の $x \in A$ に対して、ある $\varepsilon > 0$ が存在して $U_{d_2}(x;\varepsilon) \subseteq A$ を満たす。したがって、$A$ は $(\R^2, d_2)$ の開集合である。
+\end{proof}
+
+\section{位相空間}
+
+\begin{dfn}
+    \quad $X$ : 集合, $\mathcal{J}$ : $X$ の部分集合の族.\\
+    $(X, \mathcal{J})$ は\textbf{位相空間}であるとは、$\mathcal{J}$ が、次の性質を満たすことをいう :
+\begin{enumerate}[label=(\arabic*)\,]
+    \item $X, \emptyset \in \mathcal{J}$
+    \item 有限個の集合 $\mathcal{O}_1, \mathcal{O}_2, \ldots, \mathcal{O}_n \in \mathcal{J}$ に対して、$\bigcap_{i=1}^n \mathcal{O}_i \in \mathcal{J}$
+    \item 任意の集合 $\mathcal{O}_\alpha \in \mathcal{J}$ に対して、$\bigcup_{\alpha} \mathcal{O}_\alpha \in \mathcal{J}$
+\end{enumerate}
+このとき、$\mathcal{J}$ の元を $X$ の\textbf{開集合}と呼び、$\mathcal{J}$ を $X$ の\textbf{位相}と呼ぶ。
+\end{dfn}
+
+\begin{ex}
+    \quad $(X,d)$ : 距離空間.\\
+    このとき、$X$ の開集合全体の集合 $\mathcal{J}_d$ は $X$ の位相を定める。つまり、$(X, \mathcal{J}_d)$ は位相空間である。
+\end{ex}
+
+\section{部分空間と直積空間}
+
+\begin{dfn}
+    \quad $(X,d)$ : 距離空間, $Y \subseteq X$ : 部分集合.\\
+    $Y$ 上の距離 $d_Y$ を、任意の $y_1, y_2 \in Y$ に対して 
+    \[d_Y(y_1,y_2) := d(y_1,y_2)\]
+    と定めると、$(Y, d_Y)$ は距離空間である。$(Y, d_Y)$ を $(X,d)$ の\textbf{部分空間}と呼ぶ。
+\end{dfn}
+
+\begin{ex}
+    \quad $(\R^m, d_m)$ : $m$ 次元ユークリッド距離空間, $n \in \Z_{>0}$, $0 < n < m$.\\
+    このとき、$Y = \{(x_1, x_2, \ldots, x_m) \in \R^m \mid x_{n+1} = x_{n+2} = \cdots = x_m = 0\}$ と定めると、$(Y, d_Y)$ は $n$ 次元ユークリッド距離空間 $(\R^n, d_n)$ と同一視可能である。したがって、$(Y, d_Y)$ は $n$ 次元ユークリッド距離空間である。\\
+    実際、任意の $y_1 = (x_1, x_2, \ldots, x_n, 0, 0, \ldots, 0), y_2 = (x_1^{\prime}, x_2^{\prime}, \ldots, x_n^{\prime}, 0, 0, \ldots, 0) \in Y$ に対して、
+    \begin{align*}
+        d_Y(y_1,y_2) &= \sqrt{(x_1 - x_1^{\prime})^2 + (x_2 - x_2^{\prime})^2 + \cdots + (x_n - x_n^{\prime})^2 + 0^2 + \cdots + 0^2} \\
+        &= \sqrt{(x_1 - x_1^{\prime})^2 + (x_2 - x_2^{\prime})^2 + \cdots + (x_n - x_n^{\prime})^2} \\
+        &= d_n((x_1, x_2, \ldots, x_n), (x_1^{\prime}, x_2^{\prime}, \ldots, x_n^{\prime}))
+    \end{align*}
+    を満たす。したがって、$(Y, d_Y)$ は $n$ 次元ユークリッド距離空間 $(\R^n, d_n)$ と同一視可能である。したがって、$(Y, d_Y)$ は $n$ 次元ユークリッド距離空間である。
+\end{ex}
+
+\begin{lem}
+    \quad $(X,d)$ : 距離空間, $Y \subseteq X$ : 部分集合.\\
+    このとき、任意の $y \in Y$ と $\varepsilon > 0$ に対して、
+    \[U_{d_Y}(y;\varepsilon) = U_d(y;\varepsilon) \cap Y\]
+    を満たす。
+\end{lem}
+
+\begin{proof}[$\subseteq$の証明]
+    任意の $z \in U_{d_Y}(y;\varepsilon)$ に対して、$d_Y(y,z) < \varepsilon$ を満たす。したがって、$d(y,z) < \varepsilon$ を満たすので、$z \in U_d(y;\varepsilon)$ を満たす。また、$z \in Y$ を満たす。したがって、$z \in U_d(y;\varepsilon) \cap Y$ を満たす。したがって、$U_{d_Y}(y;\varepsilon) \subseteq U_d(y;\varepsilon) \cap Y$ を満たす。
+\end{proof}
+
+    
+  \begin{proof}[$\supseteq$の証明]  
+    任意の $z \in U_d(y;\varepsilon) \cap Y$ に対して、$d(y,z) < \varepsilon$ を満たす。したがって、$d_Y(y,z) < \varepsilon$ を満たすので、$z \in U_{d_Y}(y;\varepsilon)$ を満たす。したがって、$U_d(y;\varepsilon) \cap Y \subseteq U_{d_Y}(y;\varepsilon)$ を満たす。
+\end{proof}
+
+\begin{thm}
+    \quad $(X,d)$ : 距離空間, $Y \subseteq X$ : 部分集合.\\
+    このとき、$\mathcal{O} \subseteq Y$ が開集合であるための必要十分条件は、ある $\mathcal{O}^\prime \subseteq X$ が $(X,d)$ の開集合で、$\mathcal{O} = \mathcal{O}^\prime \cap Y$ を満たすことである。
+\end{thm}
+
+\begin{proof}[$\Longrightarrow$]
+    任意の $\mathcal{O} \subseteq Y$ が開集合であるとする。このとき、$\mathcal{O} = \mathcal{O}^\prime \cap Y$ を満たす $(X,d)$ の開集合 $\mathcal{O}^\prime$ が存在する。
+\end{proof}
+
+\begin{proof}[$\Longleftarrow$]
+    任意の $\mathcal{O} \subseteq Y$ が $\mathcal{O} = \mathcal{O}^\prime \cap Y$ を満たす $(X,d)$ の開集合 $\mathcal{O}^\prime$ が存在するとする。このとき、$\mathcal{O}$ は $Y$ の開集合である。
+\end{proof}
+
+\begin{dfn}
+    \quad $(X,d_X), (Y,d_Y)$ : 距離空間.\\
+    $X \times Y$ 上の距離 $d_{X \times Y}$ を、任意の $(x_1,y_1), (x_2,y_2) \in X \times Y$ に対して
+    \[d_{X \times Y}((x_1,y_1),(x_2,y_2)) := \sqrt{d_X(x_1,x_2)^2 + d_Y(y_1,y_2)^2}\]
+    と定めると、$(X \times Y, d_{X \times Y})$ は距離空間である。$(X \times Y, d_{X \times Y})$ を $X$ と $Y$ の\textbf{直積空間}と呼ぶ。
+\end{dfn}
 \end{document}
