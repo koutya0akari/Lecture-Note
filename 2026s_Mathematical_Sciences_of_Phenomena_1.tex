@@ -85,15 +85,19 @@
 \tableofcontents
 %% 本文の内容をここに記述
 % ====================================================================
-\lecture{ガイダンス (2026/04/15)}
-\section{成績}
+\lecture{第 1 回(2026/04/15)}
+
+\section{ガイダンス}
+
+\subsection{成績}
+
 \begin{itemize}
     \item 平常点 : 50点（4点 $\times$ レポート12問 + アンケート 2点）
     \item 期末試験 : 50点（+10点のボーナス問題有）
     \item  $\min\{\text{平常点}+\text{期末試験},100\}$
 \end{itemize}
 
-\lecture{1回(2026/04/15)}
+\section{曲線}
 
 原点中心を中心とした半径 $r$ の円を考える。このとき、円の法事の仕方はいくつかの方法がある。
 \begin{itemize}
@@ -569,6 +573,8 @@
 
 \lecture{第3回 : (2026/04/30)}
 
+\section{曲率の不変性(その1)}
+
 幾何学とは何か？幾何学とは、空間の不変量を研究する学問である。例えば、点と線の距離、曲線の長さ、曲面の面積などが普遍量である。これらの普遍量は、空間の構造に依存しないため、幾何学的な性質を表すことができる。
 
 \begin{ex}
@@ -721,4 +727,390 @@
     \]
     である。したがって、$\operatorname{O}(2)$ はアーベル群でない。
 \end{proof}
+
+\lecture{第4回 : (2026/05/13)}
+
+\section{一般の曲線の曲率}
+    一般に、弧長パラメーター表示を求めるのは困難である。そこで、弧長パラメーター表示を求めなくても曲率を定義できるようにすることが望ましい。以下では、一般の曲線の曲率を定義する方法を説明する。
+
+\begin{prob}
+    \quad $\gamma(t) = \left(t, \frac{1}{2}t^2\right)$ : 曲線.\\
+    このとき、以下を求めよ :
+    \[S(t) = \int_0^t\left\lVert \dot{\gamma}(u)\right\rVert \, du \]
+\end{prob}
+
+\begin{thm}
+    \quad $\gamma(t)=(x(t), y(t))$ : 曲線\\
+    このとき、$\gamma$ の曲率 $\kappa(t)$ は、
+\[\kappa(t) := \frac{\det(\dot{\gamma}(t), \ddot{\gamma}(t))}{\left\|\dot{\gamma}(t)\right\|^3} = \frac{\dot{x}(t)\ddot{y}(t) - \dot{y}(t)\ddot{x}(t)}{\left((\dot{x}(t))^2 + (\dot{y}(t))^2\right)^{\FRAC{3}{2}}}\]
+で定義される。\\
+    特に、$y = f(x)$ という形で表される曲線の曲率は、
+    \[\kappa(x) = \frac{\ddot{y}}{(1 + (\dot{y})^2)^{\FRAC{3}{2}}}, \quad \left(\dot{y} = \frac{dy}{dx}\, \ddot{y} = \frac{d^2y}{dx^2}\right)\]
+    で与えられる。
+\end{thm}
+
+\begin{proof}
+    まず、
+    \begin{align*}
+        \gamma^{\prime}(t) &= \frac{d\gamma}{ds}(s) \\
+        &= \frac{d\gamma}{dt}\cdot \frac{dt}{ds} \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|}\dot{\gamma}(t)
+    \end{align*}
+    である。
+    次に、
+    \begin{align*}
+        \gamma^{\prime\prime}(t) &= \frac{d}{ds}\left(\frac{1}{\left\|\dot{\gamma}(t)\right\|}\dot{\gamma}(t)\right) \\
+        &= \frac{d}{dt}\left(\frac{1}{\left\|\dot{\gamma}(t)\right\|}\dot{\gamma}(t)\right) \cdot \frac{dt}{ds} \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|}\frac{d}{dt}\left(\frac{1}{\left\|\dot{\gamma}(t)\right\|}\dot{\gamma}(t)\right) \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|}\left(-\frac{1}{\left\|\dot{\gamma}(t)\right\|^2}\left(\dot{\gamma}(t) \cdot \ddot{\gamma}(t)\right)\dot{\gamma}(t) + \frac{1}{\left\|\dot{\gamma}(t)\right\|}\ddot{\gamma}(t)\right) \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|^3}\left(\left\|\dot{\gamma}(t)\right\|^2 \ddot{\gamma}(t) - \left(\dot{\gamma}(t) \cdot \ddot{\gamma}(t)\right)\dot{\gamma}(t)\right)
+    \end{align*}
+    である。したがって、
+    \begin{align*}
+        \kappa(t) &= \det(\gamma^{\prime}(t), \gamma^{\prime\prime}(t)) \\
+        &= \det\left(\frac{1}{\left\|\dot{\gamma}(t)\right\|}\dot{\gamma}(t), \frac{1}{\left\|\dot{\gamma}(t)\right\|^3}\left(\left\|\dot{\gamma}(t)\right\|^2 \ddot{\gamma}(t) - \left(\dot{\gamma}(t) \cdot \ddot{\gamma}(t)\right)\dot{\gamma}(t)\right)\right) \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|^4}\det\left(\dot{\gamma}(t), \left\|\dot{\gamma}(t)\right\|^2 \ddot{\gamma}(t) - \left(\dot{\gamma}(t) \cdot \ddot{\gamma}(t)\right)\dot{\gamma}(t)\right) \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|^4}\left(\left\|\dot{\gamma}(t)\right\|^2 \det(\dot{\gamma}(t), \ddot{\gamma}(t)) - \left(\dot{\gamma}(t) \cdot \ddot{\gamma}(t)\right)\det(\dot{\gamma}(t), \dot{\gamma}(t))\right) \\
+        &= \frac{1}{\left\|\dot{\gamma}(t)\right\|^4}\left(\left\|\dot{\gamma}(t)\right\|^2 \det(\dot{\gamma}(t), \ddot{\gamma}(t))\right) \\
+        &= \frac{\det(\dot{\gamma}(t), \ddot{\gamma}(t))}{\left\|\dot{\gamma}(t)\right\|^3}
+    \end{align*}
+    である。
+    特に、$y = f(x)$ という形で表される曲線のとき、$\gamma(t) = (t, f(t))$ と表すことができるから、
+    \begin{align*}
+        \dot{\gamma}(t) &= (1, \dot{f}(t))\\
+        \ddot{\gamma}(t) &= (0, \ddot{f}(t))
+    \end{align*}    
+    である。したがって、
+    \begin{align*}
+        \kappa(t) &= \frac{\det(\dot{\gamma}(t), \ddot{\gamma}(t))}{\left\|\dot{\gamma}(t)\right\|^3} \\
+        &= \frac{\det\left(\begin{pmatrix}
+        1 & 0\\
+        \dot{f}(t) & \ddot{f}(t)
+        \end{pmatrix}\right)}{\left\|\begin{pmatrix}    1 \\ \dot{f}(t)\end{pmatrix}\right\|^3} \\
+        &= \frac{\ddot{f}(t)}{(1 + (\dot{f}(t))^2)^{\FRAC{3}{2}}}
+    \end{align*}
+    である。
+\end{proof}
+
+\begin{prob}
+    次の曲線の曲率を求めよ :
+    \begin{enumerate}[label=(\arabic*)\,]
+        \item 曲線 $\gamma(t) = (a\cos t, b\sin t) \quad (a > 0, b > 0)$ の曲率 $\kappa(t)$ を求めよ。
+        \item 極座標表示された曲線 $r = 1 + \cos \theta$ の曲率 $\kappa(\theta)$ を求めよ。
+    \end{enumerate}
+\end{prob}
+
+\begin{proof}[解答(1)]
+    曲率の公式
+    \[
+        \kappa(t)
+        =
+        \frac{\dot{x}(t)\ddot{y}(t)-\dot{y}(t)\ddot{x}(t)}
+        {\left((\dot{x}(t))^2+(\dot{y}(t))^2\right)^{\FRAC{3}{2}}}
+    \]
+    を用いる。いま、
+    \[
+        x(t)=a\cos t,\qquad y(t)=b\sin t
+    \]
+    であるから、
+    \[
+        \dot{x}(t)=-a\sin t,\qquad
+        \dot{y}(t)=b\cos t
+    \]
+    であり、さらに
+    \[
+        \ddot{x}(t)=-a\cos t,\qquad
+        \ddot{y}(t)=-b\sin t
+    \]
+    である。したがって、分子は
+    \begin{align*}
+        \dot{x}(t)\ddot{y}(t)-\dot{y}(t)\ddot{x}(t)
+        &=
+        (-a\sin t)(-b\sin t)
+        -
+        (b\cos t)(-a\cos t)\\
+        &=
+        ab\sin^2 t+ab\cos^2 t\\
+        &=
+        ab
+    \end{align*}
+    となる。また、分母に現れる速度の大きさは
+    \[
+        \left\|\dot{\gamma}(t)\right\|
+        =
+        \sqrt{a^2\sin^2 t+b^2\cos^2 t}
+    \]
+    である。よって、
+    \[
+        \boxed{
+        \kappa(t)
+        =
+        \frac{ab}
+        {\left(a^2\sin^2 t+b^2\cos^2 t\right)^{\FRAC{3}{2}}}
+        }
+    \]
+    である。
+\end{proof}  
+    
+\begin{proof}[解答(2)]
+    極座標表示 $r=r(\theta)$ の曲線は
+    \[
+        \gamma(\theta)
+        =
+        \left(r(\theta)\cos\theta,\ r(\theta)\sin\theta\right)
+    \]
+    とパラメーター表示できる。ここで $r'=dr/d\theta$ と書くと、
+    \begin{align*}
+        \dot{x} &= r'\cos\theta-r\sin\theta,\\
+        \dot{y} &= r'\sin\theta+r\cos\theta
+    \end{align*}
+    であるから、
+    \[
+        (\dot{x})^2+(\dot{y})^2
+        =
+        (r')^2+r^2
+    \]
+    となる。また、
+    \begin{align*}
+        \ddot{x}
+        &=
+        r''\cos\theta-2r'\sin\theta-r\cos\theta,\\
+        \ddot{y}
+        &=
+        r''\sin\theta+2r'\cos\theta-r\sin\theta
+    \end{align*}
+    である。したがって、
+    \begin{align*}
+        \det(\dot{\gamma},\ddot{\gamma})
+        &=
+        \dot{x}\ddot{y}-\dot{y}\ddot{x}\\
+        &=
+        r^2+2(r')^2-rr''
+    \end{align*}
+    となる。ゆえに、極座標表示された曲線の曲率は
+    \[
+        \kappa(\theta)
+        =
+        \frac{r^2+2(r')^2-rr''}
+        {\left(r^2+(r')^2\right)^{\FRAC{3}{2}}}
+    \]
+    で与えられる。
+
+    今回は
+    \[
+        r=1+\cos\theta
+    \]
+    であるから、
+    \[
+        r'=-\sin\theta,\qquad r''=-\cos\theta
+    \]
+    である。よって、分子は
+    \begin{align*}
+        r^2+2(r')^2-rr''
+        &=
+        (1+\cos\theta)^2
+        +2\sin^2\theta
+        -(1+\cos\theta)(-\cos\theta)\\
+        &=
+        1+2\cos\theta+\cos^2\theta
+        +2(1-\cos^2\theta)
+        +\cos\theta+\cos^2\theta\\
+        &=
+        3+3\cos\theta\\
+        &=
+        3(1+\cos\theta)
+    \end{align*}
+    となる。また、
+    \begin{align*}
+        r^2+(r')^2
+        &=
+        (1+\cos\theta)^2+\sin^2\theta\\
+        &=
+        1+2\cos\theta+\cos^2\theta+\sin^2\theta\\
+        &=
+        2(1+\cos\theta)
+    \end{align*}
+    である。したがって、$\theta \not\equiv \pi \pmod{2\pi}$ において
+    \[
+        \kappa(\theta)
+        =
+        \frac{3(1+\cos\theta)}
+        {\left(2(1+\cos\theta)\right)^{\FRAC{3}{2}}}
+        =
+        \boxed{
+        \frac{3}{2^{\FRAC{3}{2}}\sqrt{1+\cos\theta}}
+        }.
+    \]
+    なお、$\theta \equiv \pi \pmod{2\pi}$ では $r=0$ かつ $\dot{\gamma}(\theta)=0$ となるため、通常の曲率公式は適用できない。
+\end{proof}
+
+\begin{prob}
+    極座標表示された曲線
+    \[ r = ae^{b\theta} \quad (a > 0, b > 0, a \neq b) \]
+    の曲率 $\kappa(\theta)$ を求めよ。
+\end{prob}
+
+\begin{proof}[解答]
+    前問と同様に、極座標表示 $r=r(\theta)$ の曲線の曲率公式
+    \[
+        \kappa(\theta)
+        =
+        \frac{r^2+2(r')^2-rr''}
+        {\left(r^2+(r')^2\right)^{\FRAC{3}{2}}}
+    \]
+    を用いる。いま、
+    \[
+        r=ae^{b\theta}
+    \]
+    であるから、
+    \[
+        r'=abe^{b\theta}=br,\qquad
+        r''=ab^2e^{b\theta}=b^2r
+    \]
+    である。したがって、分子は
+    \begin{align*}
+        r^2+2(r')^2-rr''
+        &=
+        r^2+2b^2r^2-b^2r^2\\
+        &=
+        (1+b^2)r^2
+    \end{align*}
+    となる。また、分母は
+    \begin{align*}
+        \left(r^2+(r')^2\right)^{\FRAC{3}{2}}
+        &=
+        \left(r^2+b^2r^2\right)^{\FRAC{3}{2}}\\
+        &=
+        \left((1+b^2)r^2\right)^{\FRAC{3}{2}}\\
+        &=
+        (1+b^2)^{\FRAC{3}{2}}r^3
+    \end{align*}
+    である。ここで $a>0$ かつ $e^{b\theta}>0$ より $r>0$ であることを用いた。
+
+    よって、
+    \begin{align*}
+        \kappa(\theta)
+        &=
+        \frac{(1+b^2)r^2}{(1+b^2)^{\FRAC{3}{2}}r^3}\\
+        &=
+        \frac{1}{\sqrt{1+b^2}\,r}\\
+        &=
+        \boxed{
+        \frac{e^{-b\theta}}{a\sqrt{1+b^2}}
+        }.
+    \end{align*}
+\end{proof}
+
+\section{曲率の不変性(その2)}
+
+\begin{thm}
+    \quad $\gamma(t)$ : 曲線, $t = t(\tilde{t})$, $\frac{dt}{d\tilde{t}} > 0$, $\kappa(t)$ : $\gamma$ の曲率, $\tilde{\kappa}(\tilde{t})$ : $\gamma(\tilde{t})$ の曲率\\
+    このとき、
+    \[\kappa(t(\tilde{t})) = \tilde{\kappa}(\tilde{t})\]
+    である。 
+\end{thm}
+
+\begin{proof}
+    パラメーターを $\tilde{t}$ に取り替えた曲線を
+    \[
+        \tilde{\gamma}(\tilde{t})
+        :=
+        \gamma(t(\tilde{t}))
+    \]
+    とおく。記号を簡単にするため、
+    \[
+        \alpha(\tilde{t}) := \frac{dt}{d\tilde{t}}, \qquad
+        \beta(\tilde{t}) := \frac{d^2t}{d\tilde{t}^2}
+    \]
+    とおく。仮定より $\alpha(\tilde{t})>0$ である。
+
+    まず、連鎖律より
+    \[
+        \frac{d\tilde{\gamma}}{d\tilde{t}}
+        =
+        \frac{d}{d\tilde{t}}\gamma(t(\tilde{t}))
+        =
+        \dot{\gamma}(t(\tilde{t}))\frac{dt}{d\tilde{t}}
+        =
+        \alpha\dot{\gamma}(t(\tilde{t}))
+    \]
+    である。さらにもう一度微分すると、
+    \begin{align*}
+        \frac{d^2\tilde{\gamma}}{d\tilde{t}^2}
+        &=
+        \frac{d}{d\tilde{t}}
+        \left(\alpha\dot{\gamma}(t(\tilde{t}))\right)\\
+        &=
+        \frac{d\alpha}{d\tilde{t}}\dot{\gamma}(t(\tilde{t}))
+        +
+        \alpha\ddot{\gamma}(t(\tilde{t}))\frac{dt}{d\tilde{t}}\\
+        &=
+        \beta\dot{\gamma}(t(\tilde{t}))
+        +
+        \alpha^2\ddot{\gamma}(t(\tilde{t})).
+    \end{align*}
+
+    ここで一般のパラメーターに対する曲率公式
+    \[
+        \kappa(t)
+        =
+        \frac{\det(\dot{\gamma}(t),\ddot{\gamma}(t))}
+        {\left\|\dot{\gamma}(t)\right\|^3}
+    \]
+    を用いる。$\tilde{\gamma}$ の曲率を計算すると、分子は
+    \begin{align*}
+        \det\left(
+            \frac{d\tilde{\gamma}}{d\tilde{t}},
+            \frac{d^2\tilde{\gamma}}{d\tilde{t}^2}
+        \right)
+        &=
+        \det\left(
+            \alpha\dot{\gamma},
+            \beta\dot{\gamma}+\alpha^2\ddot{\gamma}
+        \right)\\
+        &=
+        \alpha\beta\det(\dot{\gamma},\dot{\gamma})
+        +
+        \alpha^3\det(\dot{\gamma},\ddot{\gamma})\\
+        &=
+        \alpha^3\det(\dot{\gamma},\ddot{\gamma})
+    \end{align*}
+    となる。ただし、右辺の $\dot{\gamma},\ddot{\gamma}$ は $t=t(\tilde{t})$ での値である。また、分母は
+    \[
+        \left\|
+            \frac{d\tilde{\gamma}}{d\tilde{t}}
+        \right\|^3
+        =
+        \left\|\alpha\dot{\gamma}(t(\tilde{t}))\right\|^3
+        =
+        \alpha^3
+        \left\|\dot{\gamma}(t(\tilde{t}))\right\|^3
+    \]
+    である。最後の等号では $\alpha>0$ を用いた。
+
+    したがって、
+    \begin{align*}
+        \tilde{\kappa}(\tilde{t})
+        &=
+        \frac{
+            \alpha^3\det(\dot{\gamma}(t(\tilde{t})),\ddot{\gamma}(t(\tilde{t})))
+        }{
+            \alpha^3\left\|\dot{\gamma}(t(\tilde{t}))\right\|^3
+        }\\
+        &=
+        \frac{
+            \det(\dot{\gamma}(t(\tilde{t})),\ddot{\gamma}(t(\tilde{t})))
+        }{
+            \left\|\dot{\gamma}(t(\tilde{t}))\right\|^3
+        }\\
+        &=
+        \kappa(t(\tilde{t})).
+    \end{align*}
+    よって、
+    \[
+        \kappa(t(\tilde{t}))=\tilde{\kappa}(\tilde{t})
+    \]
+    が成り立つ。
+\end{proof}
+
 \end{document}
