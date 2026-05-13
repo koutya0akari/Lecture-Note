@@ -514,4 +514,331 @@ F\mapsto r
     \item $\rad(G) \leq \text{diam}(G) \leq 2\rad(G)$ が成り立つ。
   \end{enumerate}
 \end{prop}
+
+\begin{dfn}
+  \quad $G$ : 無向グラフ
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item $V(\overline{G})=V(G)$ かつ
+    \[
+      E(\overline{G})
+      =
+      \{uv \mid u,v \in V(G),\ u \neq v,\ uv \notin E(G)\}
+    \]
+    で定まるグラフ $\overline{G}$ を $G$ の \textbf{補グラフ} という。
+    \item $G \simeq \overline{G}$ が成り立つとき、$G$ を \textbf{自己補グラフ} という。
+    \item すべての頂点の次数が $r$ に等しいとき、$G$ を \textbf{$r$-正則グラフ} という。
+    \item 連結な $2$-正則グラフを \textbf{cycle} という。頂点数が偶数である cycle を \textbf{偶 cycle}、奇数である cycle を \textbf{奇 cycle} という。
+  \end{enumerate}
+\end{dfn}
+
+\begin{dfn}
+  \quad $G$ : 無向グラフ
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item $V(G)$ を $k$ 個の部分集合 $V_1,V_2,\ldots,V_k$ に分割し、各 $\langle V_i\rangle_G$ が空グラフとなるようにできるとき、$G$ を \textbf{$k$-部グラフ} という。
+    \item $k=2$ のとき、$G$ を \textbf{二部グラフ} という。
+    \item $k$-部グラフで、異なる部集合に属する任意の $2$ 頂点が隣接しているものを \textbf{完全 $k$-部グラフ} という。部集合の大きさが $n_1,n_2,\ldots,n_k$ である完全 $k$-部グラフを $K_{n_1,n_2,\ldots,n_k}$ と表す。
+    \item すべての $2$ 頂点が隣接しているグラフを \textbf{完全グラフ} といい、頂点数 $n$ の完全グラフを $K_n$ と表す。
+  \end{enumerate}
+\end{dfn}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \begin{tikzpicture}[thick, scale=0.9]
+      \node[draw,circle] (a1) at (0,1) {$a_1$};
+      \node[draw,circle] (a2) at (0,0) {$a_2$};
+      \node[draw,circle] (b1) at (2,1.4) {$b_1$};
+      \node[draw,circle] (b2) at (2,0.5) {$b_2$};
+      \node[draw,circle] (b3) at (2,-0.4) {$b_3$};
+      \foreach \x in {a1,a2}
+        \foreach \y in {b1,b2,b3}
+          \draw (\x)--(\y);
+      \node at (1,-1.0) {$K_{2,3}$};
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \begin{tikzpicture}[thick, scale=0.85]
+      \node[draw,circle] (v1) at (90:1.2) {$1$};
+      \node[draw,circle] (v2) at (18:1.2) {$2$};
+      \node[draw,circle] (v3) at (-54:1.2) {$3$};
+      \node[draw,circle] (v4) at (-126:1.2) {$4$};
+      \node[draw,circle] (v5) at (162:1.2) {$5$};
+      \draw (v1)--(v2) (v1)--(v3) (v1)--(v4) (v1)--(v5)
+            (v2)--(v3) (v2)--(v4) (v2)--(v5)
+            (v3)--(v4) (v3)--(v5)
+            (v4)--(v5);
+      \node at (0,-1.8) {$K_5$};
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{0.32\textwidth}
+    \centering
+    \begin{tikzpicture}[thick, scale=0.85]
+      \node[draw,circle] (p1) at (90:1.2) {$1$};
+      \node[draw,circle] (p2) at (18:1.2) {$2$};
+      \node[draw,circle] (p3) at (-54:1.2) {$3$};
+      \node[draw,circle] (p4) at (-126:1.2) {$4$};
+      \node[draw,circle] (p5) at (162:1.2) {$5$};
+      \draw (p1)--(p2)--(p3)--(p4)--(p5)--(p1);
+      \node at (0,-1.8) {$C_5$};
+    \end{tikzpicture}
+  \end{minipage}
+  \caption{完全二部グラフ、完全グラフ、奇 cycle の例}
+\end{figure}
+
+\begin{prop}
+  グラフ $G$ が二部グラフであるための必要十分条件は、$G$ が奇 cycle をもたないことである。
+\end{prop}
+
+\begin{proof}
+  $G$ が部集合 $V_1,V_2$ をもつ二部グラフであるとする。cycle 上では隣り合う頂点が常に異なる部集合に属するため、出発点に戻るには偶数本の辺が必要である。したがって、$G$ は奇 cycle をもたない。
+
+  逆に $G$ が奇 cycle をもたないとする。各連結成分ごとに頂点 $r$ を一つ選び、$r$ からの距離が偶数である頂点全体を $V_0$、奇数である頂点全体を $V_1$ とおく。もし $V_0$ 内の $2$ 頂点 $x,y$ が隣接していれば、$r$ から $x,y$ への最短 path と辺 $xy$ から奇 cycle が得られる。同様に $V_1$ 内にも辺は存在しない。よって各連結成分は二部グラフであり、$G$ 全体も二部グラフである。
+\end{proof}
+
+\begin{prob}
+  頂点数が $5$ 以下の自己補グラフをすべて列挙せよ。
+\end{prob}
+
+\begin{prob}
+  $2$ 以上の任意の整数 $k$ に対して、頂点数と辺の数がそれぞれ等しいが、互いに同型でない $k$ 個のグラフが存在することを示せ。
+\end{prob}
+
+\lecture{第3回 : （2026/05/13）}
+
+\begin{prop}
+  すべての非自明な木は、少なくとも $2$ つの葉をもつ。
+\end{prop}
+
+\begin{proof}
+  木 $T$ の最長 path を $P=(v_1,\ldots,v_k)$ とする。端点 $v_1$ が葉でないならば、$v_1$ は $v_2$ 以外の頂点 $w$ と隣接する。$w$ が $P$ 上にあれば cycle が生じ、$P$ 上になければ $P$ より長い path が得られる。いずれも矛盾である。よって $v_1$ は葉であり、同様に $v_k$ も葉である。
+\end{proof}
+
+\begin{prop}
+  グラフ $G$ が木であるための必要十分条件は、任意の $2$ 頂点間に唯一の path が存在することである。
+\end{prop}
+
+\begin{proof}
+  $G$ が木ならば連結であるから、任意の $2$ 頂点間に少なくとも $1$ 本の path が存在する。もし異なる $2$ 本の path が存在すれば、それらの差から cycle が得られるため、木であることに反する。よって path は唯一である。
+
+  逆に任意の $2$ 頂点間に唯一の path が存在するとする。このとき $G$ は連結である。また cycle が存在すれば、その cycle 上の異なる $2$ 頂点間に $2$ 本の path が存在して矛盾する。したがって $G$ は連結かつ cycle をもたないので木である。
+\end{proof}
+
+\begin{dfn}
+  \quad $T$ : 木, \quad $r \in V(T)$\par
+  $r$ を \textbf{根} として指定した木を \textbf{根付き木} という。頂点 $v$ に対し、$r$ から $v$ への path 上にある頂点 $w$ を $v$ の \textbf{祖先}、$v$ を $w$ の \textbf{子孫} という。特に $w$ と $v$ が隣接しているとき、$w$ を $v$ の \textbf{親}、$v$ を $w$ の \textbf{子} という。また、$w$ の子孫全体に $w$ を加えた頂点集合による誘導部分グラフを、$w$ を根とする \textbf{部分木} という。
+\end{dfn}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    thick,
+    level distance=12mm,
+    level 1/.style={sibling distance=30mm},
+    level 2/.style={sibling distance=16mm},
+    every node/.style={draw,circle,inner sep=2pt}
+  ]
+    \node {$r$}
+      child { node {$a$}
+        child { node {$c$} }
+        child { node {$d$} }
+      }
+      child { node {$b$}
+        child { node {$e$} }
+        child { node {$f$} }
+      };
+  \end{tikzpicture}
+  \caption{根付き木の例}
+\end{figure}
+
+\begin{prop}
+  非自明な木 $T$ の葉の数は
+  \[
+    2+\sum_{\substack{v\in V(T)\\ \deg_T(v)\geq 3}}\left(\deg_T(v)-2\right)
+  \]
+  に等しい。
+\end{prop}
+
+\begin{proof}
+  $n_i$ を次数 $i$ の頂点の数とし、葉の数を $n_1$ とする。木では $|E(T)|=|V(T)|-1$ が成り立つので、
+  \[
+    \sum_{v\in V(T)}\deg_T(v)=2|E(T)|=2|V(T)|-2
+  \]
+  である。すなわち
+  \[
+    n_1+2n_2+\sum_{i\geq3} i n_i
+    =
+    2n_1+2n_2+\sum_{i\geq3}2n_i-2.
+  \]
+  これを整理すると
+  \[
+    n_1=2+\sum_{i\geq3}(i-2)n_i
+  \]
+  となり、主張を得る。
+\end{proof}
+
+\begin{prop}
+  グラフ $G$ が木であるための必要十分条件は、$G$ が cycle をもたず、かつ $|E(G)|=|V(G)|-1$ が成り立つことである。
+\end{prop}
+
+\begin{proof}
+  $G$ が木ならば、定義より cycle をもたない。さらに頂点数に関する帰納法で $|E(G)|=|V(G)|-1$ が従う。実際、非自明な木には葉 $v$ が存在し、$G-v$ も木であるから
+  \[
+    |E(G)|-1=|E(G-v)|=|V(G-v)|-1=|V(G)|-2.
+  \]
+
+  逆に $G$ が cycle をもたず、$|E(G)|=|V(G)|-1$ を満たすとする。$G$ の連結成分を $G_1,\ldots,G_k$ とおくと、各 $G_i$ は木である。よって
+  \[
+    |E(G)|=\sum_{i=1}^k |E(G_i)|
+    =\sum_{i=1}^k \left(|V(G_i)|-1\right)
+    =|V(G)|-k.
+  \]
+  仮定より $k=1$ であるから、$G$ は連結である。したがって $G$ は木である。
+\end{proof}
+
+\begin{prop}
+  グラフ $G$ が木であるための必要十分条件は、$G$ が連結であり、かつ $|E(G)|=|V(G)|-1$ が成り立つことである。
+\end{prop}
+
+\begin{proof}
+  $G$ が木ならば、定義より連結であり、前の命題より $|E(G)|=|V(G)|-1$ が成り立つ。
+
+  逆に $G$ が連結で $|E(G)|=|V(G)|-1$ を満たすとする。もし $G$ が cycle をもつならば、その cycle 上の辺を取り除いても連結性は保たれる。この操作を cycle がなくなるまで繰り返すと、$G$ の全域木 $T$ が得られる。しかし $T$ は木なので $|E(T)|=|V(G)|-1$ であり、辺を取り除いたことに矛盾する。よって $G$ は cycle をもたず、木である。
+\end{proof}
+
+\begin{cor}
+  グラフ $G$ について、以下の $3$ 条件のうち任意の $2$ つが成り立つならば、$G$ は木である。
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item $G$ は連結である。
+    \item $G$ は cycle をもたない。
+    \item $|E(G)|=|V(G)|-1$ である。
+  \end{enumerate}
+\end{cor}
+
+\begin{dfn}
+  $n$ を自然数とし、$N_n=\{1,2,\ldots,n\}$ とする。$a_i\in N_n$ を満たす長さ $n-2$ の列
+  \[
+    (a_1,a_2,\ldots,a_{n-2})
+  \]
+  を \textbf{Pr\"ufer 列} または \textbf{Pr\"ufer コード} という。
+\end{dfn}
+
+\begin{prop}
+  頂点集合が $N_n$ である木の個数は $n^{n-2}$ である。
+\end{prop}
+
+\begin{proof}
+  頂点集合 $N_n$ をもつ木から Pr\"ufer 列への対応を考える。木 $T$ に対し、葉のうちラベルが最小の頂点 $x_1$ を取り除き、その隣接頂点を $a_1$ とする。同じ操作を $n-2$ 回繰り返して列 $(a_1,\ldots,a_{n-2})$ を得る。
+
+  逆に Pr\"ufer 列 $(a_1,\ldots,a_{n-2})$ が与えられたとき、列に現れない最小のラベル $x_1$ を選び、辺 $x_1a_1$ を加えて $x_1$ を候補から除く。この操作を順に行い、最後に残った $2$ 頂点を辺で結ぶと木が一意に復元される。したがって木と長さ $n-2$ の列は一対一に対応する。各成分には $n$ 通りの選択があるので、木の個数は $n^{n-2}$ である。
+\end{proof}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[thick, scale=0.9]
+    \node[draw,circle] (1) at (0,0) {$1$};
+    \node[draw,circle] (2) at (1.2,1.0) {$2$};
+    \node[draw,circle] (3) at (2.4,0) {$3$};
+    \node[draw,circle] (4) at (3.6,1.0) {$4$};
+    \node[draw,circle] (5) at (4.8,0) {$5$};
+    \draw (1)--(2)--(3)--(4)--(5);
+    \node[draw,circle] (6) at (2.4,-1.1) {$6$};
+    \draw (3)--(6);
+    \node[draw=none] at (2.4,-1.8) {Pr\"ufer 列の例：$(2,3,4,3)$};
+  \end{tikzpicture}
+  \caption{ラベル付き木と Pr\"ufer 列}
+\end{figure}
+
+\begin{dfn}
+  各辺 $e$ に非負の数 $\mu(e)$ が割り当てられたグラフを \textbf{重み付きグラフ} という。重み付きグラフにおいて、path 上の辺の重みの総和が最小となる path を求める問題を \textbf{最短経路問題} という。
+\end{dfn}
+
+\begin{prop}[Dijkstra のアルゴリズム]
+  重みが非負である重み付きグラフ $G$ と始点 $u$、終点 $v$ に対し、次の手順で $u$ から $v$ への最短距離を求める。
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item 各頂点 $x$ にラベル $(p(x),\ell(x))$ を付ける。初期値は $\ell(u)=0$、$p(u)=*$、$u$ 以外では $\ell(x)=\infty$、$p(x)=*$ とする。
+    \item 未確定の頂点のうち $\ell(x)$ が最小のものを選び、そのラベルを確定する。
+    \item $x=v$ ならば $\ell(v)$ を出力して終了する。$\ell(v)=\infty$ のときは $u$ から $v$ への path は存在しない。
+    \item $x$ に隣接する未確定頂点 $y$ について、$\ell(x)+\mu(xy)<\ell(y)$ ならば、ラベルを $(x,\ell(x)+\mu(xy))$ に更新する。
+    \item 終了していなければ (2) に戻る。
+  \end{enumerate}
+  確定後の $p(x)$ を終点からたどることで、最短 path も復元できる。
+\end{prop}
+
+\begin{proof}
+  確定した頂点 $x$ について、$\ell(x)$ が $u$ から $x$ への最短距離であることを、確定順に関する帰納法で示す。最初に確定する $u$ では明らかである。次に確定する頂点を $x$ とし、$u$ から $x$ へ $\ell(x)$ より短い path があると仮定する。その path 上で、確定済み頂点から未確定頂点へ初めて移る辺を $yz$ とする。帰納法の仮定と重みの非負性より、$z$ の暫定距離はその path の $z$ までの長さ以下に更新されている。したがって $\ell(z)<\ell(x)$ となり、$\ell(x)$ が未確定頂点の中で最小として選ばれたことに矛盾する。よってアルゴリズムは正しい。
+\end{proof}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[thick, scale=0.95]
+    \node[draw,circle] (u) at (0,0) {$u$};
+    \node[draw,circle] (a) at (2,1) {$a$};
+    \node[draw,circle] (b) at (2,-1) {$b$};
+    \node[draw,circle] (c) at (4,1) {$c$};
+    \node[draw,circle] (v) at (5,-0.6) {$v$};
+    \draw (u)--node[above left,draw=none] {$2$} (a);
+    \draw (u)--node[below left,draw=none] {$5$} (b);
+    \draw (a)--node[above,draw=none] {$1$} (c);
+    \draw (a)--node[left,draw=none] {$2$} (b);
+    \draw (b)--node[below,draw=none] {$2$} (v);
+    \draw (c)--node[above right,draw=none] {$4$} (v);
+    \draw[line width=2pt] (u)--(a)--(b)--(v);
+  \end{tikzpicture}
+  \caption{Dijkstra のアルゴリズムの例。太線は $u$ から $v$ への最短 path}
+\end{figure}
+
+\begin{dfn}
+  重み付き連結グラフ $G$ の全域木 $T$ の重みを
+  \[
+    \mu(T)=\sum_{e\in E(T)}\mu(e)
+  \]
+  と定める。$G$ の全域木のうち重みが最小のものを \textbf{最小全域木} という。
+\end{dfn}
+
+\begin{prop}[Kruskal のアルゴリズム]
+  重み付き連結グラフ $G$ の最小全域木は、次の手順で求められる。
+  \begin{enumerate}[label=(\arabic*)\, ]
+    \item 選択済みの辺集合を $F=\emptyset$ とする。
+    \item まだ選ばれていない辺のうち、$F$ に加えても cycle を作らない重み最小の辺を選び、$F$ に加える。
+    \item $|F|=|V(G)|-1$ になれば、$F$ により誘導される全域木を出力する。そうでなければ (2) に戻る。
+  \end{enumerate}
+\end{prop}
+
+\begin{proof}
+  Kruskal のアルゴリズムで得られた全域木を $T$ とし、その辺を選ばれた順に $e_1,\ldots,e_{n-1}$ とする。任意の全域木 $T'$ をとり、$T$ の辺のうち $T'$ に含まれない最初の辺を $e_k$ とする。$T'+e_k$ は cycle を含む。この cycle 上には $T$ に含まれない辺 $e'$ が存在する。$e_k$ が選ばれた時点で $e'$ を選んでも cycle は生じなかったので、Kruskal の選択規則より $\mu(e_k)\leq\mu(e')$ である。したがって $T''=T'+e_k-e'$ は全域木であり、$\mu(T'')\leq\mu(T')$ である。
+
+  この交換を繰り返すと、重みを増やさずに $T'$ を $T$ へ変形できる。よって $\mu(T)\leq\mu(T')$ であり、$T$ は最小全域木である。
+\end{proof}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[thick, scale=0.95]
+    \node[draw,circle] (a) at (0,1) {$a$};
+    \node[draw,circle] (b) at (2,1) {$b$};
+    \node[draw,circle] (c) at (0,-1) {$c$};
+    \node[draw,circle] (d) at (2,-1) {$d$};
+    \node[draw,circle] (e) at (4,0) {$e$};
+    \draw[line width=2pt] (a)--node[above,draw=none] {$1$} (b);
+    \draw (a)--node[left,draw=none] {$4$} (c);
+    \draw[line width=2pt] (b)--node[left,draw=none] {$2$} (d);
+    \draw[line width=2pt] (c)--node[below,draw=none] {$3$} (d);
+    \draw[line width=2pt] (d)--node[below right,draw=none] {$2$} (e);
+    \draw (b)--node[above right,draw=none] {$5$} (e);
+    \draw (b)--node[above left,draw=none] {$4$} (c);
+  \end{tikzpicture}
+  \caption{Kruskal のアルゴリズムの例。太線は最小全域木}
+\end{figure}
+
+\begin{prob}
+  次の Pr\"ufer コードに対応するラベル付き木を構成せよ。
+  \[
+    (4,3,6,4,5,1), \qquad (2,2,4,7,5,8).
+  \]
+\end{prob}
+
+\begin{prob}
+  与えられた重み付きグラフに対し、始点 $a$ からの最短経路木を求めよ。また、最小全域木とその重みを求めよ。
+\end{prob}
 \end{document}
